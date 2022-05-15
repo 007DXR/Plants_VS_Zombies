@@ -48,7 +48,7 @@ public class Card {
     }
     
     // 加载图片
-    public BufferedImage loadImage(String filename, double scale) {
+    public static BufferedImage loadImage(String filename, double scale) {
         try {
             BufferedImage img = ImageIO.read(new File(filename));
             img = resize(img, scale);
@@ -145,7 +145,7 @@ public class Card {
     }
 
     // 图片缩放
-    public BufferedImage resize(BufferedImage image_, double scale) {
+    public static BufferedImage resize(BufferedImage image_, double scale) {
         int width = image_.getWidth();
         int height = image_.getHeight();
         int nwidth = (int) (width * scale);

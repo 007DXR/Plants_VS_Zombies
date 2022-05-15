@@ -1,15 +1,26 @@
 package core;
+import java.awt.*;
 
-import java.util.ArrayList;
 
 public class constants {
     // 游戏开始状态
     public static int START_LEVEL_NUM = 1;
     public static String ORIGINAL_CAPTION = "Plant VS Zombies Game";
 
+    // 颜色
+    public static Color WHITE = new Color(255, 255, 255);
+    public static Color NAVYBLUE = new Color( 60,  60, 100);
+    public static Color SKY_BLUE = new Color( 39, 145, 251);
+    public static Color BLACK = new Color(  0,   0,   0);
+    public static Color LIGHTYELLOW = new Color(234, 233, 171);
+    public static Color RED   = new Color(255,   0,   0);
+    public static Color PURPLE = new Color(255,   0, 255);
+    public static Color GOLD  = new Color(255, 215,   0);
+    public static Color GREEN = new Color(  0, 255,   0);
+
     // 游戏界面大小
-    public static int SCREEN_WIDTH = 800;
-    public static int SCREEN_HEIGHT = 600;
+    public static int SCREEN_WIDTH = 816;
+    public static int SCREEN_HEIGHT = 6380;
 
     // 草坪数据
     public static int GRID_X_LEN = 9;
