@@ -2,7 +2,7 @@ package core;
 import java.awt.*;
 
 
-public class constants {
+public class Constants {
     // 游戏开始状态
     public static int START_LEVEL_NUM = 1;
     public static String ORIGINAL_CAPTION = "Plant VS Zombies Game";

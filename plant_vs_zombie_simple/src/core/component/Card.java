@@ -5,7 +5,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import core.constants;
+import core.Constants;
 
 public class Card {
     // 卡片在画布中的位置
@@ -33,7 +33,7 @@ public class Card {
         frozen_timer = -frozen_time;
         name = c.card_name_list[name_index];
         // image = loadImage("../resources/graphics/Cards/" + name + ".png");
-        orig_image = loadImage("plant_vs_zombie_simple/resources/graphics/Cards/" + name + ".png",scale);
+        orig_image = loadImage("plant_vs_zombie_simple/resources/graphics/Cards/" + name + ".png",scale, c.BLACK);
         image = orig_image;
         width = image.getWidth();
         height = image.getHeight();
@@ -48,10 +48,11 @@ public class Card {
     }
     
     // 加载图片
-    public static BufferedImage loadImage(String filename, double scale) {
+    public static BufferedImage loadImage(String filename, double scale, Color color) {
         try {
             BufferedImage img = ImageIO.read(new File(filename));
             img = resize(img, scale);
+            img = adjustAlpha(img, color);
             return img;
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,9 +76,9 @@ public class Card {
     public void setSelect(boolean can_select) {
         select = can_select;
         if (can_select)
-            image = adjustAlpha(image, 255);
+            image = adjustBrightness(orig_image, 255);
         else
-            image = adjustAlpha(image, 128);
+            image = adjustBrightness(orig_image, 128);
     }
     
     // 进入冷却
@@ -106,7 +107,7 @@ public class Card {
                 }
             }
         } else if (sun_cost > sun_value) {
-            output = adjustAlpha(orig_image, 192);
+            output = adjustBrightness(orig_image, 192);
         } else {
             output = orig_image;
         }
@@ -121,7 +122,8 @@ public class Card {
         }
     }
 
-    public BufferedImage adjustAlpha(BufferedImage image_, int alpha) {
+    // 调整亮度
+    public BufferedImage adjustBrightness(BufferedImage image_, int alpha) {
         int width = image_.getWidth();
         int height = image_.getHeight();
         BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -158,6 +160,30 @@ public class Card {
         graphics.dispose();
         return output;
     }
+
+    // 指定颜色透明化
+    public static BufferedImage adjustAlpha(BufferedImage image_, Color color) {
+        int width = image_.getWidth();
+        int height = image_.getHeight();
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+        for (int j = 0; j < height; ++j) {
+            for (int i = 0; i < width; ++i) {
+                int rgb = image_.getRGB(i, j);
+                if (checkColor(rgb, color.getRGB())) {
+                    rgb = (1 << 24) | (rgb & 0x00ffffff);
+                }
+                output.setRGB(i, j, rgb);
+            }
+        }
+        return output;
+    }
+
+    // 判断颜色相等
+    public static boolean checkColor(int color, int target) {
+        int rgb_color = color& 0x00ffffff;
+        int rgb_target = target & 0x00ffffff;
+        return rgb_color == rgb_target;
+    }
 }
 
-class c extends constants{}
+class c extends Constants{}
