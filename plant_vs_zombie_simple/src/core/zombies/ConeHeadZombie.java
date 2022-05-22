@@ -1,11 +1,11 @@
 package core.zombies;
-import core.constants;
+import core.Constants;
 import java.util.List;
 
 public class ConeHeadZombie extends Zombie{
     boolean helmet;
     public  ConeHeadZombie(int x,int y,List<ZombieHead> head_group){
-    super(x, y, constants.CONEHEAD_ZOMBIE, constants.CONEHEAD_HEALTH, head_group,1);
+    super(x, y, Constants.CONEHEAD_ZOMBIE, Constants.CONEHEAD_HEALTH, head_group,1);
     this.helmet = true;
 }
 // public void loadImages(this){}
@@ -20,12 +20,12 @@ public class ConeHeadZombie extends Zombie{
     
 //     helmet_walk_name = this.name
 //     helmet_attack_name = this.name + 'Attack'
-//     walk_name = constants.NORMAL_ZOMBIE
-//     attack_name = constants.NORMAL_ZOMBIE + 'Attack'
-//     losthead_walk_name = constants.NORMAL_ZOMBIE + 'LostHead'
-//     losthead_attack_name = constants.NORMAL_ZOMBIE + 'LostHeadAttack'
-//     die_name = constants.NORMAL_ZOMBIE + 'Die'
-//     boomdie_name = constants.BOOMDIE
+//     walk_name = Constants.NORMAL_ZOMBIE
+//     attack_name = Constants.NORMAL_ZOMBIE + 'Attack'
+//     losthead_walk_name = Constants.NORMAL_ZOMBIE + 'LostHead'
+//     losthead_attack_name = Constants.NORMAL_ZOMBIE + 'LostHeadAttack'
+//     die_name = Constants.NORMAL_ZOMBIE + 'Die'
+//     boomdie_name = Constants.BOOMDIE
 
 //     frame_list = [this.helmet_walk_frames, this.helmet_attack_frames,
 //                   this.walk_frames, this.attack_frames, this.losthead_walk_frames,

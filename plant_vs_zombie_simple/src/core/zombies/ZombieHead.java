@@ -1,10 +1,10 @@
 package core.zombies;
-import core.constants ;
+import core.Constants;
 
 public class ZombieHead extends Zombie{
     public ZombieHead(int x,int y){
-        super(x, y, constants.ZOMBIE_HEAD, 0,null ,1);
-        this.state = constants.DIE;
+        super(x, y, Constants.ZOMBIE_HEAD, 0,null ,1);
+        this.state = Constants.DIE;
     }
     // public void loadImages(){}
     //     this.die_frames = []
