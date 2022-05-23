@@ -9,14 +9,14 @@ import javax.imageio.ImageIO;
 /// map实例类，x坐标代表宽度，y坐标代表高度
 /// 命名为map_x风格的变量指示map中相应格子的坐标
 /// 名为为x风格的变量指示了图像单位的坐标
-public class map {
+public class GameMap {
     public int width;
     public int height;
     /// 0/1 以指示相应格子上是否存在植物
     public int[][] map;
     public BufferedImage image;
     /// 创建新的地图实例，长宽为格子数量
-    public map(int width_, int height_) {
+    public GameMap(int width_, int height_) {
         width = width_;
         height = height_;
         try {

@@ -51,6 +51,8 @@ public class test extends JPanel {
                 c.repaint();
             }
         }, interval, interval);
+
+        
     }
 
     @Override
