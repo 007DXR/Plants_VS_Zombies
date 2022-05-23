@@ -38,7 +38,7 @@ public class Panel {
     // 载入图片
     public void loadImage(int sun_value) {
         // String root = "../resources/graphics/Cards/";
-        String root = "plant_vs_zombie_simple/resources/graphics/Screen/";
+        String root = "resources/graphics/Screen/";
 
         String menu_image_path = root + c.MENUBAR_BACKGROUND+".png";
         menu_image = Card.loadImage(menu_image_path, 1.0, c.WHITE);

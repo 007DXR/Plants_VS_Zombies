@@ -33,7 +33,7 @@ public class Card {
         frozen_timer = -frozen_time;
         name = c.card_name_list[name_index];
         // image = loadImage("../resources/graphics/Cards/" + name + ".png");
-        orig_image = loadImage("plant_vs_zombie_simple/resources/graphics/Cards/" + name + ".png",scale, c.BLACK);
+        orig_image = loadImage("resources/graphics/Cards/" + name + ".png",scale, c.BLACK);
         image = orig_image;
         width = image.getWidth();
         height = image.getHeight();

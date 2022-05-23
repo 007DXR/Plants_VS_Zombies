@@ -10,7 +10,8 @@ import core.game.Background;
 import core.game.GamePlay;
 
 public abstract class Plant {
-	
+	public int health;
+	public void setDamage(Object a,Object b){}
 	// 植物的超类
 	// 加载图片
 	public static BufferedImage loadImage(String fileName) {

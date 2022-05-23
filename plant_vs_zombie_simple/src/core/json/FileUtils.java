@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.commons.io;
+package core.json;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -72,7 +72,8 @@ import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 /**
  * General file manipulation utilities.
  * <p>
