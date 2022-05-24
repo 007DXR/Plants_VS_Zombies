@@ -1,12 +1,14 @@
 package core;
 import java.util.Map;
 
+import core.json.JSONObject;
+
 public abstract class State {
-    private double startTime;
-    private double currentTime;
-    private boolean done;
-    private State next;
-    private double[] persist;
+    public double startTime;
+    public double currentTime;
+    public boolean done;
+    public State next;
+    public double[] persist;
     
     public void State() {
         startTime = 0.0;
@@ -16,7 +18,7 @@ public abstract class State {
         //not initialize persist
     }
 
-    abstract public void startUp(double currentTime, Map<String, Double> persist);
+    abstract public void startUp(double currentTime, JSONObject persist);
     public double[] cleanUp() {
         done = false;
         return persist;
