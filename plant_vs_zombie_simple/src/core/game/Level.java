@@ -1,6 +1,7 @@
 package core.game;
 import core.json.FileUtils;
 import core.json.JSONObject;
+import core.plants.Plant;
 import core.json.JSONArray;
 import core.State;
 import core.Tool;
@@ -13,6 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 import core.component.Card;
 import core.component.GameMap;
@@ -34,7 +37,31 @@ class ZombieListItem {
     }
 }
 
+class Rect {
+    int width;
+    int height;
+    int left;
+    int top;
+    public Rect(int width_, int height_, int left_, int top_) {
+        width = width_;
+        height = height_;
+        left = left_;
+        top = top_;
+    }
+    public int bottom() {
+        return top + height;
+    }
+    public int centerx() {
+        return left + width / 2;
+    }
+    public int centery() {
+        return top + height / 2;
+    }
+}
+
 public class Level extends State {
+    ///temporary;
+    int mouseX,mouseY;
     JSONObject gameInfo;
     JSONObject persist;
     int mapYLen;
@@ -111,7 +138,7 @@ public class Level extends State {
     public void setupCars() {
 
     }
-    public void update(double time,ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
+    public void update(int time,ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
         currentTime = time;
         gameInfo.put(c.CURRENT_TIME, time);
         if (state == c.CHOOSE) {
@@ -220,7 +247,7 @@ public class Level extends State {
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
             if (result != null) {
-                setupMouseImage(c.plant_name_list[result.name_index], result);
+                setupMouseImage(c.plantName_list[result.name_index], result);
             }
         }
         else if (dragPlant) {
@@ -287,11 +314,11 @@ public class Level extends State {
             zombie_groups[map_y].add(zombie.NewspaperZombie(c.ZOMBIE_START_X, y, head_group));
         }*/
     }
+    BufferedImage hintImage;
+    Rect hintRect;
+    Plant newPlant;
     public ArrayList<Integer> canSeedPlant() {
-        /* 
-        x, y = pg.mouse.get_pos()
-        return map.showPlant(x, y)
-        */
+        return map.showPlant(mouseX, mouseY);
     }
     public void addPlant() {
         ArrayList<Integer> pos = canSeedPlant();
@@ -301,72 +328,166 @@ public class Level extends State {
         if (hintImage == null) {
             setupHintImage();
         }
-        x, y = hint_rect.centerx, hint_rect.bottom
-        map_x, map_y = map.getMapIndex(x, y)
-        if plant_name == c.SUNFLOWER:
-            new_plant = plant.SunFlower(x, y, sun_group)
-        elif plant_name == c.PEASHOOTER:
-            new_plant = plant.PeaShooter(x, y, bullet_groups[map_y])
-        elif plant_name == c.SNOWPEASHOOTER:
-            new_plant = plant.SnowPeaShooter(x, y, bullet_groups[map_y])
-        elif plant_name == c.WALLNUT:
-            new_plant = plant.WallNut(x, y)
-        elif plant_name == c.CHERRYBOMB:
-            new_plant = plant.CherryBomb(x, y)
-        elif plant_name == c.THREEPEASHOOTER:
-            new_plant = plant.ThreePeaShooter(x, y, bullet_groups, map_y)
-        elif plant_name == c.REPEATERPEA:
-            new_plant = plant.RepeaterPea(x, y, bullet_groups[map_y])
-        elif plant_name == c.CHOMPER:
-            new_plant = plant.Chomper(x, y)
-        elif plant_name == c.PUFFSHROOM:
-            new_plant = plant.PuffShroom(x, y, bullet_groups[map_y])
-        elif plant_name == c.POTATOMINE:
-            new_plant = plant.PotatoMine(x, y)
-        elif plant_name == c.SQUASH:
-            new_plant = plant.Squash(x, y)
-        elif plant_name == c.SPIKEWEED:
-            new_plant = plant.Spikeweed(x, y)
-        elif plant_name == c.JALAPENO:
-            new_plant = plant.Jalapeno(x, y)
-        elif plant_name == c.SCAREDYSHROOM:
-            new_plant = plant.ScaredyShroom(x, y, bullet_groups[map_y])
-        elif plant_name == c.SUNSHROOM:
-            new_plant = plant.SunShroom(x, y, sun_group)
-        elif plant_name == c.ICESHROOM:
-            new_plant = plant.IceShroom(x, y)
-        elif plant_name == c.HYPNOSHROOM:
-            new_plant = plant.HypnoShroom(x, y)
-        elif plant_name == c.WALLNUTBOWLING:
-            new_plant = plant.WallNutBowling(x, y, map_y, self)
-        elif plant_name == c.REDWALLNUTBOWLING:
-            new_plant = plant.RedWallNutBowling(x, y)
+        int x = hintRect.centerx();
+        int y = hintRect.bottom();
+        ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
+        int map_x = mapIndex.get(0);
+        int map_y = mapIndex.get(1);
+        /*
+        if (plantName == c.SUNFLOWER) {
+            newPlant = new SunFlower(x, y, sun_group);
+        }
+        else if (plantName == c.PEASHOOTER) {
+            newPlant = new PeaShooter(x, y, bullet_groups[map_y]);
+        }
+        else if (plantName == c.SNOWPEASHOOTER) {
+            newPlant = new SnowPeaShooter(x, y, bullet_groups[map_y]);
+        }
+        else if (plantName == c.WALLNUT) {
+            newPlant = new WallNut(x, y);
+        }
+        else if (plantName == c.CHERRYBOMB) {
+            newPlant = new CherryBomb(x, y);
+        }
+        else if (plantName == c.THREEPEASHOOTER) {
+            newPlant = new ThreePeaShooter(x, y, bullet_groups, map_y);
+        }
+        else if (plantName == c.REPEATERPEA) {
+            newPlant = new RepeaterPea(x, y, bullet_groups[map_y]);
+        }
+        else if (plantName == c.CHOMPER) {
+            newPlant = new Chomper(x, y);
+        }
+        else if (plantName == c.PUFFSHROOM) {
+            newPlant = new PuffShroom(x, y, bullet_groups[map_y]);
+        }
+        else if (plantName == c.POTATOMINE) {
+            newPlant = new PotatoMine(x, y);
+        }
+        else if (plantName == c.SQUASH) {
+            newPlant = new Squash(x, y);
+        }
+        else if (plantName == c.SPIKEWEED) {
+            newPlant = new Spikeweed(x, y);
+        }
+        else if (plantName == c.JALAPENO) {
+            newPlant = new Jalapeno(x, y);
+        }
+        else if (plantName == c.SCAREDYSHROOM) {
+            newPlant = new ScaredyShroom(x, y, bullet_groups[map_y]);
+        }
+        else if (plantName == c.SUNSHROOM) {
+            newPlant = new SunShroom(x, y, sun_group);
+        }
+        else if (plantName == c.ICESHROOM) {
+            newPlant = new IceShroom(x, y);
+        }
+        else if (plantName == c.HYPNOSHROOM) {
+            newPlant = new HypnoShroom(x, y);
+        }
+        else if (plantName == c.WALLNUTBOWLING) {
+            newPlant = new WallNutBowling(x, y, map_y, self);
+        }
+        else if (plantName == c.REDWALLNUTBOWLING) {
+            newPlant = new RedWallNutBowling(x, y);
+        }*/
 
-        if new_plant.can_sleep and background_type == c.BACKGROUND_DAY:
-            new_plant.setSleep()
-        plant_groups[map_y].add(new_plant)
-        if bar_type == c.CHOOSEBAR_STATIC:
-            menubar.decreaseSunValue(select_plant.sun_cost)
-            menubar.setCardFrozenTime(plant_name)
-        else:
-            menubar.deleateCard(select_plant)
+        if (newPlant.can_sleep and background_type == c.BACKGROUND_DAY) {
+            newPlant.setSleep();
+        }
+//        plantGroups[map_y].add(newPlant);
+        if (barType == c.CHOOSEBAR_STATIC) {
+            menubar.decreaseSunValue(selectPlant.sun_cost);
+            menubar.setCardFrozenTime(plantName);
+        }
+        else {
+            menubar.deleateCard(selectPlant);
+        }
 
-        if bar_type != c.CHOSSEBAR_BOWLING:
-            map.setMapGridType(map_x, map_y, c.MAP_EXIST)
-        removeMouseImage()
+        if (barType != c.CHOSSEBAR_BOWLING) {
+            map.setMapGridType(map_x, map_y, c.MAP_EXIST);
+        }
+        removeMouseImage();
 
     }
     public void setupHintImage() {
-
+        ArrayList<Integer> pos = canSeedPlant();
+        if (!pos.isEmpty() && mouseImage != null) {
+            if (hintImage != null && pos.get(0) == hintRect.getWidth() &&
+                pos.get(1) == hintRect.getHeight()) {
+                return;
+            }
+            int width = mouseRect.getWidth();
+            int height = mouseRect.getHeight();
+            //画图并保存属性
+            /*
+            image = pg.Surface([width, height])
+            image.blit(self.mouse_image, (0, 0), (0, 0, width, height))
+            image.set_colorkey(c.BLACK)
+            image.set_alpha(128)
+            self.hint_image = image
+            self.hint_rect = image.get_rect()
+            self.hint_rect.centerx = pos[0]
+            self.hint_rect.bottom = pos[1]
+            */
+            hintPlant = true;
+        }
+        else{
+            hintPlant = false;
+        }
     }
-    public void setupMouseImage(String plantName, Card card) {
+    BufferedImage mouseImage;
+    Rect mouseRect;
+    String plantName;
+    Card selectPlant;
+    public void setupMouseImage(String plantName, Card selectPlant) {
+        int x,y,width,height;
+        Color color;
+        TreeSet<Tool.Img> frameList = Tool.GFX.get(plantName);
+        if (Tool.PLANT_RECT.optJSONObject(plantName) != null) {
+            JSONObject data = Tool.PLANT_RECT.getJSONObject(plantName);
+            x = data.getInt("x");
+            y = data.getInt("y");
+            width = data.getInt("width");
+            height = data.getInt("height");
+        }
+        else{
+            x = 0;
+            y = 0;
+            BufferedImage rect = frameList.first().image;
+            width = rect.getWidth();
+            height = rect.getHeight();
+        }
 
+        if (plantName == c.POTATOMINE || plantName == c.SQUASH ||
+            plantName == c.SPIKEWEED || plantName == c.JALAPENO ||
+            plantName == c.SCAREDYSHROOM || plantName == c.SUNSHROOM ||
+            plantName == c.ICESHROOM || plantName == c.HYPNOSHROOM ||
+            plantName == c.WALLNUTBOWLING || plantName == c.REDWALLNUTBOWLING) {
+            color = c.WHITE;
+        }
+        else {
+            color = c.BLACK;
+        }
+        //要把图片贴上去，这里主要是实现绘图
+//        mouseImage = tool.get_image(frame_list[0], x, y, width, height, color, 1)
+        //暂时使用一个替代的功能;     
+        mouseImage = frameList.first().image;
+        mouseRect = new Rect(width,height,x,y);
+//        pg.mouse.set_visible(False)
+        dragPlant = true;
+        this.plantName = plantName;
+        this.selectPlant = selectPlant;
     }
     public void removeMouseImage() {
-
+//        pg.mouse.set_visible(True)
+        dragPlant = false;
+        mouseImage = null;
+        hintImage = null;
+        hintPlant = false;
     }
     public void checkBulletCollisions() {
-
+        
     }
     public void checkZombieCollisions() {
 

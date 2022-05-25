@@ -62,6 +62,7 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
 public class Tool {
     public static HashMap<String, TreeSet<Tool.Img>> GFX = load_all_gfx();
     public static JSONObject ZOMBIE_RECT = loadZombieImageRect();
+    public static JSONObject PLANT_RECT;
 
     public static class Img implements Comparable<Img> {
         public int tag;
