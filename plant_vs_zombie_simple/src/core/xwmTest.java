@@ -16,13 +16,13 @@ import core.component.*;
 
 
 // 供熊伟民测试第一部分的代码，注意最后统一文件路径
-public class test extends JPanel {
+public class xwmTest extends JPanel {
     static boolean click = false;
     static int x;
     static int y;
     static Panel panel = new Panel(c.all_card_list, 50);
     public static void main(String[] args) {
-        test b = new test();
+        xwmTest b = new xwmTest();
         JFrame c = new JFrame();
         c.add(b);
         c.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
