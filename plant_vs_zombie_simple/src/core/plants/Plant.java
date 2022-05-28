@@ -35,7 +35,7 @@ public class Plant{
     public int centerx;
     public int bottom;
 
-    private String state;
+    public String state;
     public String name;
     public String old_state;
     //public Zombie kill_zombie;
