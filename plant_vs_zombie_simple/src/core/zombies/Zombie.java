@@ -52,7 +52,7 @@ public abstract class Zombie {
     boolean dead = false;
     boolean losHead = false;
     boolean helmet = false;
-    // List<ZombieHead> head_group;
+
     // 时间----------------------------------------
     long walk_timer = 0;
     long animate_timer = 0;
@@ -71,9 +71,6 @@ public abstract class Zombie {
     boolean prey_is_plant = true;
     Plant prey;
 
-    // tool类 -----------------------------------
-    // static JSONObject toolZombieRect;
-    // static HashMap GFX=new HashMap<String,ArrayList<BufferedImage>>();
     // -----------------------------------
     public ArrayList<BufferedImage> frames;
     ArrayList<BufferedImage> helmet_attack_frames;
@@ -91,18 +88,11 @@ public abstract class Zombie {
     // String die_name;
     // String boomdie_name;
 
-    // this.boomdie_frames = []
     public Zombie(int x, int y, String name, int health, int damage) {
 
         this.name = name;
-        // this.toolZombie();
-        // this.load_all_gfx();
         this.loadImages();
         this.frame_num = this.frames.size();
-
-        // this.loadFrames(this.die_frames, this.die_name,
-        // toolZombieRect.getJSONObject(name).getInt("x"),Constants.BLACK);
-
         this.image = this.frames.get(this.frame_index);
         // this.rect = this.image.get_rect();
         this.centerx = x;
@@ -197,7 +187,7 @@ public abstract class Zombie {
         if (this.current_time - this.attack_timer > Constants.ATTACK_INTERVAL * this.getTimeRatio()) {
             if (this.prey.health > 0) {
                 if (this.prey_is_plant) {
-                    this.prey.setDamage(this.damage, this);
+                    this.prey.setDamage(this.damage);
                 }
                 // else {
                 // this.prey.setDamage(this.damage);
@@ -247,29 +237,10 @@ public abstract class Zombie {
 
     }
 
-    // 调整亮度
-    public BufferedImage adjustBrightness(BufferedImage image_, int alpha) {
-        int width = image_.getWidth();
-        int height = image_.getHeight();
-        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        for (int j1 = 0; j1 < height; ++j1) {
-            for (int j2 = 0; j2 < width; ++j2) {
-                int rgb = image_.getRGB(j2, j1);
-                int R, G, B;
-                R = ((rgb >> 16) & 0xff) * alpha / 256;
-                G = ((rgb >> 8) & 0xff) * alpha / 256;
-                B = (rgb & 0xff) * alpha / 256;
-                rgb = ((255 & 0xff) << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | ((B & 0xff));
-                output.setRGB(j2, j1, rgb);
-            }
-        }
-        return output;
-    }
-
     public void animation() {
         if (this.state == Constants.FREEZE) {
 
-            this.adjustBrightness(this.image, 192);
+            this.image=Tool.adjustBrightness(this.image, 192);
             return;
         }
         if (this.current_time - this.animate_timer > this.animate_interval *
@@ -290,10 +261,10 @@ public abstract class Zombie {
         }
         if (this.current_time - this.hit_timer >= 200) {
 
-            this.adjustBrightness(this.image, 255);
+            this.image=Tool.adjustBrightness(this.image, 255);
         } else {
 
-            this.adjustBrightness(this.image, 192);
+            this.image=Tool.adjustBrightness(this.image, 192);
         }
     }
 

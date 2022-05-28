@@ -61,8 +61,8 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
 
 public class Tool {
     public static HashMap<String, TreeSet<Tool.Img>> GFX = load_all_gfx();
-    public static JSONObject ZOMBIE_RECT = loadZombieImageRect();
-    public static JSONObject PLANT_RECT;
+    public static JSONObject ZOMBIE_RECT = loadImageRect("zombie.json");
+    public static JSONObject PLANT_RECT=loadImageRect("plant.json");
 
     public static class Img implements Comparable<Img> {
         public int tag;
@@ -94,7 +94,7 @@ public class Tool {
     }
 
     // 调整亮度
-    public BufferedImage adjustBrightness(BufferedImage image_, int alpha) {
+    public static BufferedImage adjustBrightness(BufferedImage image_, int alpha) {
         int width = image_.getWidth();
         int height = image_.getHeight();
         BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -150,7 +150,7 @@ public class Tool {
         int rgb_target = target & 0x00ffffff;
         return rgb_color == rgb_target;
     }
-
+    // 从resources/graphics读取所有图片，用result.get('xxx')可得到某一类的图片
     public static HashMap<String, TreeSet<Img>> load_all_gfx() {
         Path dir = Paths.get("resources/graphics");
 
@@ -168,8 +168,8 @@ public class Tool {
 
     }
 
-    public static JSONObject loadZombieImageRect() {
-        File file = new File("resources/data/entity/zombie.json");
+    public static JSONObject loadImageRect(String file_name) {
+        File file = new File("resources/data/entity/"+file_name);
         try {
             String content = FileUtils.readFileToString(file, "UTF-8");
             JSONObject jsonObject = new JSONObject(content);
