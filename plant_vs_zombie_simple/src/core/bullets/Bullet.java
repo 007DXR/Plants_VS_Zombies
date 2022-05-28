@@ -1,99 +1,84 @@
 package core.bullets;
 
-import java.awt.Graphics;
+import java.io.File;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.imageio.ImageIO;
-import core.game.GamePlay;
 import core.zombies.Zombie;
+import core.plants.Plant;
+
+import core.Constants;
+import core.*;
 
 
-public abstract class Bullet {
+public class Bullet{
+    public int damage; 
+    public boolean ice; 
+    public int x;
+    public int y;
+    public int dest_y; 
+    public int y_vel; 
+    public int x_vel; 
+    public String state;
+    public String name;
+    public int explode_timer; 
+    long current_time = 0;
 
-	// 子弹超类
-	// 加载图片
-	public static BufferedImage loadImage(String fileName) {
-		try {
-			BufferedImage img = ImageIO.read(Bullet.class.getResource(fileName));
-			return img;
-		}catch(Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-	}
-	// 获取图片
-	public abstract BufferedImage getImage();
+    public ArrayList<BufferedImage> frames;
 
-	// 画图片
-	public void paintObject(Graphics g) {
-		g.drawImage(getImage(),x,y,null);                                   
-	}
+    public Bullet(int x, int y, int dest_y, String name, int damage, boolean ice){
+        this.hp = hp;
+        this.x = x;
+        this.y = y;
+        this.dest_y = dest_y; 
+        this.state = Constants.FLY;
+        this.current_time = 0; 
+        this.name = name; 
+        this.ice = ice; 
+    }
 
-	// 基本属性
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
-	protected int xSpeed;
+    public int getX(){
+        return x;
+    }
 
-	// 获取x、y、宽高
-	public int getX() {
-		return this.x;
-	}
-	public int getY() {
-		return this.y;
-	}
-	public int getWidth() {
-		return width;
-	}
-	public int getHeight() {
-		return height;
-	}
+    public int getY(){
+        return y;
+    }
 
-	// 构造器
-	public Bullet(int x,int y,int width,int height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-	}
+    public void loadFrames(ArrayList<BufferedImage>frames,String name){
+        TreeSet<Tool.Img> frame_list=(TreeSet<Tool.Img>) Tool.GFX.get(name);
+        for (Tool.Img frame : frame_list) {
+            
+            // frames.append(tool.get_image(frame, x, y, width, height))
+        }
+    }
 
-	// 子弹的状态
-	public static final int LIFE = 0;
-	public static final int DEAD = 1;
-	protected int state = LIFE;
+    public void update(int current_time){
+        this.current_time = current_time; 
+        if (this.state == Constants.FLY ){ // 在飞
+            if (this.y != this.dest_y){
+                this.y += this.y_vel; 
+                if (this.vel * (this.dest_y - this.y) < 0){
+                    this.y = this.dest_y; 
+                }
+            }
+            this.x += this.x_vel;
+            if (this.x > Constants.SCRREN_WIDTH){
+                this.state = Constants.DIE; //死亡
+            }
+        }
+        else if(this.state == Constants.EXPLODE){
+            if (this.current_time - this.eplode_timer > 500){
+                this.state = Constants.DIE; 
+            }
+        }
+    }
 
-	// 判断子弹的状态
-	public boolean isLife() {
-		return state == LIFE;
-	}
-	public boolean isDead() {
-		return state == DEAD;
-	}
-
-	// 子弹的移动
-	public void step() {
-		x+=xSpeed;
-	}
-
-	// 子弹消失
-	public void goDead() {
-		state = DEAD;
-	}
-
-	// 子弹与僵尸碰撞
-	public boolean hit(Zombie z) {
-		int x1 = this.x-z.getWidth();
-		int x2 = this.x+this.width;
-		int y1 = this.y-z.getHeight();
-		int y2 = this.y+this.height;
-		int x = z.getX();
-		int y = z.getY();
-		return x>=x1 && x<=x2 && y>=y1 && y<=y2;
-	}
-
-	// 子弹是否越界
-	public boolean isOutOfBound() {
-		return this.x>=GamePlay.WIDTH;
-	}
+    public void setExplode(){
+        this.state = 1; 
+        this.explode_timer = this.current_time; 
+    }
 
 }

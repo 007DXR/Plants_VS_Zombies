@@ -61,8 +61,8 @@ public abstract class Zombie {
     long hit_timer = 0;
     long freeze_timer = 0;
     long current_time;
-    // ----------------------------------------
-    String state = Constants.WALK;
+// ----------------------------------------
+    public String state=Constants.WALK;
     int animate_interval = 150;
     int ice_slow_ratio = 1;
 

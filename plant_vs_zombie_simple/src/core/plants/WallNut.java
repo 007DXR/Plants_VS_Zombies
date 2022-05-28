@@ -1,34 +1,38 @@
 package core.plants;
 
+import core.Constants;
+
+import java.util.ArrayList;
 import java.awt.image.BufferedImage;
 
 public class WallNut extends Plant{
-	
-	// 坚果
-	// 加载图片 
-	private static BufferedImage[] imgs;
-	static {
-		imgs = new BufferedImage[6];
-		for(int i=0;i<imgs.length;i++) {
-			imgs[i] = loadImage("WallNut"+i+".png");
-		}
-	}
+    int wallNut_state = 0;
+    boolean cracked1 = false;
+    boolean cracked2 = false;
+    ArrayList<BufferedImage> cracked1_frames;
+    ArrayList<BufferedImage> cracked2_frames;
 
-	// 获取图片，0-4为生存图片，5为卡片图片
-	int index = 1;
-	public BufferedImage getImage() {
-		if(isWait()|| isStop()||isMove()) {
-			return imgs[5];
-		}else if(isLife()) {
-			return imgs[index++%5];//0-4
-		}else {
-			return null;
-		}
-	}
+    public WallNut(int x, int y){
+        super(Constants.WALLNUT_HEALTH, x, y, Constants.WALLNUT, 1);
+        this.load_images();
+    }
+    
+    
+    public void load_images(){
+        String cracked1_frames_name = this.name + "_cracked1";
+        String cracked2_frames_name = this.name + "_cracked2";
+        //loadFrames(cracked1_frames, cracked1_frames_name, image_x, colorkey, scale);
+        //loadFrames(cracked2_frames, cracked2_frames_name, image_x, colorkey, scale);
+    }
 
-	// 构造器
-	public WallNut() {
-		super(65,73);
-		live = 10;
-	}
+    public void idling(){
+        if(cracked1==false && getHp() < Constants.WALLNUT_CRACKED1_HEALTH){
+            changeFrames(cracked1_frames);
+            cracked1 = true;
+        }
+        else if(cracked2==false && getHp() < Constants.WALLNUT_CRACKED2_HEALTH){
+            changeFrames(cracked2_frames);
+            cracked2 = true;
+        }
+    }
 }

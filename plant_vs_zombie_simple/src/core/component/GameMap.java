@@ -1,4 +1,5 @@
 package core.component;
+import core.Constants;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class GameMap {
         list.add(map_y);
         return list;
     }
-    /// 传入图像坐标，修正对应坐标到格子中心点以用于显示植物
+    /// 传入图像坐标，修正对应坐标到格子中心点以用于显示植物,当传入的x,y非法时，传出空list
     public ArrayList<Integer> showPlant(int x, int y) {
         ArrayList<Integer> pos = new ArrayList<>();
         ArrayList<Integer> tmp;
@@ -81,3 +82,6 @@ public class GameMap {
         return pos;
     }
 }
+
+
+class c extends Constants{}
