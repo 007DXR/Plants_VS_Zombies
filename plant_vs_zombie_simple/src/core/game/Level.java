@@ -125,48 +125,6 @@ class RectCollidedFunc extends CollidedFunc
     }
 }
 
-/// 精灵类，处理碰撞，实现绘图接口
-abstract class Sprite 
-    implements PaintItf
-{
-    //矩形碰撞体积
-    public Rect rect;
-    /// a pointer to delete elements in group when kill is ready
-    public LinkedList<Group> ptr;
-    /// 可选参数以表明原型的碰撞体积
-    public double radius;
-    /// 可选属性以用于进行绘图
-    BufferedImage image;
-    /// 将图片画出来
-    public void paintObject(Graphics g) {
-        g.drawImage(image, rect.left, rect.top, null);
-    }
-    public Sprite(Rect rect) {
-        this.rect = rect;
-        ptr = new LinkedList<>();
-    }
-    /// 检查一个精灵是否和一个组中的元素相交，若相交，返回检查到的第一个
-    /// param 默认情况可以为1.0,表示相交区域的缩放程度
-    public Sprite spritecollideany(Group group, CollidedFunc collidedFunc) {
-        for(Sprite s: group.list) {
-            if (collidedFunc.collid(this, s)) return s;
-        }
-        // 找不到
-        return null;
-    }
-    public void update(ArrayList<Object> args) {
-
-    }
-    public void added(Group g) {
-        ptr.add(g);
-    }
-    public void kill() {
-        for(Group g: ptr) {
-            g.remove(this);
-        }
-    }
-}
-
 /// 精灵类的容器
 class Group {
     public LinkedList<Sprite> list;
@@ -308,7 +266,7 @@ public class Level extends State {
     /// 初始化
     public void startUp(double currentTime, JSONObject persist) {
         //activate window
-        window = new JFrame()；
+        window = new JFrame();
         window.add(surface);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(816, 638);

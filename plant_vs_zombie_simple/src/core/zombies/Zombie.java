@@ -10,23 +10,25 @@ import javax.imageio.ImageIO;
 import core.*;
 import core.plants.Plant;
 import core.Constants;
+import core.game.*;
 
-public abstract class Zombie {
+public abstract class Zombie extends Sprite{
 
     // 大小
-    public int width;
-    public int height;
+    // public int width;
+    // public int height;
+    // public int x;
+    // public int y;
     public String old_state;
     public String name;
 
     public int frame_index = 0;
     public int frame_num;
 
-    public BufferedImage image;
+    // public BufferedImage image;
     public BufferedImage ice_trap_image;
     // 位置----------------------------------------
-    public int x;
-    public int y;
+    
     // public int centerx;
     // public int bottom;
     // public int ice_centerx;
@@ -74,14 +76,15 @@ public abstract class Zombie {
     // String boomdie_name;
 
     public Zombie(int x, int y, String name, int health, int damage) {
-
+        // super(this.frames.get(this.frame_index));
+        super();
         this.name = name;
         this.loadImages();
         this.frame_num = this.frames.size();
         this.image = this.frames.get(this.frame_index);
         // this.rect = this.image.get_rect();
-        this.x = x;
-        this.y = y;
+        this.rect.x = x;
+        this.rect.y = y;
 
         this.health = health;
         this.damage = damage;
