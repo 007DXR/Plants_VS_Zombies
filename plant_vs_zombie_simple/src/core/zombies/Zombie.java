@@ -107,7 +107,8 @@ public abstract class Zombie {
             int width = rect.getWidth();
             int height = rect.getHeight();
             width -= image_x;
-            frames.add(frame.image.getSubimage(image_x, 0, width, height));
+            // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
+            frames.add(Tool.adjustAlpha( frame.image.getSubimage(image_x, 0, width, height),colorkey));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }
