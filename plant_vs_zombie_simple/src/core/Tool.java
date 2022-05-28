@@ -34,9 +34,15 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         if (file.toString().endsWith(".png")) {
             try {
-                String s[] = file.getFileName().toString().split("_");
-                String fileName = s[0];
-                Integer fileIndex = Integer.valueOf((s[1].split("\\."))[0]);
+                String s[]  =file.getFileName().toString().split(".png")[0].split("_");
+                int len=s.length;
+                String fileName = "";
+                for (int i=0; i<len-1; ++i)
+                fileName+=s[i];
+                Integer fileIndex = Integer.valueOf(s[len-1]);
+                // String s[] = file.getFileName().toString().split("_");
+                
+                // Integer fileIndex = Integer.valueOf((s[1].split("\\."))[0]);
                 // System.out.println(fileIndex);
                 TreeSet<Tool.Img> frameList;
                 // HashMap<Integer,BufferedImage>frameList;
@@ -50,7 +56,7 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
                 frameList.add(
                         new Tool.Img(fileIndex, Tool.loadImage(file.toAbsolutePath().toString(), 1, Constants.BLACK)));
             } catch (Exception e) {
-                System.out.print(file.getFileName());
+                System.out.println(file.getFileName()+" doesn't load into GFX.");
 
             }
         }
@@ -61,8 +67,8 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
 
 public class Tool {
     public static HashMap<String, TreeSet<Tool.Img>> GFX = load_all_gfx();
-    public static JSONObject ZOMBIE_RECT = loadImageRect("zombie.json");
-    public static JSONObject PLANT_RECT=loadImageRect("plant.json");
+    public static JSONObject ZOMBIE_RECT = loadImageRect("zombie");
+    public static JSONObject PLANT_RECT=loadImageRect("plant");
 
     public static class Img implements Comparable<Img> {
         public int tag;
@@ -169,14 +175,18 @@ public class Tool {
     }
 
     public static JSONObject loadImageRect(String file_name) {
-        File file = new File("resources/data/entity/"+file_name);
+        System.out.println("Start loadImageRect=====");
+        File file = new File("resources/data/entity/"+file_name+".json");
         try {
             String content = FileUtils.readFileToString(file, "UTF-8");
             JSONObject jsonObject = new JSONObject(content);
-            return jsonObject.getJSONObject("zombie_image_rect");
+            return jsonObject.getJSONObject(file_name+"_image_rect");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+        finally{
+            System.out.println("End loadImageRect=====");
         }
         return null;
 

@@ -11,20 +11,6 @@ import core.*;
 import core.plants.Plant;
 import core.Constants;
 
-// public class Demo {
-//     public static void main(String args[]) throws IOException {
-
-//         File file=new File(""resources/data/entity/zombie.json"");
-//         String content= FileUtils.readFileToString(file,"UTF-8");
-//         JSONObject jsonObject=new JSONObject(content);
-//         System.out.println("姓名是："+jsonObject.getString("name"));
-//         System.out.println("年龄："+jsonObject.getDouble("age"));
-//         System.out.println("学到的技能："+jsonObject.getJSONArray("major"));
-//         System.out.println("国家："+jsonObject.getJSONObject("Nativeplace").getString("country"));
-
-//     }
-// }
-
 public abstract class Zombie {
 
     // 大小
@@ -41,11 +27,10 @@ public abstract class Zombie {
     // 位置----------------------------------------
     public int x;
     public int y;
-    public int centerx;
-    public int bottom;
-    public int ice_centerx;
-    public int ice_bottom;
-
+    // public int centerx;
+    // public int bottom;
+    // public int ice_centerx;
+    // public int ice_bottom;
     // ----------------------------------------
     int health;
     int damage;
@@ -95,8 +80,8 @@ public abstract class Zombie {
         this.frame_num = this.frames.size();
         this.image = this.frames.get(this.frame_index);
         // this.rect = this.image.get_rect();
-        this.centerx = x;
-        this.bottom = y;
+        this.x = x;
+        this.y = y;
 
         this.health = health;
         this.damage = damage;
@@ -122,10 +107,6 @@ public abstract class Zombie {
             int width = rect.getWidth();
             int height = rect.getHeight();
             width -= image_x;
-            System.out.print(width);
-            System.out.println(frames);
-            if (frames == null)
-                System.out.print("empty");
             frames.add(frame.image.getSubimage(image_x, 0, width, height));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
@@ -342,8 +323,8 @@ public abstract class Zombie {
         this.freeze_timer = this.current_time;
         this.ice_trap_image = ice_trap_image;
         // this.ice_trap_rect = ice_trap_image.get_rect()
-        this.ice_centerx = this.centerx;
-        this.ice_bottom = this.bottom;
+        // this.ice_centerx = this.centerx;
+        // this.ice_bottom = this.bottom;
 
     }
 

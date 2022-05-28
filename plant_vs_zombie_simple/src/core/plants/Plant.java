@@ -27,8 +27,8 @@ public class Plant{
     public int width;
     public int height;
     public BufferedImage image;
-
-    private int hp;
+    public int health;
+    // private int health;
     public int x;
     public int y;
 
@@ -53,8 +53,8 @@ public class Plant{
     
 
 
-    public Plant(int hp, int x, int y, String name, double scale){
-        this.hp = hp;
+    public Plant(int health, int x, int y, String name, double scale){
+        this.health = health;
         this.x = x;
         this.y = y;
 
@@ -180,17 +180,17 @@ public class Plant{
 
 
     public void setDamage(int damage){
-        hp -= damage;
+        health -= damage;
         hit_timer = current_time;
-        if(hp <= 0){
+        if(health <= 0){
             state = Constants.DIE;
             //kill_zombie = zombie;
         }
     }
     
     
-    public int getHp(){
-        return hp;
+    public int gethealth(){
+        return health;
     }
 
     
