@@ -1,3 +1,17 @@
+package core.plants;
+
+import java.io.File;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.TreeSet;
+import javax.imageio.ImageIO;
+import core.zombies.Zombie;
+import core.bullets.Bullet;
+
+import core.Constants;
+import core.*;
+
 class  ScaredyShroom extends Plant{
     private int shoot_timer = 0; 
     private List<Bullet> bullet_group; 
