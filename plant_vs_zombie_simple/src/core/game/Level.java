@@ -2,9 +2,11 @@ package core.game;
 import core.json.FileUtils;
 import core.json.JSONObject;
 import core.plants.Plant;
+import core.zombies.Zombie;
 import core.json.JSONArray;
 import core.State;
 import core.Tool;
+import core.bullets.Bullet;
 import core.Constants;
 import core.component.MenuBar;
 import core.component.Panel;
@@ -14,7 +16,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import core.component.Card;
@@ -27,9 +34,9 @@ import java.nio.file.attribute.*;
 class c extends Constants {}
 
 class ZombieListItem {
-    int time;
-    String name;
-    int mapY;
+    public int time;
+    public String name;
+    public int mapY;
     public ZombieListItem(int time_, String name_, int mapY_) {
         time = time_;
         name = name_;
@@ -37,11 +44,128 @@ class ZombieListItem {
     }
 }
 
+interface PaintItf {
+    public void paintObject(Graphics g);
+}
+
+class Surface extends JPanel {
+    LinkedList<PaintItf> list;
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        for(PaintItf item: list) {
+            item.paintObject(g);
+        }
+    }
+}
+
+class PaintItem implements PaintItf{
+    /// left
+    int x;
+    /// top
+    int y;
+    BufferedImage image;
+    public PaintItem(int x, int y, BufferedImage image) {
+        this.x = x;
+        this.y = y;
+        this.image = image;
+    }
+    public void paintObject(Graphics g) {
+        g.drawImage(image, x, y, null);
+    }
+    public Rect getRect() {
+        return new Rect(image.getWidth(), image.getHeight(), x, y);
+    }
+}
+
+/// 接口类，指示传入判断碰撞的函数类型
+interface CollidedFunc {
+    /// param指示碰撞区域缩放的比例
+    /// return true表示发生碰撞
+    public boolean collid(Sprite x, Sprite y, double param);
+}
+
+/// 圆形碰撞发生函数
+class CircleCollidedFunc
+    implements CollidedFunc
+{
+    public boolean collid(Sprite x, Sprite y, double param) {
+        return (x.radius + y.radius) * (x.radius + y.radius) > 
+        (x.rect.centerx() - y.rect.centerx()) * ((x.rect.centerx() - y.rect.centerx()))
+        + (x.rect.centery() - y.rect.centery()) * (x.rect.centery() - y.rect.centery());
+    }
+}
+/// 矩形碰撞发生函数
+class RectCollidedFunc
+    implements CollidedFunc
+{
+    public boolean collid(Sprite x, Sprite y, double param) {
+        return x.rect.intersect(y.rect);
+    }
+}
+
+abstract class Sprite {
+    //矩形碰撞体积
+    public Rect rect;
+    /// a pointer to delete elements in group when kill is ready
+    public LinkedList<Group> ptr;
+    /// 可选参数以表明原型的碰撞体积
+    public double radius;
+    public Sprite(Rect rect) {
+        this.rect = rect;
+        ptr = new LinkedList<>();
+    }
+    /// 检查一个精灵是否和一个组中的元素相交，若相交，返回检查到的第一个
+    /// param 默认情况可以为1.0,表示相交区域的缩放程度
+    public Sprite spritecollideany(Group group, CollidedFunc collidedFunc, double param) {
+        for(Sprite s: group.list) {
+            if (collidedFunc.collid(this, s, param)) return s;
+        }
+        // 找不到
+        return null;
+    }
+    public void update(ArrayList<Object> args) {}
+    public void added(Group g) {
+        ptr.add(g);
+    }
+    public void kill() {
+        for(Group g: ptr) {
+            g.remove(this);
+        }
+    }
+}
+
+class Group {
+    public LinkedList<Sprite> list;
+    public Group() {
+        list = new LinkedList<>();
+    }
+    public void update(ArrayList<Object> args) {
+        for (Sprite g: list) {
+            g.update(args);
+        }
+    }
+    public void add(Sprite item) {
+        list.add(item);
+        item.added(this);
+    }
+    public void remove(Sprite item) {
+        list.remove(item);
+    }
+}
+
 class Rect {
-    int width;
-    int height;
-    int left;
-    int top;
+    public int width;
+    public int height;
+    public int left;
+    public int top;
+    public Rect(int width_, int height_) {
+        width = width_;
+        height = height_;
+        /// default;
+        left = 0;
+        top = 0;
+    }
     public Rect(int width_, int height_, int left_, int top_) {
         width = width_;
         height = height_;
@@ -52,10 +176,43 @@ class Rect {
         return top + height;
     }
     public int centerx() {
-        return left + width / 2;
+        return (left + width) / 2;
     }
     public int centery() {
-        return top + height / 2;
+        return (top + height) / 2;
+    }
+    /// assume width and height right, adjust left and top
+    public void adjust(int centerx, int bottom) {
+        left = centerx * 2 - width;
+        top = bottom - height;
+    }
+    public boolean intersect(Rect y) {
+        int xa,ya,wxa,wya;
+        int xb,yb,wxb,wyb;
+        if (width > height) {
+            xa = width;
+            ya = height;
+            wxa = centerx();
+            wya = centery();
+        } else {
+            xa = height;
+            ya = width;
+            wxa = centery();
+            wya = centerx();
+        }
+        if (y.width > y.height) {
+            xb = y.width;
+            xb = y.height;
+            wxb = y.centerx();
+            wyb = y.centery();
+        } else {
+            xb = y.height;
+            yb = y.width;
+            wxb = y.centery();
+            wyb = y.centerx();
+        }
+        return Math.abs(wxa - wxb) < (xa + xb) / 2 &&
+            Math.abs(wya - wyb) < (ya + yb) / 2;
     }
 }
 
@@ -76,6 +233,9 @@ public class Level extends State {
     ArrayList<Card> cardPool;
     Panel panel;
     MenuBar menubar;
+    JFrame window;
+    /// elements added into surface
+    Surface surface;
 
     /// work in map directory
     private Path rootDir = Paths.get("resources/data/map");
@@ -85,6 +245,12 @@ public class Level extends State {
     }
     /// 初始化
     public void startUp(double currentTime, JSONObject persist) {
+        //activate window
+        window = new JFrame()；
+        window.add(surface);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setSize(816, 638);
+
         gameInfo = persist;
         this.persist = persist;
         gameInfo.remove(c.CURRENT_TIME);
@@ -93,14 +259,18 @@ public class Level extends State {
         map = new GameMap(c.GRID_X_LEN, mapYLen);
         mapData = new JSONObject();
         loadMap();
-//        setupBackgroud();
-//        initState();
+        setupBackgroud();
+        initState();
+
+        window.setVisible(true);
+        window.repaint();
     }
     /// 读入map文件信息
     public void loadMap() {
         String filePath = "level" + (int)gameInfo.get(c.LEVEL_NUM) + ".json";
         mapData = loadJsonFile(filePath);
     }
+    Rect bgRect;
     public void setupBackgroud() {
     	int imgIndex = (int)mapData.get(c.BACKGROUND_TYPE);
     	backgroundType = imgIndex;
@@ -113,13 +283,31 @@ public class Level extends State {
                 break;
             }
         }
+        bgRect = new Rect(background.image.getWidth(), background.image.getHeight());
         /*
         level = pg.Surface((bg_rect.w, bg_rect.h)).convert()
         viewport = tool.SCREEN.get_rect(bottom=bg_rect.bottom)
         viewport.x += c.BACKGROUND_OFFSET_X*/
     }
+    Group sunGroup;
+    Group headGroup;
+    ArrayList<Group> plantGroups;
+    ArrayList<Group> zombieGroups;
+    ArrayList<Group> hypnoZombieGroups;
+    ArrayList<Group> bulletGroups;
     public void setupGroups() {
-        
+        sunGroup = new Group();
+        headGroup = new Group();
+        plantGroups = new ArrayList<>();
+        zombieGroups = new ArrayList<>();
+        hypnoZombieGroups = new ArrayList<>();
+        bulletGroups = new ArrayList<>();
+        for (int i = 0; i < mapYLen; ++i) {
+            plantGroups.add(new Group());
+            zombieGroups.add(new Group());
+            hypnoZombieGroups.add(new Group());
+            bulletGroups.add(new Group());
+        }
     }
     public void setupZombies() {
         JSONArray dataArray = mapData.getJSONArray(c.ZOMBIE_LIST);
@@ -135,8 +323,14 @@ public class Level extends State {
         }
         zombieStartTime = 0.0;
     }
+    ArrayList<Car> cars;
     public void setupCars() {
-
+        cars = new ArrayList<>();
+        for (int i = 0; i < mapYLen; ++i) {
+            ArrayList<Integer> pos = map.getMapGridPos(0, i);
+            int y = pos.get(1);
+            cars.add(new Car(-25, y+20, i));
+        }
     }
     public void update(int time,ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
         currentTime = time;
@@ -147,7 +341,7 @@ public class Level extends State {
             play(mousePos, mouseClick);
         }
 
-        //draw(surface);
+        window.repaint();
     }
     public void initBowlingMap() {
         for (int x = 3; x < map.width; ++x)
@@ -203,7 +397,7 @@ public class Level extends State {
 //            menubar = new MoveBar(cardList);
         }
         dragPlant = false;
-//        hintImage = None;
+        hintImage = null;
         hintPlant = false;
         if (backgroundType == c.BACKGROUND_DAY && barType == c.CHOOSEBAR_STATIC) {
             produceSun = true;
@@ -230,24 +424,27 @@ public class Level extends State {
                 zombieList.remove(data);
             }
         }
-        /*
+        ArrayList<Object> list = new ArrayList<>();
+        list.add(gameInfo);
         for (int i = 0; i < mapYLen; ++i) {
-            bullet_groups[i].update(game_info);
-            plant_groups[i].update(game_info);
-            zombie_groups[i].update(game_info);
-            hypno_zombie_groups[i].update(game_info);
-            for zombie in hypno_zombie_groups[i] {
+            bulletGroups.get(i).update(list);
+            plantGroups.get(i).update(list);
+            zombieGroups.get(i).update(list);
+            hypnoZombieGroups.get(i).update(list);
+            //迷惑的功能，暂时还没什么用
+            /*
+            for (zombie in hypno_zombie_groups[i]) {
                 if zombie.rect.x > c.SCREEN_WIDTH:
                     zombie.kill()
-            }
+            }*/
         }
-        head_group.update(game_info)
-        sun_group.update(game_info)*/
+        headGroup.update(list);
+        sunGroup.update(list);
         
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
             if (result != null) {
-                setupMouseImage(c.plantName_list[result.name_index], result);
+                setupMouseImage(c.plant_name_list[result.name_index], result);
             }
         }
         else if (dragPlant) {
@@ -272,17 +469,17 @@ public class Level extends State {
                 ArrayList<Integer> mapRandom = map.getRandomMapIndex();
                 ArrayList<Integer> mapPos = map
                     .getMapGridPos(mapRandom.get(0), mapRandom.get(1));
-                //sunGroup.add(plant.Sun(mapPos.get(0), 0, mapPos.get(0), mapPos.get(1)));
+                sunGroup.add(new Sun(mapPos.get(0), 0, mapPos.get(0), mapPos.get(1)));
             }
         }
-        if (! dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
+        if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
+            //检查碰撞
             /*for sun in sun_group:
                 if sun.checkCollision(mouse_pos[0], mouse_pos[1]):
                     menubar.increaseSunValue(sun.sun_value)*/
         }
-/*
-        for car in cars:
-            car.update(game_info)*/
+        for (Car car:cars):
+            car.update(list);
 
         //危险
         menubar.update((int)currentTime);
@@ -294,27 +491,26 @@ public class Level extends State {
         checkGameState();
     }
     public void createZombie(String name, int mapY) {
-        /*
-        ArrayList<Integer> mapPos = map.getMapGridPos(0, map_y);
-        int x = mapPos.get(0);
-        int y = mapPos.get(1);
+        ArrayList<Integer> Pos = map.getMapGridPos(0, mapY);
+        int x = Pos.get(0);
+        int y = Pos.get(1);
         if (name == c.NORMAL_ZOMBIE) {
-            zombie_groups[map_y].add(zombie.NormalZombie(c.ZOMBIE_START_X, y, head_group));
+            zombieGroups.get(mapY).add(new NormalZombie(c.ZOMBIE_START_X, y, headGroup));
         }
         else if (name == c.CONEHEAD_ZOMBIE) {
-            zombie_groups[map_y].add(zombie.ConeHeadZombie(c.ZOMBIE_START_X, y, head_group));
+            zombieGroups.get(mapY).add(new ConeHeadZombie(c.ZOMBIE_START_X, y, headGroup));
         }
         else if (name == c.BUCKETHEAD_ZOMBIE) {
-            zombie_groups[map_y].add(zombie.BucketHeadZombie(c.ZOMBIE_START_X, y, head_group));
+            zombieGroups.get(mapY).add(new BucketHeadZombie(c.ZOMBIE_START_X, y, headGroup));
         }
         else if (name == c.FLAG_ZOMBIE) {
-            zombie_groups[map_y].add(zombie.FlagZombie(c.ZOMBIE_START_X, y, head_group));
+            zombieGroups.get(mapY).add(new FlagZombie(c.ZOMBIE_START_X, y, headGroup));
         }
         else if (name == c.NEWSPAPER_ZOMBIE) {
-            zombie_groups[map_y].add(zombie.NewspaperZombie(c.ZOMBIE_START_X, y, head_group));
-        }*/
+            zombieGroups.get(mapY).add(new NewspaperZombie(c.ZOMBIE_START_X, y, headGroup));
+        }
     }
-    BufferedImage hintImage;
+    PaintItem hintImage;
     Rect hintRect;
     Plant newPlant;
     public ArrayList<Integer> canSeedPlant() {
@@ -333,7 +529,6 @@ public class Level extends State {
         ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
-        /*
         if (plantName == c.SUNFLOWER) {
             newPlant = new SunFlower(x, y, sun_group);
         }
@@ -390,12 +585,12 @@ public class Level extends State {
         }
         else if (plantName == c.REDWALLNUTBOWLING) {
             newPlant = new RedWallNutBowling(x, y);
-        }*/
+        }
 
-        if (newPlant.can_sleep and background_type == c.BACKGROUND_DAY) {
+        if (newPlant.canSleep && backgroundType == c.BACKGROUND_DAY) {
             newPlant.setSleep();
         }
-//        plantGroups[map_y].add(newPlant);
+        plantGroups.get(map_y).add(newPlant);
         if (barType == c.CHOOSEBAR_STATIC) {
             menubar.decreaseSunValue(selectPlant.sun_cost);
             menubar.setCardFrozenTime(plantName);
@@ -413,30 +608,26 @@ public class Level extends State {
     public void setupHintImage() {
         ArrayList<Integer> pos = canSeedPlant();
         if (!pos.isEmpty() && mouseImage != null) {
-            if (hintImage != null && pos.get(0) == hintRect.getWidth() &&
-                pos.get(1) == hintRect.getHeight()) {
+            if (hintImage != null && pos.get(0) == hintRect.width &&
+                pos.get(1) == hintRect.height) {
                 return;
             }
-            int width = mouseRect.getWidth();
-            int height = mouseRect.getHeight();
-            //画图并保存属性
-            /*
-            image = pg.Surface([width, height])
-            image.blit(self.mouse_image, (0, 0), (0, 0, width, height))
-            image.set_colorkey(c.BLACK)
-            image.set_alpha(128)
-            self.hint_image = image
-            self.hint_rect = image.get_rect()
-            self.hint_rect.centerx = pos[0]
-            self.hint_rect.bottom = pos[1]
-            */
+            int width = mouseRect.width;
+            int height = mouseRect.height;
+            //画图并保存属性0);
+            surface.add(mouseImage);
+            hintImage = new PaintItem(0, 0);
+//            Tool.setColorkey(c.BLACK)
+            Tool.adjustAlpha(hintImage.image, new Color(128));
+            hintRect = hintImage.getRect();
+            hintRect.adjust(pos.get(0), pos.get(1));
             hintPlant = true;
         }
         else{
             hintPlant = false;
         }
     }
-    BufferedImage mouseImage;
+    PaintItem mouseImage;
     Rect mouseRect;
     String plantName;
     Card selectPlant;
@@ -472,7 +663,7 @@ public class Level extends State {
         //要把图片贴上去，这里主要是实现绘图
 //        mouseImage = tool.get_image(frame_list[0], x, y, width, height, color, 1)
         //暂时使用一个替代的功能;     
-        mouseImage = frameList.first().image;
+        mouseImage = new PaintItem(x, y, frameList.first().image);
         mouseRect = new Rect(width,height,x,y);
 //        pg.mouse.set_visible(False)
         dragPlant = true;
@@ -487,10 +678,22 @@ public class Level extends State {
         hintPlant = false;
     }
     public void checkBulletCollisions() {
-        
+        // 0.7倍
+        CollidedFunc collidedFunc = new CircleCollidedFunc();
+        for (int i = 0; i < mapYLen; ++i) {
+            for (Sprite bullet : bulletGroups.get(i).list)
+                if ( ((Bullet)bullet).state == c.FLY ) {
+                    // 检测碰撞到的僵尸
+                    Zombie zombie = (Zombie)bullet.spritecollideany(zombieGroups.get(i).list, collidedFunc, 0.7)
+                    if (zombie != null && zombie.state != c.DIE) {
+                        zombie.setDamage(bullet.damage, bullet.ice);
+                        bullet.setExplode();
+                    }
+                }
+        }
     }
     public void checkZombieCollisions() {
-
+        
     }
     public void checkCarCollisions() {
 
