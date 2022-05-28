@@ -1,47 +1,37 @@
 package core.plants;
 
+import java.io.File;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-
+import java.util.ArrayList;
+import java.util.TreeSet;
+import javax.imageio.ImageIO;
+import core.zombies.Zombie;
 import core.bullets.Bullet;
-import core.bullets.PeaBullet;
 
-public class ThreePeater extends Plant implements Shoot{
+import core.Constants;
+import core.*;
 
-	// 三头豌豆射手
-	// 加载图片 
-	private static BufferedImage[] imgs;
-	static {
-		imgs = new BufferedImage[6];
-		for(int i=0;i<imgs.length;i++) {
-			imgs[i] = loadImage("ThreePeater"+i+".png");
-		}
-	}
+class ThreePeaShooter extends Plant{
+    private int shoot_timer = 0; 
+    private int map_y; 
+    private List<Bullet> bullet_group; 
+    public ThreePeaShooter(int x, int y){
+        super(Constants.PLANT_HEALTH, x, y, Constants.ThreePeaShooter, 1); 
+        this.shoot_timer = 0; 
+        //this.map_y = map_y; 
+    }
 
-	// 获取图片，0-4为生存图片，5为卡片图片
-	int index = 1;
-	public BufferedImage getImage() {
-		if(isWait()|| isStop()||isMove()) {
-			return imgs[5];
-		}else if(isLife()) {
-			return imgs[index++%5];//0-4
-		}else {
-			return null;
-		}
-	}
-
-	// 构造器
-	public ThreePeater() {
-		super(73,80);
-		live = 7;
-	}
-
-	// 发射子弹
-	public Bullet[] shoot() {
-		Bullet[] bs = new Bullet[3];
-		bs[0] = new PeaBullet(this.x+this.width,this.y+this.height/2-5);
-		bs[1] = new PeaBullet(this.x+this.width,this.y+this.height/2-20);
-		bs[2] = new PeaBullet(this.x+this.width,this.y+this.height/2-35);
-		return bs;
-	}
-	
+    public void attacking(){
+        if (this.current_time - this.shoot_timer > 2000){
+            int offset_y = 9; 
+            for(int i = 0; i < 3; i++){
+                int tmp_y = this.map_y + (i-1); 
+                if (tmp_y < 0 || tmp_y >= Constants.GRID_YLEN){continue; }
+                int dest_y = this.y + (i-1) * Constants.GRID_Y_SIZE + offset_y; 
+                this.bullet_group.add(Bullet(this.x, this.y, dest_y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
+            }
+            this.shoot_timer = this.current_time; 
+        }
+    }
 }
