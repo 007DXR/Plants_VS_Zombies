@@ -1,149 +1,225 @@
 package core.plants;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.File;
-
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.TreeSet;
 import javax.imageio.ImageIO;
 
-import core.game.Background;
-import core.game.GamePlay;
+import core.Constants;
+import core.*;
+import core.zombies.*;
 
-public abstract class Plant {
-	public int health;
-	public void setDamage(Object a,Object b){}
-	// 植物的超类
-	// 加载图片
-	public static BufferedImage loadImage(String fileName) {
-		try {
-			BufferedImage img = ImageIO.read(Plant.class.getResource(fileName));
-			return img;
-		}catch(Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-	}
-	// 获取图片
-	public abstract BufferedImage getImage();
-	
-	// 画图片
-	public void paintObject(Graphics g) {
-		g.drawImage(getImage(),x,y,null);                                   
-	}
-		
-	// 植物的状态
-	// 在滚轮机上的状态
-	public static final int WAIT = 0;
-	// 在滚轮机上停止的状态
-	public static final int STOP = 1;
-	// 被鼠标点击后随着鼠标移动
-	public static final int MOVE = 2;
-	public static final int LIFE = 3;
-	public static final int DEAD = 4;
-	protected int state = WAIT;
-	
-	// 设置植物的状态
-	public void setState(int state) {
-		this.state = state;
-	}
-	
-	// 判断植物的状态
-	public boolean isWait() {
-		return state == WAIT;
-	}
-	public boolean isStop() {
-		return state == STOP;
-	}
-	public boolean isMove() {
-		return state == MOVE;
-	}
-	public boolean isLife() {
-		return state == LIFE;
-	}
-	public boolean isDead() {
-		return state == DEAD;
-	}
-	
-	// 植物状态改变
-	public void goMove() {
-		state = MOVE;
-	}
-	public void goLife() {
-		state = LIFE;
-	}
-	public void goStop() {
-		state = STOP;
-	}
-	public void goWait() {
-		state = WAIT;
-	}
-	public void goDead() {
-		state = DEAD;
-	}
-	
-	// 设置属性
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
-	protected int live;
-	protected int ySpeed;
-	
-	// 构造器
-	public Plant(int width,int height) {
-		// 初始的x,y为固定值，在滚轮机初始位置
-		this.width = width;
-		this.height = height;
-		// 初始在屏幕的左下角
-		this.x = 0;
-		this.y = GamePlay.HEIGHT;
-		ySpeed = 1;
-	}
-	
-	// 获取宽高,x,y
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
-	}
-	public int getWidth() {
-		return width;
-	}
-	public int getHeight() {
-		return height;
-	}
-	
-	// 设置x,y
-	public void setX(int x) {
-		this.x = x;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	
-	// 获取植物的血量
-	public int getLive() {
-		return this.live;
-	}
-	
-	// 植物被攻击扣血
-	public void loseLive() {
-		this.live--;
-	}
-	
-	// 植物被选中后移动  x,y为鼠标的坐标
-	public void moveTo(int x,int y) {
-		this.x = x-this.width/2;
-		this.y = y-this.height/2;
-	}
-	
-	// 植物在等待状态时移动
-	public void step() {
-		y-=ySpeed;
-		if(y<=0) {
-			state = STOP;
-		}
-	}
-	
+/**
+ * 需要修改的部分
+ * 图片加载LoadFrames LoadImages
+ * 碰撞检测 canAttack
+ * cneterx和bottom要不要添加
+ */
+
+public class Plant{
+
+    public double scale;
+    public int frame_index=0;
+    public int frame_num;
+
+    public int width;
+    public int height;
+    public BufferedImage image;
+
+    private int hp;
+    public int x;
+    public int y;
+
+    public int centerx;
+    public int bottom;
+
+    private String state;
+    public String name;
+    public String old_state;
+    //public Zombie kill_zombie;
+    boolean can_sleep = false;//蘑菇是true，全局判断给他setSleep
+
+    long animate_interval = 100;
+    long animate_timer = 0;
+    long hit_timer = 0;
+    long current_time = 0;
+
+    public ArrayList<BufferedImage> frames;
+    ArrayList<BufferedImage> sleep_frames;
+    ArrayList<BufferedImage> idle_frames;
+    ArrayList<BufferedImage> big_frames;
+    
+
+
+    public Plant(int hp, int x, int y, String name, double scale){
+        this.hp = hp;
+        this.x = x;
+        this.y = y;
+
+        //centerx 和bottom到底有什么用
+        this.centerx = x;
+        this.bottom = y;
+
+        this.state = Constants.IDLE;
+        this.name = name;
+        this.scale = scale;
+
+        //tool.loadImage();
+
+        //loadFrames(frames, name, image_x, colorkey, scale);
+        this.frame_num = this.frames.size();
+
+        this.image = this.frames.get(this.frame_index);
+    }
+
+
+    // 判断鼠标点击
+    public boolean checkMouseClick(int x_, int y_) {
+        if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
+            return true;
+        else
+            return false;
+    }
+    
+    public void loadFrames(ArrayList<BufferedImage>frames,String name,int image_x,Color colorkey, double scale)
+    {   
+        TreeSet<Tool.Img> frame_list=(TreeSet<Tool.Img>) Tool.GFX.get(name);
+        for (Tool.Img frame : frame_list) {
+            BufferedImage rect = frame.image;
+            int width = rect.getWidth();
+            int height = rect.getHeight();
+            width -= image_x;
+            frames.add(frame.image.getSubimage(image_x, 0, width, height));
+            // tool.get_image(frame, image_x, 0, width, height, colorkey));
+        }
+    }
+
+    public void changeFrames(ArrayList<BufferedImage> frames) {
+        // '''change image frames&&modify rect position'''
+        this.frames = frames;
+        this.frame_num = this.frames.size();
+        this.frame_index = 0;
+        this.image = this.frames.get(this.frame_index);
+       
+    }
+    // 调整亮度
+    public BufferedImage adjustBrightness(BufferedImage image_, int alpha) {
+        int width = image_.getWidth();
+        int height = image_.getHeight();
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        for (int j1 = 0; j1 < height; ++j1) {
+            for (int j2 = 0; j2 < width; ++j2) {
+                int rgb = image_.getRGB(j2, j1);
+                int R, G, B;
+                R = ((rgb >> 16) & 0xff) * alpha / 256;
+                G = ((rgb >> 8) & 0xff) * alpha / 256;
+                B = (rgb & 0xff) * alpha / 256;
+                rgb = ((255 & 0xff) << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | ((B & 0xff));
+                output.setRGB(j2, j1, rgb);
+            }
+        }
+        return output;
+    }
+
+    public void loadImages(String name, double scale){
+        //loadFrames(frames, name, int image_x,Color colorkey, scale);
+    }
+        
+
+    public void update(){
+        // current_time = game_info[Constants.CURRENT_TIME];
+        current_time = System.currentTimeMillis();
+        handleState();
+        animation();
+    }
+
+    public void handleState(){
+        if(state == Constants.DIE)
+            idling();
+        else if(state == Constants.ATTACK)
+            attacking();
+        else if(state == Constants.DIGEST)
+            digest();
+    }
+    public void idling(){}
+    public void attacking(){}
+    public void digest(){}
+
+    public void animation(){
+        if(current_time - animate_timer > animate_interval){
+            frame_index = (frame_index+1)%frame_num;
+            animate_timer = current_time;
+        }
+
+        this.image = this.frames.get(this.frame_index);
+        if(this.current_time - this.hit_timer >= 200)
+            this.adjustBrightness(this.image,255);
+        else
+            this.adjustBrightness(this.image,192);
+    }
+
+    // 蘑菇和大嘴花应该要override这个函数
+    // 或者还是像之前那样放在attack里面？因为除了这几种植物其他都是true
+    // python代码里判断了碰撞和僵尸状态，但我们是不是可能放在全局里判断，暂时不写
+    public boolean canAttack(Zombie zombie){
+        return true;
+    }
+
+    public void setAttack(){
+        state = Constants.ATTACK;
+    }
+    public void setIdle(){
+        state = Constants.IDLE;
+    }
+    public void setSleep(){
+        state = Constants.SLEEP;
+        changeFrames(sleep_frames);
+    }
+
+
+    public void setDamage(int damage){
+        hp -= damage;
+        hit_timer = current_time;
+        if(hp <= 0){
+            state = Constants.DIE;
+            //kill_zombie = zombie;
+        }
+    }
+    
+    
+    public int getHp(){
+        return hp;
+    }
+
+    
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public void setX(int nx){
+        this.x = nx;
+    }
+
+    public void setY(int ny){
+        this.y = ny;
+    }
+
+    public String getState(){
+        return state;
+    }
+
+    public void setState(String newState){
+       state = newState;
+    }
+
+
+    public int[] getPosition(){
+        return new int[]{x,y};
+    }
 }
