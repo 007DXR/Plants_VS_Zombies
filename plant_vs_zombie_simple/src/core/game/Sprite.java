@@ -45,11 +45,10 @@ public abstract class Sprite
     public LinkedList<Group> ptr;
     /// 可选参数以表明原型的碰撞体积
     public double radius;
-    /// 可选属性以用于进行绘图
-    public BufferedImage image;
+
     /// 将图片画出来
     public void paintObject(Graphics g) {
-        g.drawImage(image, rect.left, rect.top, null);
+        g.drawImage(rect.image, rect.left, rect.top, null);
     }
     public Sprite(){}
     public Sprite(Rect rect) {
@@ -57,7 +56,7 @@ public abstract class Sprite
         ptr = new LinkedList<>();
     }
     public Sprite(BufferedImage image) {
-        this.image = image;
+        this.rect.image = image;
         ptr = new LinkedList<>();
     }
     /// 检查一个精灵是否和一个组中的元素相交，若相交，返回检查到的第一个

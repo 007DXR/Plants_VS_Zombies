@@ -2,12 +2,12 @@ package core.zombies;
 import core.Constants;
 import java.util.*;
 import java.awt.image.BufferedImage;
-
+import core.game.*;
 public class ZombieHead extends Zombie{
     // ArrayList<BufferedImage> die_frames; 
     // String die_name ;
-    public ZombieHead(int x,int y){
-        super(x, y, Constants.ZOMBIE_HEAD, 0 ,1);
+    public ZombieHead(int x,int y, LinkedList<Group> head_group){
+        super(x, y, Constants.ZOMBIE_HEAD, 0 ,head_group,1);
         this.state = Constants.DIE;
 
     }

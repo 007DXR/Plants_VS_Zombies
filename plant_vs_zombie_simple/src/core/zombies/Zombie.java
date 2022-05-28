@@ -1,9 +1,10 @@
 package core.zombies;
 
 import java.io.File;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
@@ -21,7 +22,7 @@ public abstract class Zombie extends Sprite{
     // public int y;
     public String old_state;
     public String name;
-
+    
     public int frame_index = 0;
     public int frame_num;
 
@@ -67,7 +68,7 @@ public abstract class Zombie extends Sprite{
     ArrayList<BufferedImage> losthead_walk_frames;
     ArrayList<BufferedImage> losthead_attack_frames;
     ArrayList<BufferedImage> boomdie_frames;
-
+    LinkedList<Group> head_group;
     // String walk_name;
     // String attack_name;
     // String losthead_walk_name;
@@ -75,29 +76,27 @@ public abstract class Zombie extends Sprite{
     // String die_name;
     // String boomdie_name;
 
-    public Zombie(int x, int y, String name, int health, int damage) {
+    public Zombie(int x, int y, String name, int health, LinkedList<Group> head_group,int damage) {
         // super(this.frames.get(this.frame_index));
         super();
         this.name = name;
         this.loadImages();
         this.frame_num = this.frames.size();
-        this.image = this.frames.get(this.frame_index);
-        // this.rect = this.image.get_rect();
-        this.rect.x = x;
-        this.rect.y = y;
+        this.rect = new Rect(this.frames.get(this.frame_index),x,y);
 
+        this.head_group=head_group;
         this.health = health;
         this.damage = damage;
 
     }
 
     // 判断鼠标点击
-    public boolean checkMouseClick(int x_, int y_) {
-        if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
-            return true;
-        else
-            return false;
-    }
+    // public boolean checkMouseClick(int x_, int y_) {
+    //     if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
+    //         return true;
+    //     else
+    //         return false;
+    // }
 
     public abstract void loadImages();
 
@@ -152,9 +151,9 @@ public abstract class Zombie extends Sprite{
                 this.getTimeRatio()) {
             this.walk_timer = this.current_time;
             if (this.is_hypno) {
-                this.x += this.speed;
+                this.rect.left += this.speed;
             } else {
-                this.x -= this.speed;
+                this.rect.left -= this.speed;
             }
         }
     }
@@ -218,14 +217,14 @@ public abstract class Zombie extends Sprite{
         this.frames = frames;
         this.frame_num = this.frames.size();
         this.frame_index = 0;
-        this.image = this.frames.get(this.frame_index);
+        this.rect.image = this.frames.get(this.frame_index);
 
     }
 
     public void animation() {
         if (this.state == Constants.FREEZE) {
 
-            this.image=Tool.adjustBrightness(this.image, 192);
+            this.rect.image=Tool.adjustBrightness(this.rect.image, 192);
             return;
         }
         if (this.current_time - this.animate_timer > this.animate_interval *
@@ -240,16 +239,16 @@ public abstract class Zombie extends Sprite{
             }
             this.animate_timer = this.current_time;
         }
-        this.image = this.frames.get(this.frame_index);
+        this.rect.image = this.frames.get(this.frame_index);
         if (this.is_hypno) {
-            // this.image = pg.transform.flip(this.image, true, false)
+            // this.rect.image = pg.transform.flip(this.rect.image, true, false)
         }
         if (this.current_time - this.hit_timer >= 200) {
 
-            this.image=Tool.adjustBrightness(this.image, 255);
+            this.rect.image=Tool.adjustBrightness(this.rect.image, 255);
         } else {
 
-            this.image=Tool.adjustBrightness(this.image, 192);
+            this.rect.image=Tool.adjustBrightness(this.rect.image, 192);
         }
     }
 

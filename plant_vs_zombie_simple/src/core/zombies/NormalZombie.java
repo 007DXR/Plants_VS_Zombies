@@ -2,9 +2,11 @@ package core.zombies;
 import core.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
+import core.game.*;
+
 public class NormalZombie extends Zombie{
-    public NormalZombie(int x,int y){
-        super(x,y,Constants.NORMAL_ZOMBIE, Constants.NORMAL_HEALTH,1);
+    public NormalZombie(int x,int y, LinkedList<Group> head_group){
+        super(x,y,Constants.NORMAL_ZOMBIE, Constants.NORMAL_HEALTH, head_group,1);
 
     }
     public void loadImages(){
