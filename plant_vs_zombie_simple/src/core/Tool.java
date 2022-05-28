@@ -111,7 +111,7 @@ public class Tool {
                 R = ((rgb >> 16) & 0xff) * alpha / 256;
                 G = ((rgb >> 8) & 0xff) * alpha / 256;
                 B = (rgb & 0xff) * alpha / 256;
-                rgb = ((255 & 0xff) << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | ((B & 0xff));
+                rgb = (((rgb>>24) & 0xff) << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | ((B & 0xff));
                 output.setRGB(j2, j1, rgb);
             }
         }
