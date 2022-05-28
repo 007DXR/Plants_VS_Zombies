@@ -10,6 +10,7 @@ import core.bullets.Bullet;
 import core.Constants;
 import core.component.MenuBar;
 import core.component.Panel;
+import core.game.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -48,22 +49,6 @@ interface PaintItf {
     public void paintObject(Graphics g);
 }
 
-class Surface extends JPanel {
-    LinkedList<PaintItf> list;
-    /// optional add, check first;
-    public void add(PaintItf item) {
-        if(!list.contains(item))
-           list.add(item);
-    }
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        for(PaintItf item: list) {
-            item.paintObject(g);
-        }
-    }
-}
-
 /// 画图类，简单的图片加左上角绘图的对象可以直接使用这个类
 class PaintItem implements PaintItf{
     /// left
@@ -84,7 +69,7 @@ class PaintItem implements PaintItf{
         g.drawImage(image, x, y, null);
     }
     public Rect getRect() {
-        return new Rect(image.getWidth(), image.getHeight(), x, y);
+        return new Rect(image, x, y);
     }
 }
 
@@ -122,117 +107,6 @@ class RectCollidedFunc extends CollidedFunc
     }
     public boolean collid(Sprite x, Sprite y) {
         return x.rect.intersect(y.rect, ratio);
-    }
-}
-
-/// 精灵类的容器
-class Group {
-    public LinkedList<Sprite> list;
-    public Group() {
-        list = new LinkedList<>();
-    }
-    public void update(ArrayList<Object> args) {
-        for (Sprite g: list) {
-            g.update(args);
-        }
-    }
-    public int size() {
-        return list.size();
-    }
-    public void add(Sprite item) {
-        list.add(item);
-        item.added(this);
-    }
-    public void remove(Sprite item) {
-        list.remove(item);
-    }
-}
-
-/// 矩形区域指示类
-class Rect {
-    public int width;
-    public int height;
-    public int left;
-    public int top;
-    public Rect(int width_, int height_) {
-        width = width_;
-        height = height_;
-        /// default;
-        left = 0;
-        top = 0;
-    }
-    public Rect(int width_, int height_, int left_, int top_) {
-        width = width_;
-        height = height_;
-        left = left_;
-        top = top_;
-    }
-    public int bottom() {
-        return top + height;
-    }
-    public int centerx() {
-        return (left + width) / 2;
-    }
-    public int centery() {
-        return (top + height) / 2;
-    }
-    public int centerx(double ratio) {
-        return (int)((left + width * ratio) / 2);
-    }
-    public int centery(double ratio) {
-        return (int)((top + height * ratio) / 2);
-    }
-    /// 给定相应属性，假定长宽正确，调整左上角坐标以适应
-    public void adjust(int centerx, int bottom) {
-        left = centerx * 2 - width;
-        top = bottom - height;
-    }
-    /// 调整中中心位置，假定长宽确定，改变左上角点以适应
-    public void adjustxy(int centerx, int centery) {
-        left = centerx * 2 - width;
-        top = centery * 2 - height;
-    }
-    /// 调整画图的左上角坐标
-    public void adjustlt(int left, int top) {
-        this.left = left;
-        this.top = top;
-    }
-    public boolean intersect(Rect y, double ratio) {
-        double xa,ya,wxa,wya;
-        double xb,yb,wxb,wyb;
-        if (width > height) {
-            xa = width;
-            ya = height;
-            wxa = centerx(ratio);
-            wya = centery(ratio);
-        } else {
-            xa = height;
-            ya = width;
-            wxa = centery(ratio);
-            wya = centerx(ratio);
-        }
-        if (y.width > y.height) {
-            xb = y.width;
-            yb = y.height;
-            wxb = y.centerx(ratio);
-            wyb = y.centery(ratio);
-        } else {
-            xb = y.height;
-            yb = y.width;
-            wxb = y.centery(ratio);
-            wyb = y.centerx(ratio);
-        }
-        xa *= ratio;
-        ya *= ratio;
-        wxa *= ratio;
-        wya *= ratio;
-        xb *= ratio;
-        yb *= ratio;
-        wxb *= ratio;
-        wyb *= ratio;
-
-        return Math.abs(wxa - wxb) < (xa + xb) / 2 &&
-            Math.abs(wya - wyb) < (ya + yb) / 2;
     }
 }
 
@@ -303,7 +177,7 @@ public class Level extends State {
                 break;
             }
         }
-        bgRect = new Rect(background.image.getWidth(), background.image.getHeight());
+        bgRect = new Rect(background.image);
         /*
         level = pg.Surface((bg_rect.w, bg_rect.h)).convert()
         viewport = tool.SCREEN.get_rect(bottom=bg_rect.bottom)
@@ -628,12 +502,12 @@ public class Level extends State {
     public void setupHintImage() {
         ArrayList<Integer> pos = canSeedPlant();
         if (!pos.isEmpty() && mouseImage != null) {
-            if (hintImage != null && pos.get(0) == hintRect.width &&
-                pos.get(1) == hintRect.height) {
+            if (hintImage != null && pos.get(0) == hintRect.width() &&
+                pos.get(1) == hintRect.height()) {
                 return;
             }
-            int width = mouseRect.width;
-            int height = mouseRect.height;
+            int width = mouseRect.width();
+            int height = mouseRect.height();
             //画图并保存属性;
             surface.add(hintImage);
             hintImage = new PaintItem(0, 0, mouseImage.image);
@@ -684,7 +558,7 @@ public class Level extends State {
 //        mouseImage = tool.get_image(frame_list[0], x, y, width, height, color, 1)
         //暂时使用一个替代的功能;     
         mouseImage = new PaintItem(x, y, frameList.first().image);
-        mouseRect = new Rect(width,height,x,y);
+        mouseRect = new Rect(mouseImage.image, x, y);
 //        pg.mouse.set_visible(false)
         dragPlant = true;
         this.plantName = plantName;
@@ -994,6 +868,7 @@ public class Level extends State {
         }
     }
     public void draw() {
+        /*
         this.level.blit(this.background, this.viewport, this.viewport)
         surface.blit(this.level, (0,0), this.viewport)
         if this.state == c.CHOOSE:
@@ -1013,6 +888,7 @@ public class Level extends State {
 
             if this.drag_plant:
                 this.drawMouseShow(surface)
+                */
     }
     public static void main() {
     	Level level = new Level();
