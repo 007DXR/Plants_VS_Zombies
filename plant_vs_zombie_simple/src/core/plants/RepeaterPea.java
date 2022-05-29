@@ -22,8 +22,8 @@ class RepeaterPea extends Plant{
 
     public void attacking(){
         if (this.current_time - this.shoot_timer > 2000){
-            this.bullet_group.add(Bullet(x, y, y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
-            this.bullet_group.add(Bullet(x + 40, y, y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
+            this.bullet_group.add(Bullet(this.rect.left + this.rect.width(), this.rect.centery(), this.rect.centery(), Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
+            this.bullet_group.add(Bullet(this.rect.left + this.rect.width() + 40, this.rect.centery(), this.rect.centery(), Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
             this.shoot_timer = this.current_time; 
         }
     }
