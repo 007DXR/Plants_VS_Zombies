@@ -25,8 +25,8 @@ public class Plant extends Sprite{
     public int frame_index=0;
     public int frame_num;
 
-    public int width;
-    public int height;
+    //public int width;
+    //public int height;
     public BufferedImage image;
 
     public int health;
