@@ -25,13 +25,13 @@ class PuffShroom extends Plant{
 
     public void attacking(){
         if (this.current_time - this.shoot_timer > 3000){
-            this.bullet_group.add(Bullet(x, y+10, y+10, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true)); 
+            this.bullet_group.add(Bullet(this.rect.left + this.rect.width(), this.rect.centery() + 10, this.rect.centery() + 10, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true)); 
             this.shoot_timer = this.current_time; 
         }
     }
 
     public boolean canAttack(Zombie zombie){
-        if (this.x <= zombie.x && (this.x + c.GRID_X_SIZE * 4 >= zombie.x)){return true;}
+        if (this.rect.centerx() <= zombie.rect.left + zombie.rect.width() && (this.rect.centerx() + c.GRID_X_SIZE * 4 >= zombie.rect.centerx())){return true;}
         return false; 
     }
 
