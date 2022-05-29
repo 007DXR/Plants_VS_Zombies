@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import core.Constants;
 import core.*;
 import core.zombies.*;
+import core.game.Sprite; 
 
 /**
  * 需要修改的部分
@@ -18,7 +19,7 @@ import core.zombies.*;
  * cneterx和bottom要不要添加
  */
 
-public class Plant{
+public class Plant extends Sprite{
 
     public double scale;
     public int frame_index=0;
@@ -27,13 +28,10 @@ public class Plant{
     public int width;
     public int height;
     public BufferedImage image;
-    public int health;
-    // private int health;
-    public int x;
-    public int y;
 
-    public int centerx;
-    public int bottom;
+    public int health;
+    //public int x;
+    //public int y;
 
     public String state;
     public String name;
@@ -50,18 +48,12 @@ public class Plant{
     ArrayList<BufferedImage> sleep_frames;
     ArrayList<BufferedImage> idle_frames;
     ArrayList<BufferedImage> big_frames;
-    
 
-
+    // 因为继承之后的构造函数只要传入x和y，所以这里没有修改
     public Plant(int health, int x, int y, String name, double scale){
+        super(); 
         this.health = health;
-        this.x = x;
-        this.y = y;
-
-        //centerx 和bottom到底有什么用
-        this.centerx = x;
-        this.bottom = y;
-
+        this.loadImages();
         this.state = Constants.IDLE;
         this.name = name;
         this.scale = scale;
@@ -70,18 +62,22 @@ public class Plant{
 
         //loadFrames(frames, name, image_x, colorkey, scale);
         this.frame_num = this.frames.size();
+        this.rect = new Rect(this.frames.get(this.frame_index),x,y);
 
-        this.image = this.frames.get(this.frame_index);
+    }
+    
+    public void loadImages(String name, double scale){
+        //loadFrames(frames, name, int image_x,Color colorkey, scale);
     }
 
 
     // 判断鼠标点击
-    public boolean checkMouseClick(int x_, int y_) {
-        if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
-            return true;
-        else
-            return false;
-    }
+    //public boolean checkMouseClick(int x_, int y_) {
+    //    if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
+    //        return true;
+    //    else
+    //        return false;
+    //}
     
     public void loadFrames(ArrayList<BufferedImage>frames,String name,int image_x,Color colorkey, double scale)
     {   
@@ -101,7 +97,7 @@ public class Plant{
         this.frames = frames;
         this.frame_num = this.frames.size();
         this.frame_index = 0;
-        this.image = this.frames.get(this.frame_index);
+        this.rect.image = this.frames.get(this.frame_index);
        
     }
     // 调整亮度
@@ -123,10 +119,6 @@ public class Plant{
         return output;
     }
 
-    public void loadImages(String name, double scale){
-        //loadFrames(frames, name, int image_x,Color colorkey, scale);
-    }
-        
 
     public void update(){
         // current_time = game_info[Constants.CURRENT_TIME];
@@ -147,17 +139,19 @@ public class Plant{
     public void attacking(){}
     public void digest(){}
 
+
+
     public void animation(){
         if(current_time - animate_timer > animate_interval){
             frame_index = (frame_index+1)%frame_num;
             animate_timer = current_time;
         }
 
-        this.image = this.frames.get(this.frame_index);
+        this.rect.image = this.frames.get(this.frame_index);
         if(this.current_time - this.hit_timer >= 200)
-            this.adjustBrightness(this.image,255);
+            this.adjustBrightness(this.rect.image,255);
         else
-            this.adjustBrightness(this.image,192);
+            this.adjustBrightness(this.rect.image,192);
     }
 
     // 蘑菇和大嘴花应该要override这个函数
@@ -188,27 +182,11 @@ public class Plant{
         }
     }
     
-    
     public int gethealth(){
         return health;
     }
 
     
-    public int getX(){
-        return x;
-    }
-
-    public int getY(){
-        return y;
-    }
-
-    public void setX(int nx){
-        this.x = nx;
-    }
-
-    public void setY(int ny){
-        this.y = ny;
-    }
 
     public String getState(){
         return state;
@@ -216,10 +194,5 @@ public class Plant{
 
     public void setState(String newState){
        state = newState;
-    }
-
-
-    public int[] getPosition(){
-        return new int[]{x,y};
     }
 }
