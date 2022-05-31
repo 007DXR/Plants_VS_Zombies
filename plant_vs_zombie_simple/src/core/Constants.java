@@ -111,6 +111,14 @@ public class Constants {
 
     public static int FREEZE_TIME = 7500;
     public static String ICETRAP = "IceTrap";
+    
+    // 增加的植物状态
+    public static int SMALL_SUN_VALUE = 12;
+    public static double SMALL_SUN_SCALE = 0.6;
+    public static double BIG_SUN_SCALE = 0.9;
+    public static double SMALL_SUNSHROOM_SCALE = 0.6;
+    public static double BIG_SUNSHROOM_SCALE = 0.6;
+    
 
     // 植物卡片信息
     public static String CARD_SUNFLOWER = "card_sunflower";
@@ -207,4 +215,6 @@ public class Constants {
     public static int PANEL_Y_INTERNAL = 74;
     public static int PANEL_X_INTERNAL = 53;
     public static int CARD_LIST_NUM = 8;
+    
+    
 }
