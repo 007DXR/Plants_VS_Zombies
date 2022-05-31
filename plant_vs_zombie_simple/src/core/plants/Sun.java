@@ -32,17 +32,17 @@ public class Sun extends Plant{
 
     @Override
     public void handleState(){
-        if(x+width/2 < dst_x)
-            x += move_speed;
-        else if(x+width/2 > dst_x)
-            x -= move_speed;
+        if(this.rect.centerx() < dst_x)
+            this.rect.left += move_speed;
+        else if(this.rect.centerx() > dst_x)
+        this.rect.left -= move_speed;
         
-        if(y < dst_y)
-            y += move_speed;
-        else if(y > dst_x)
-            y -= move_speed;
+        if(this.rect.bottom() < dst_y)
+            this.rect.top += move_speed;
+        else if(this.rect.bottom() > dst_x)
+        this.rect.top -= move_speed;
 
-        if(x+width/2 == dst_x && y == dst_y){
+        if(this.rect.centerx() == dst_x && this.rect.bottom() == dst_y){
             if(die_timer == 0)
                 die_timer = current_time;
             else if(current_time - die_timer > Constants.SUN_LIVE_TIME){
@@ -52,12 +52,13 @@ public class Sun extends Plant{
         }
     }
 
-    @Override
+    
     public boolean checkMouseClick(int x_, int y_){
         if(getState() == Constants.DIE)
             return false;
 
-        if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height)){
+        if (x_ >= this.rect.left && x_ <= (this.rect.left + this.rect.width()) &&
+         y_ >= this.rect.bottom() && y_ <= (this.rect.top)){
             setState(Constants.DIE);
             //阳光面板值++
             //kill();

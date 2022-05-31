@@ -28,7 +28,7 @@ public class Jalapeno extends Plant{
     public void setExplode(){
         changeFrames(explode_frames);
         animate_timer = current_time;
-        x = Constants.MAP_OFFSET_X;
+        this.rect.left = Constants.MAP_OFFSET_X;
         start_explode = true;
     }
 
@@ -57,7 +57,7 @@ public class Jalapeno extends Plant{
         image = frames.get(frame_index);
     }
 
-    @Override
+   
     public int [] getPosition(){
         return orig_pos;
     }
