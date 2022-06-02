@@ -7,6 +7,7 @@ import core.json.JSONArray;
 import core.State;
 import core.Tool;
 import core.bullets.Bullet;
+import core.car.Car;
 import core.Constants;
 import core.component.MenuBar;
 import core.component.Panel;
