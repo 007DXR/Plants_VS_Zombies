@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import core.Constants;
 import core.*;
 import core.zombies.*;
+import core.game.Rect;
 import core.game.Sprite; 
 
 /**
@@ -20,6 +21,8 @@ import core.game.Sprite;
 
 public class Plant extends Sprite{
 
+    public int explode_y_range;
+    public int explode_x_range;
     public double scale;
     public int frame_index=0;
     public int frame_num;
@@ -36,12 +39,13 @@ public class Plant extends Sprite{
     public String name;
     public String old_state;
     //public Zombie kill_zombie;
-    boolean can_sleep = false;//蘑菇是true，全局判断给他setSleep
+    public boolean can_sleep = false;//蘑菇是true，全局判断给他setSleep
 
     long animate_interval = 100;
     long animate_timer = 0;
     long hit_timer = 0;
     long current_time = 0;
+    public boolean is_init;
 
     public ArrayList<BufferedImage> frames;
     ArrayList<BufferedImage> sleep_frames;

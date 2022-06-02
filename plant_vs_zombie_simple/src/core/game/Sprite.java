@@ -50,7 +50,9 @@ public abstract class Sprite
     public void paintObject(Graphics g) {
         g.drawImage(rect.image, rect.left, rect.top, null);
     }
-    public Sprite(){}
+    public Sprite(){
+        ptr = new LinkedList<>();
+    }
     public Sprite(Rect rect) {
         this.rect = rect;
         ptr = new LinkedList<>();

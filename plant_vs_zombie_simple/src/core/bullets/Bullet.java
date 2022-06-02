@@ -8,13 +8,14 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.plants.Plant;
+import core.game.Rect;
 import core.game.Sprite; 
 
 import core.Constants;
 import core.*;
 
 
-class Bullet extends Sprite{
+public class Bullet extends Sprite{
     public int damage; 
     public boolean ice; 
     //public int x;
@@ -25,7 +26,7 @@ class Bullet extends Sprite{
     public String state;
     public String name;
     public int explode_timer; 
-    long current_time = 0;
+    int current_time = 0;
     public int frame_index=0;
     public int frame_num;
 
@@ -79,20 +80,20 @@ class Bullet extends Sprite{
         if (this.state == Constants.FLY ){ // 在飞
             if (this.rect.top != this.dest_y){
                 this.rect.top += this.y_vel; 
-                if (this.vel * (this.dest_y - this.rect.top) < 0){
+                if (this.y_vel * (this.dest_y - this.rect.top) < 0){
                     this.rect.top = this.dest_y; 
                 }
             }
             this.rect.left += this.x_vel;
-            if (this.rect.left > Constants.SCRREN_WIDTH){
+            if (this.rect.left > Constants.SCREEN_WIDTH){
                 this.state = Constants.DIE; //死亡
-                this.rect.kill(); 
+                this.kill(); 
             }
         }
         else if(this.state == Constants.EXPLODE){
-            if (this.current_time - this.eplode_timer > 500){
+            if (this.current_time - this.explode_timer > 500){
                 this.state = Constants.DIE; 
-                this.rect.kill(); 
+                this.kill(); 
             }
         }
     }

@@ -68,7 +68,7 @@ public abstract class Zombie extends Sprite{
     ArrayList<BufferedImage> losthead_walk_frames;
     ArrayList<BufferedImage> losthead_attack_frames;
     ArrayList<BufferedImage> boomdie_frames;
-    LinkedList<Group> head_group;
+    Group head_group;
     // String walk_name;
     // String attack_name;
     // String losthead_walk_name;
@@ -76,7 +76,7 @@ public abstract class Zombie extends Sprite{
     // String die_name;
     // String boomdie_name;
 
-    public Zombie(int x, int y, String name, int health, LinkedList<Group> head_group,int damage) {
+    public Zombie(int x, int y, String name, int health, Group head_group,int damage) {
         // super(this.frames.get(this.frame_index));
         super();
         this.name = name;
@@ -292,22 +292,22 @@ public abstract class Zombie extends Sprite{
             this.changeFrames(this.walk_frames);
         }
     }
-    // public void setAttack(Plant prey,Boolean is_plant) {
-    // this.prey = prey;
-    // // # prey can be plant||other zombies
-    // this.prey_is_plant = is_plant;
-    // this.state = Constants.ATTACK;
-    // this.attack_timer = this.current_time;
-    // this.animate_interval = 100
+    public void setAttack(Plant prey,Boolean is_plant) {
+        this.prey = prey;
+        // # prey can be plant||other zombies
+        this.prey_is_plant = is_plant;
+        this.state = Constants.ATTACK;
+        this.attack_timer = this.current_time;
+        this.animate_interval = 100;
 
-    // if (this.helmet) {
-    // this.changeFrames(this.helmet_attack_frames);
-    // }else if (this.losHead) {
-    // this.changeFrames(this.losthead_attack_frames);
-    // }else {
-    // this.changeFrames(this.attack_frames);
-    // }
-    // }
+        if (this.helmet) {
+            this.changeFrames(this.helmet_attack_frames);
+        }else if (this.losHead) {
+            this.changeFrames(this.losthead_attack_frames);
+        }else {
+            this.changeFrames(this.attack_frames);
+        }
+    }
     public void setDie() {
         this.state = Constants.DIE;
         this.animate_interval = 200;

@@ -56,7 +56,12 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
                 frameList.add(
                         new Tool.Img(fileIndex, Tool.loadImage(file.toAbsolutePath().toString(), 1, Constants.BLACK)));
             } catch (Exception e) {
-                System.out.println(file.getFileName()+" doesn't load into GFX.");
+                String fileName=file.getFileName().toString();
+                TreeSet<Tool.Img> frameList = new TreeSet<Tool.Img>();
+                result.put(fileName, frameList);
+                frameList.add(new Tool.Img(0,Tool.loadImage(file.toAbsolutePath().toString(), 1, Constants.BLACK)));
+                
+                System.out.println(fileName+" was loaded into  (TreeSet<Tool.Img>) Tool.GFX.get("+fileName+")");
 
             }
         }
@@ -193,7 +198,7 @@ public class Tool {
     }
 
     public static void main(String[] args) {
-        TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get("BucketheadZombie");
+        TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get("shovel.png");
         for (Tool.Img frame : frame_list) {
             BufferedImage rect = frame.image;
             int width = rect.getWidth();
