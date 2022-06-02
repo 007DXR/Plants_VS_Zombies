@@ -292,22 +292,22 @@ public abstract class Zombie extends Sprite{
             this.changeFrames(this.walk_frames);
         }
     }
-    // public void setAttack(Plant prey,Boolean is_plant) {
-    // this.prey = prey;
-    // // # prey can be plant||other zombies
-    // this.prey_is_plant = is_plant;
-    // this.state = Constants.ATTACK;
-    // this.attack_timer = this.current_time;
-    // this.animate_interval = 100
+    public void setAttack(Plant prey,Boolean is_plant) {
+        this.prey = prey;
+        // # prey can be plant||other zombies
+        this.prey_is_plant = is_plant;
+        this.state = Constants.ATTACK;
+        this.attack_timer = this.current_time;
+        this.animate_interval = 100;
 
-    // if (this.helmet) {
-    // this.changeFrames(this.helmet_attack_frames);
-    // }else if (this.losHead) {
-    // this.changeFrames(this.losthead_attack_frames);
-    // }else {
-    // this.changeFrames(this.attack_frames);
-    // }
-    // }
+        if (this.helmet) {
+            this.changeFrames(this.helmet_attack_frames);
+        }else if (this.losHead) {
+            this.changeFrames(this.losthead_attack_frames);
+        }else {
+            this.changeFrames(this.attack_frames);
+        }
+    }
     public void setDie() {
         this.state = Constants.DIE;
         this.animate_interval = 200;
