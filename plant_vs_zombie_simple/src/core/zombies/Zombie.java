@@ -68,7 +68,7 @@ public abstract class Zombie extends Sprite{
     ArrayList<BufferedImage> losthead_walk_frames;
     ArrayList<BufferedImage> losthead_attack_frames;
     ArrayList<BufferedImage> boomdie_frames;
-    LinkedList<Group> head_group;
+    Group head_group;
     // String walk_name;
     // String attack_name;
     // String losthead_walk_name;
@@ -76,7 +76,7 @@ public abstract class Zombie extends Sprite{
     // String die_name;
     // String boomdie_name;
 
-    public Zombie(int x, int y, String name, int health, LinkedList<Group> head_group,int damage) {
+    public Zombie(int x, int y, String name, int health, Group head_group,int damage) {
         // super(this.frames.get(this.frame_index));
         super();
         this.name = name;

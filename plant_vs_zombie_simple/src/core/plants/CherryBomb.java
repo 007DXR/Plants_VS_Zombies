@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class CherryBomb extends Plant{  
     boolean start_boom = false;
     long bomb_timer = 0;
-    double explode_y_range = 1.5*Constants.GRID_Y_SIZE;
-    double explode_x_range = 1.5*Constants.GRID_X_SIZE;
 
     public CherryBomb(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.CHERRYBOMB, 1);
+        explode_y_range = (int)(1.5*Constants.GRID_Y_SIZE);
+        explode_x_range = (int)(1.5*Constants.GRID_X_SIZE);
         setAttack();
     }
 

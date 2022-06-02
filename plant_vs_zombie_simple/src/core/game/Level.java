@@ -12,6 +12,8 @@ import core.Constants;
 import core.component.MenuBar;
 import core.component.Panel;
 import core.game.*;
+import core.zombies.*;
+import core.plants.*;;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -238,12 +240,6 @@ public class Level extends State {
 
         window.repaint();
     }
-    public void initBowlingMap() {
-        for (int x = 3; x < map.width; ++x)
-        for (int y = 0; y < map.height ; ++y) {
-            map.setMapGridType(x, y, c.MAP_EXIST);
-        }
-    }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
         if (mapData.optInt(c.CHOOSEBAR_TYPE, -1) != -1) {
@@ -263,9 +259,6 @@ public class Level extends State {
                 //识别这些名字对应的植物编号
             }*/
             //initPlay(cardPool.toArray(new int[cardPool.size()]));
-            if (barType == c.CHOSSEBAR_BOWLING) {
-                initBowlingMap();
-            }
         }
     }
     public void initChoose() {
@@ -364,7 +357,7 @@ public class Level extends State {
                 ArrayList<Integer> mapRandom = map.getRandomMapIndex();
                 ArrayList<Integer> mapPos = map
                     .getMapGridPos(mapRandom.get(0), mapRandom.get(1));
-                sunGroup.add(new Sun(mapPos.get(0), 0, mapPos.get(0), mapPos.get(1)));
+            //    sunGroup.add(new Sun(mapPos.get(0), 0, mapPos.get(0), mapPos.get(1)));
             }
         }
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
@@ -373,8 +366,9 @@ public class Level extends State {
                 if sun.checkCollision(mouse_pos[0], mouse_pos[1]):
                     menubar.increaseSunValue(sun.sun_value)*/
         }
-        for (Car car:cars):
+        for (Car car:cars) {
             car.update(list);
+        }
 
         //危险
         menubar.update((int)currentTime);
@@ -391,7 +385,7 @@ public class Level extends State {
         int y = Pos.get(1);
         if (name == c.NORMAL_ZOMBIE) {
             zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y, headGroup));
-        }
+        }/*
         else if (name == c.CONEHEAD_ZOMBIE) {
             zombieGroups.get(map_y).add(new ConeHeadZombie(c.ZOMBIE_START_X, y, headGroup));
         }
@@ -403,7 +397,7 @@ public class Level extends State {
         }
         else if (name == c.NEWSPAPER_ZOMBIE) {
             zombieGroups.get(map_y).add(new NewspaperZombie(c.ZOMBIE_START_X, y, headGroup));
-        }
+        } */
     }
     PaintItem hintImage;
     Rect hintRect;
@@ -424,7 +418,10 @@ public class Level extends State {
         ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
-        if (plantName == c.SUNFLOWER) {
+        if (plantName == c.WALLNUT) {
+            newPlant = new WallNut(x, y);
+        }/*
+        else if (plantName == c.SUNFLOWER) {
             newPlant = new SunFlower(x, y, sun_group);
         }
         else if (plantName == c.PEASHOOTER) {
@@ -432,9 +429,6 @@ public class Level extends State {
         }
         else if (plantName == c.SNOWPEASHOOTER) {
             newPlant = new SnowPeaShooter(x, y, bullet_groups[map_y]);
-        }
-        else if (plantName == c.WALLNUT) {
-            newPlant = new WallNut(x, y);
         }
         else if (plantName == c.CHERRYBOMB) {
             newPlant = new CherryBomb(x, y);
@@ -474,15 +468,9 @@ public class Level extends State {
         }
         else if (plantName == c.HYPNOSHROOM) {
             newPlant = new HypnoShroom(x, y);
-        }
-        else if (plantName == c.WALLNUTBOWLING) {
-            newPlant = new WallNutBowling(x, y, map_y, self);
-        }
-        else if (plantName == c.REDWALLNUTBOWLING) {
-            newPlant = new RedWallNutBowling(x, y);
-        }
+        }*/
 
-        if (newPlant.canSleep && backgroundType == c.BACKGROUND_DAY) {
+        if (newPlant.can_sleep && backgroundType == c.BACKGROUND_DAY) {
             newPlant.setSleep();
         }
         plantGroups.get(map_y).add(newPlant);
@@ -490,13 +478,9 @@ public class Level extends State {
             menubar.decreaseSunValue(selectPlant.sun_cost);
             menubar.setCardFrozenTime(plantName);
         }
-        else {
+/*        else {
             menubar.deleateCard(selectPlant);
-        }
-
-        if (barType != c.CHOSSEBAR_BOWLING) {
-            map.setMapGridType(map_x, map_y, c.MAP_EXIST);
-        }
+        }*/
         removeMouseImage();
 
     }
@@ -548,8 +532,7 @@ public class Level extends State {
         if (plantName == c.POTATOMINE || plantName == c.SQUASH ||
             plantName == c.SPIKEWEED || plantName == c.JALAPENO ||
             plantName == c.SCAREDYSHROOM || plantName == c.SUNSHROOM ||
-            plantName == c.ICESHROOM || plantName == c.HYPNOSHROOM ||
-            plantName == c.WALLNUTBOWLING || plantName == c.REDWALLNUTBOWLING) {
+            plantName == c.ICESHROOM || plantName == c.HYPNOSHROOM) {
             color = c.WHITE;
         }
         else {
@@ -576,8 +559,9 @@ public class Level extends State {
         // 0.7倍
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.7);
         for (int i = 0; i < map_y_len; ++i) {
-            for (Sprite bullet : bulletGroups.get(i).list)
-                if ( ((Bullet)bullet).state == c.FLY ) {
+            for (Sprite sprite : bulletGroups.get(i).list) {
+                Bullet bullet = (Bullet)sprite;
+                if ( bullet.state == c.FLY ) {
                     // 检测碰撞到的僵尸
                     Zombie zombie = (Zombie)bullet.spritecollideany(zombieGroups.get(i), collidedFunc);
                     if (zombie != null && zombie.state != c.DIE) {
@@ -585,16 +569,11 @@ public class Level extends State {
                         bullet.setExplode();
                     }
                 }
+            }
         }
     }
     public void checkZombieCollisions() {
-        double ratio;
-        if (this.barType == c.CHOSSEBAR_BOWLING) {
-            ratio = 0.6;
-        }
-        else {
-            ratio = 0.7;
-        }
+        double ratio = 0.7;
         CollidedFunc collidedFunc = new CircleCollidedFunc(ratio);
         for (int i = 0; i < map_y_len; ++i) {
             ArrayList<Zombie> hypoZombies = new ArrayList();
@@ -605,18 +584,7 @@ public class Level extends State {
                 }
                 Plant plant = (Plant)zombie.spritecollideany(this.plantGroups.get(i), collidedFunc);
                 if (plant != null) {
-                    if (plant.name == c.WALLNUTBOWLING) {
-                        if (plant.canHit(i)) {
-                            zombie.setDamage(c.WALLNUT_BOWLING_DAMAGE);
-                            plant.changeDirection(i);
-                        }
-                    }
-                    else if (plant.name == c.REDWALLNUTBOWLING) {
-                        if (plant.state == c.IDLE) {
-                            plant.setAttack();
-                        }
-                    }
-                    else if (plant.name != c.SPIKEWEED) {
+                    if (plant.name != c.SPIKEWEED) {
                         zombie.setAttack(plant);
                     }
                 }
@@ -644,16 +612,27 @@ public class Level extends State {
     public void checkCarCollisions() {
 
     }
-    public void boomZombies() {
-
+    public void boomZombies(int centerx, int map_y, int explode_y_range, int explode_x_range) {
+        for (int i = 0; i < this.map_y_len; ++i) {
+            if (abs(i - map_y) > y_range) {
+                continue;
+            }
+            for (Sprite sprite in self.zombie_groups[i]) {
+                if (abs(zombie.rect.centerx - x) <= x_range) {
+                    zombie.setBoomDie();
+                }
+            }
+        }
     }
-    public void freezeZombies() {
-
+    public void freezeZombies(Plant plant) {
+        for i in range(self.map_y_len):
+            for zombie in self.zombie_groups[i]:
+                if zombie.rect.centerx < c.SCREEN_WIDTH:
+                    zombie.setFreeze(plant.trap_frames[0])
     }
     public void killPlant(Plant plant) {
-        ArrayList<Integer> pos = plant.getPosition();
-        int x = pos.get(0);
-        int y = pos.get(1);
+        int x = plant.rect.left;
+        int y = plant.rect.top;
         ArrayList<Integer> mapPos = this.map.getMapIndex(x, y);
         int map_x = mapPos.get(0);
         int map_y = mapPos.get(1);
@@ -661,9 +640,8 @@ public class Level extends State {
             this.map.setMapGridType(map_x, map_y, c.MAP_EMPTY);
         }
         if (plant.name == c.CHERRYBOMB || plant.name == c.JALAPENO ||
-            (plant.name == c.POTATOMINE && ! plant.is_init) ||
-            plant.name == c.REDWALLNUTBOWLING) {
-            this.boomZombies(plant.rect.centerx, map_y, plant.explode_y_range,
+            (plant.name == c.POTATOMINE && ! plant.is_init) ) {
+            this.boomZombies(plant.rect.centerx(), map_y, plant.explode_y_range,
                             plant.explode_x_range);
         }
         else if (plant.name == c.ICESHROOM && plant.state != c.SLEEP) {

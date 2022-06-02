@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import core.game.*;
 
 public class NormalZombie extends Zombie{
-    public NormalZombie(int x,int y, LinkedList<Group> head_group){
+    public NormalZombie(int x,int y, Group head_group){
         super(x,y,Constants.NORMAL_ZOMBIE, Constants.NORMAL_HEALTH, head_group,1);
 
     }
