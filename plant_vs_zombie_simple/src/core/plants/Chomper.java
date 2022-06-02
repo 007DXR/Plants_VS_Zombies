@@ -52,7 +52,7 @@ public class Chomper extends Plant {
     public void setAttack(Zombie zombie, Zombie [] zombie_group){
         attack_zombie = zombie;
         this.zombie_group = zombie_group;
-        setAttack();
+        setState(Constants.ATTACK);
         changeFrames(attack_frames);
     }
 
