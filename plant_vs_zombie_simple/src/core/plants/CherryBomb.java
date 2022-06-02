@@ -2,16 +2,16 @@ package core.plants;
 
 import core.Constants;
 import core.zombies.Zombie;
+import core.*;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-
 public class CherryBomb extends Plant{  
     boolean start_boom = false;
     long bomb_timer = 0;
-    int explode_y_range = 3*Constants.GRID_Y_SIZE;
-    int explode_x_range = 3*Constants.GRID_X_SIZE;
+    double explode_y_range = 1.5*Constants.GRID_Y_SIZE;
+    double explode_x_range = 1.5*Constants.GRID_X_SIZE;
 
     public CherryBomb(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.CHERRYBOMB, 1);
@@ -21,11 +21,8 @@ public class CherryBomb extends Plant{
     public void setBoom(){
         /**
          * BufferedImage frame = tool.GFX[Constants.CHERRY_BOOM_IMAGE];
-         * this.rect = this.image.get_rect();
-         * 
-         * old_rect = this.rect
-         * this.image = tool.get_image(frame, image_x, 0, width, height, colorkey));
-         * this.rect = this.image.get_rect();
+         * Rect newRect = new Rect(frame, this.rect.left, this.rect.top);
+         * this.rect = newRect;
          * */
         start_boom = true;
     }
@@ -54,8 +51,8 @@ public class CherryBomb extends Plant{
     @Override
     public boolean canAttack(Zombie zombie){
         if(start_boom == true && 
-        Math.abs(zombie.x - x) <= explode_x_range &&
-        Math.abs(zombie.y - y) <= explode_y_range )
+        Math.abs(zombie.rect.centerx() - this.rect.centerx()) <= explode_x_range &&
+        Math.abs(zombie.rect.centery() - this.rect.centery()) <= explode_y_range )
             return true;
         else
             return false;

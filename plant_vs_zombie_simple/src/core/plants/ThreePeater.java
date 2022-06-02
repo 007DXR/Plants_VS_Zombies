@@ -28,8 +28,8 @@ class ThreePeaShooter extends Plant{
             for(int i = 0; i < 3; i++){
                 int tmp_y = this.map_y + (i-1); 
                 if (tmp_y < 0 || tmp_y >= Constants.GRID_YLEN){continue; }
-                int dest_y = this.y + (i-1) * Constants.GRID_Y_SIZE + offset_y; 
-                this.bullet_group.add(Bullet(this.x, this.y, dest_y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
+                int dest_y = this.rect.centery() + (i-1) * Constants.GRID_Y_SIZE + offset_y; 
+                this.bullet_group.add(Bullet(this.rect.left + this.rect.width(), this.rect.centery(), dest_y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
             }
             this.shoot_timer = this.current_time; 
         }
