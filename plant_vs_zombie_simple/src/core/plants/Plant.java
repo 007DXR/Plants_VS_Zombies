@@ -153,6 +153,11 @@ public class Plant extends Sprite{
     public void setAttack(){
         state = Constants.ATTACK;
     }
+    
+    public void setAttack(Zombie zombie, Zombie [] zombie_group){}
+    public void setAttack(Zombie [] zombie_group){}
+    
+    
     public void setIdle(){
         state = Constants.IDLE;
     }
