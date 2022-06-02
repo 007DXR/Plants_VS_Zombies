@@ -610,25 +610,43 @@ public class Level extends State {
         }
     }
     public void checkCarCollisions() {
-
+        CollidedFunc collidedFunc = new CircleCollidedFunc(0.8);
+        for (Car car :this.cars) {
+            ArrayList<Sprite> sprits = car.spritecollide(this.zombieGroups.get(car.map_y), false, collidedFunc);
+            for (Sprite sprite: sprits) {
+                Zombie zombie = (Zombie) sprite;
+                if (zombie != null && zombie.state != c.DIE) {
+                    car.setWalk();
+                    zombie.setDie();
+                }
+            }
+            if (car.dead) {
+                this.cars.remove(car);
+            }
+        }
     }
-    public void boomZombies(int centerx, int map_y, int explode_y_range, int explode_x_range) {
+    public void boomZombies(int x, int map_y, int y_range, int x_range) {
         for (int i = 0; i < this.map_y_len; ++i) {
-            if (abs(i - map_y) > y_range) {
+            if (Math.abs(i - map_y) > y_range) {
                 continue;
             }
-            for (Sprite sprite in self.zombie_groups[i]) {
-                if (abs(zombie.rect.centerx - x) <= x_range) {
+            for (Sprite sprite: this.zombieGroups.get(i).list) {
+                Zombie zombie = (Zombie)sprite;
+                if (Math.abs(zombie.rect.centerx() - x) <= x_range) {
                     zombie.setBoomDie();
                 }
             }
         }
     }
     public void freezeZombies(Plant plant) {
-        for i in range(self.map_y_len):
-            for zombie in self.zombie_groups[i]:
-                if zombie.rect.centerx < c.SCREEN_WIDTH:
-                    zombie.setFreeze(plant.trap_frames[0])
+        for (int i = 0; i < this.map_y_len; ++i) {
+            for (Sprite sprite: this.zombieGroups.get(i).list) {
+                Zombie zombie = (Zombie) sprite;
+                if (zombie.rect.centerx() < c.SCREEN_WIDTH) {
+                    zombie.setFreeze(((IceShroom)plant).trap_frames.get(0));
+                }
+            }
+        }
     }
     public void killPlant(Plant plant) {
         int x = plant.rect.left;
@@ -700,7 +718,7 @@ public class Level extends State {
         else if (plant.name == c.POTATOMINE) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if plant.canAttack(zombie) {
+                if (plant.canAttack(zombie)) {
                     plant.setAttack();
                     break;
                 }
@@ -709,25 +727,25 @@ public class Level extends State {
         else if (plant.name == c.SQUASH) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if plant.canAttack(zombie) {
-                    plant.setAttack(zombie, this.zombieGroups[i]);
+                if (plant.canAttack(zombie)) {
+                    plant.setAttack(zombie, this.zombieGroups.get(i));
                     break;
                 }
             }
         }
         else if (plant.name == c.SPIKEWEED) {
             canAttack = false;
-            for (Sprite sprite : this.zombieGroups.get(i).list) {
+            for (Sprite sprite: this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if plant.canAttack(zombie) {
-                    can_attack = true
+                if (plant.canAttack(zombie)) {
+                    canAttack = true
                     break;
                 }
             }
             if (plant.state == c.IDLE && canAttack) {
-                plant.setAttack(this.zombie_groups[i]);
+                plant.setAttack(this.zombieGroups.get(i));
             }
-            else if (plant.state == c.ATTACK && !can_attack) {
+            else if (plant.state == c.ATTACK && !canAttack) {
                 plant.setIdle();
             }
         }
@@ -737,19 +755,19 @@ public class Level extends State {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
                 if (plant.needCry(zombie)) {
-                    need_cry = true;
+                    needCry = true;
                     break;
                 }
                 else if (plant.canAttack(zombie)) {
-                    can_attack = true;
+                    canAttack = true;
                 }
             }
-            if (need_cry) {
+            if (needCry) {
                 if (plant.state != c.CRY) {
                     plant.setCry();
                 }
             }
-            else if (can_attack) {
+            else if (canAttack) {
                 if (plant.state != c.ATTACK) {
                     plant.setAttack();
                 }
@@ -758,17 +776,13 @@ public class Level extends State {
                 plant.setIdle();
             }
         }
-        else if(plant.name == c.WALLNUTBOWLING ||
-             plant.name == c.REDWALLNUTBOWLING) {
-            //do nothing
-        }
         else {
             canAttack = false;
             if (plant.state == c.IDLE && zombieLen > 0):
                 for (Sprite sprite : this.zombieGroups.get(i).list) {
                     Zombie zombie = (Zombie)sprite;
                     if (plant.canAttack(zombie)) {
-                        can_attack = true;
+                        canAttack = true;
                         break;
                     }
                 }
@@ -808,7 +822,7 @@ public class Level extends State {
         for (int i = 0; i < this.map_y_len; ++i) {
             for (Sprite sprite :this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if (zombie.rect.right < 0) {
+                if (zombie.rect.right() < 0) {
                     return true;
                 }
             }
@@ -843,31 +857,35 @@ public class Level extends State {
     public void drawZombieFreezeTrap(int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
             Zombie zombie = (Zombie)sprite;
-//            zombie.drawFreezeTrap(surface);
+            zombie.drawFreezeTrap(surface);
         }
     }
     public void draw() {
-        /*
         this.level.blit(this.background, this.viewport, this.viewport)
         surface.blit(this.level, (0,0), this.viewport)
-        if this.state == c.CHOOSE:
-            this.panel.draw(surface)
-        elif this.state == c.PLAY:
+        if (this.state == c.CHOOSE) {
+            this.panel.draw(surface);
+        }
+        else if (this.state == c.PLAY) {
             this.menubar.draw(surface)
-            for i in range(this.map_y_len):
-                this.plant_groups[i].draw(surface)
-                this.zombie_groups[i].draw(surface)
-                this.hypno_zombie_groups[i].draw(surface)
-                this.bullet_groups[i].draw(surface)
-                this.drawZombieFreezeTrap(i, surface)
-            for car in this.cars:
-                car.draw(surface)
-            this.head_group.draw(surface)
-            this.sun_group.draw(surface)
+            for (int i = 0; i < this.map_y_len; ++i) {
+                this.plantGroups.get(i).draw(surface);
+                this.zombieGroups.get(i).draw(surface);
+                this.hypnoZombieGroups.get(i).draw(surface);
+                this.bulletGroups.get(i).draw(surface);
+                this.drawZombieFreezeTrap(i, surface);
+            }
+            for (Sprite sprite: this.cars) {
+                Car car = (Car) sprite;
+                car.draw(surface);
+            }
+            this.headGroup.draw(surface)
+            this.sunGroup.draw(surface)
 
-            if this.drag_plant:
-                this.drawMouseShow(surface)
-                */
+            if (this.dragPlant) {
+                this.drawMouseShow(surface);
+            }
+        }
     }
     public static void main() {
     	Level level = new Level();

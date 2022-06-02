@@ -124,6 +124,8 @@ public class Plant extends Sprite{
     public void idling(){}
     public void attacking(){}
     public void digest(){}
+    public boolean needCry(Zombie zombie){return false;}
+    public void setCry(){}
 
 
 

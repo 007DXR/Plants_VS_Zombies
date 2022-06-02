@@ -12,7 +12,7 @@ public class IceShroom extends Plant {
     boolean start_freeze = false;
     int [] orig_pos;
     ArrayList<BufferedImage> snow_frames;
-    ArrayList<BufferedImage> trap_frames;
+    public ArrayList<BufferedImage> trap_frames;
     
     
     public IceShroom(int x, int y, boolean day){

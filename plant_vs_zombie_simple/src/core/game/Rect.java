@@ -24,6 +24,9 @@ public class Rect {
     public int width() {
         return image.getWidth();
     }
+    public int right() {
+        return left + width();
+    }
     public int bottom() {
         return top + height();
     }

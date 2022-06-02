@@ -70,6 +70,13 @@ public abstract class Sprite
         // 找不到
         return null;
     }
+    public ArrayList<Sprite> spritecollide(Group group, boolean doKill, CollidedFunc collidedFunc) {
+        ArrayList<Sprite> sprites = new ArrayList<>();
+        for(Sprite s: group.list) {
+            if (collidedFunc.collid(this, s)) sprites.add(s);
+        }
+        return sprites;
+    }
     public void update(ArrayList<Object> args) {
 
     }
