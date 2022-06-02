@@ -10,13 +10,13 @@ public class Rect {
     public Rect(BufferedImage image) {
         this.image = image;
         /// default;
-        left = 0;
-        top = 0;
+        this.left = 0;
+        this.top = 0;
     }
     public Rect(BufferedImage image, int left_, int top_) {
         this.image = image;
-        left = left_;
-        top = top_;
+        this.left = left_;
+        this.top = top_;
     }
     public int height() {
         return image.getHeight();
@@ -39,20 +39,35 @@ public class Rect {
     public int centery(double ratio) {
         return (int)((top + height() * ratio) / 2);
     }
+    public void adjusttop(int top) {
+        this.top = top;
+    }
+    public void adjustleft(int left) {
+        this.left = left;
+    }
+    public void adjustbt(int bottom) {
+        this.top = bottom - height();
+    }
+    public void adjustcx(int centerx) {
+        this.left = centerx * 2 - width();
+    }
+    public void adjustcy(int centery) {
+        this.top = centery * 2 - height();
+    }
     /// 给定相应属性，假定长宽正确，调整左上角坐标以适应
     public void adjust(int centerx, int bottom) {
-        left = centerx * 2 - width();
-        top = bottom - height();
+        adjustcx(centerx);
+        adjustbt(bottom);
     }
     /// 调整中中心位置，假定长宽确定，改变左上角点以适应
     public void adjustxy(int centerx, int centery) {
-        left = centerx * 2 - width();
-        top = centery * 2 - height();
+        adjustcx(centerx);
+        adjustcy(centery);
     }
     /// 调整画图的左上角坐标
     public void adjustlt(int left, int top) {
-        this.left = left;
-        this.top = top;
+        adjustleft(left);
+        adjusttop(top);
     }
     public boolean intersect(Rect y, double ratio) {
         double xa,ya,wxa,wya;

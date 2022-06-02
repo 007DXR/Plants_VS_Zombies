@@ -14,7 +14,7 @@ import core.Constants;
 import core.*;
 
 
-class Bullet extends Sprite{
+public class Bullet extends Sprite{
     public int damage; 
     public boolean ice; 
     //public int x;
