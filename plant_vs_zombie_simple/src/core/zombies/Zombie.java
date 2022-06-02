@@ -331,12 +331,12 @@ public abstract class Zombie extends Sprite{
 
     }
 
-    // public void drawFreezeTrap() {
-    // if (this.state == Constants.FREEZE) {
-
-    // surface.blit(this.ice_trap_image, this.ice_trap_rect);
-    // }
-    // }
+    public void drawFreezeTrap(Surface surface) {
+        if (this.state == Constants.FREEZE) {
+            Sprite ice_trap = new Sprite();
+            surface.add(this.ice_trap_image, this.ice_trap_rect);
+        }
+    }
     public void setHypno() {
         this.is_hypno = true;
         this.setWalk();

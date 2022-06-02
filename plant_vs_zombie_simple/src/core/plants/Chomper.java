@@ -3,6 +3,7 @@ package core.plants;
 import core.*;
 import core.zombies.*;
 import core.Constants;
+import core.game.Group;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class Chomper extends Plant {
     long digest_timer = 0;
     long digest_interval = 15000;
     Zombie attack_zombie = null;
-    Zombie [] zombie_group = null;
+    Group zombie_group = null;
     ArrayList<BufferedImage> digest_frames;
     ArrayList<BufferedImage> attack_frames;
 
@@ -49,7 +50,7 @@ public class Chomper extends Plant {
     }
 
    
-    public void setAttack(Zombie zombie, Zombie [] zombie_group){
+    public void setAttack(Zombie zombie, Group zombie_group){
         attack_zombie = zombie;
         this.zombie_group = zombie_group;
         setState(Constants.ATTACK);

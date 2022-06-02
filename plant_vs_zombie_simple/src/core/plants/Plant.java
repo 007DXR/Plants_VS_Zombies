@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import core.Constants;
 import core.*;
 import core.zombies.*;
+import core.game.Group;
 import core.game.Rect;
 import core.game.Sprite; 
 
@@ -154,8 +155,8 @@ public class Plant extends Sprite{
         state = Constants.ATTACK;
     }
     
-    public void setAttack(Zombie zombie, Zombie [] zombie_group){}
-    public void setAttack(Zombie [] zombie_group){}
+    public void setAttack(Zombie zombie, Group zombie_group){}
+    public void setAttack(Group zombie_group){}
     
     
     public void setIdle(){

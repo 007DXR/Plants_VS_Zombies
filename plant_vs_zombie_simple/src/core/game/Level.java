@@ -585,7 +585,7 @@ public class Level extends State {
                 Plant plant = (Plant)zombie.spritecollideany(this.plantGroups.get(i), collidedFunc);
                 if (plant != null) {
                     if (plant.name != c.SPIKEWEED) {
-                        zombie.setAttack(plant);
+                        zombie.setAttack(plant, true);
                     }
                 }
             }
@@ -696,7 +696,7 @@ public class Level extends State {
                 if (zombieLen > 0) {
                     // do nothing
                 }
-                else if ((i-1) >= 0 && this.zombieGroups.get(i-1).size()) > 0) {
+                else if ((i-1) >= 0 && this.zombieGroups.get(i-1).size() > 0) {
                     // do nothing
                 }
                 else if ((i+1) < this.map_y_len && this.zombieGroups.get(i+1).size() > 0) {
@@ -715,6 +715,7 @@ public class Level extends State {
                     break;
                 }
             }
+        }
         else if (plant.name == c.POTATOMINE) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
@@ -738,7 +739,7 @@ public class Level extends State {
             for (Sprite sprite: this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
                 if (plant.canAttack(zombie)) {
-                    canAttack = true
+                    canAttack = true;
                     break;
                 }
             }
@@ -778,7 +779,7 @@ public class Level extends State {
         }
         else {
             canAttack = false;
-            if (plant.state == c.IDLE && zombieLen > 0):
+            if (plant.state == c.IDLE && zombieLen > 0) {
                 for (Sprite sprite : this.zombieGroups.get(i).list) {
                     Zombie zombie = (Zombie)sprite;
                     if (plant.canAttack(zombie)) {
@@ -786,6 +787,7 @@ public class Level extends State {
                         break;
                     }
                 }
+            }
             if (plant.state == c.IDLE && canAttack) {
                 plant.setAttack();
             }
