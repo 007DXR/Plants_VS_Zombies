@@ -37,7 +37,7 @@ public class Spikeweed extends Plant{
     }
 
     
-    public void setAttack(Zombie [] zombie_group){
+    public void setAttack(Zombie zombie, Group zombie_group){
         this.zombie_group = zombie_group;
         animate_interval = 50;
         setState(Constants.ATTACK);
