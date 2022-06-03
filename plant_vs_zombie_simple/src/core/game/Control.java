@@ -80,12 +80,6 @@ public class Control {
             if event.type == pg.QUIT {
                 this.done = true;
             }
-            else if event.type == pg.KEYDOWN {
-                this.keys = pg.key.get_pressed();
-            }
-            else if event.type == pg.KEYUP {
-                this.keys = pg.key.get_pressed();
-            }
             else if event.type == pg.MOUSEBUTTONDOWN {
                 this.mouse_pos = pg.mouse.get_pos();
                 this.mouse_click[0], _, this.mouse_click[1] = pg.mouse.get_pressed();

@@ -35,8 +35,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 
-class c extends Constants {}
-
 class ZombieListItem {
     public int time;
     public String name;
@@ -88,8 +86,6 @@ class RectCollidedFunc extends CollidedFunc
 public class Level extends State {
     ///temporary;
     int mouseX,mouseY;
-    JSONObject gameInfo;
-    JSONObject persist;
     int map_y_len;
     int backgroundType;
     Sprite background;
@@ -104,7 +100,7 @@ public class Level extends State {
     MenuBar menubar;
     JFrame window;
     /// elements added into surface
-    Graphics surface;
+    JPanel surface;
 
     /// work in map directory
     private Path rootDir = Paths.get("resources/data/map");
@@ -113,17 +109,19 @@ public class Level extends State {
         super();
     }
     /// 初始化
-    public void startUp(double currentTime, JSONObject persist) {
+    public void startUp(int current_time, JSONObject persist) {
         //activate window
-        window = new JFrame();
-        surface = window.getGraphics();
+        this.current_time = current_time;
+        window = Main.window;
+        surface = Main.surface;
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(816, 638);
+        window.add(surface);
 
-        gameInfo = persist;
+        game_info = persist;
         this.persist = persist;
-        gameInfo.remove(c.CURRENT_TIME);
-        gameInfo.put(c.CURRENT_TIME, currentTime);
+        game_info.remove(c.CURRENT_TIME);
+        game_info.put(c.CURRENT_TIME, current_time);
         map_y_len = c.GRID_Y_LEN;
         map = new GameMap(c.GRID_X_LEN, map_y_len);
         mapData = new JSONObject();
@@ -136,7 +134,7 @@ public class Level extends State {
     }
     /// 读入map文件信息
     public void loadMap() {
-        String filePath = "level" + (int)gameInfo.get(c.LEVEL_NUM) + ".json";
+        String filePath = "level" + (int)game_info.get(c.LEVEL_NUM) + ".json";
         mapData = loadJsonFile(filePath);
     }
     Rect bgRect;
@@ -205,9 +203,9 @@ public class Level extends State {
             cars.add(new Car(-25, y+20, i));
         }
     }
-    public void update(int time,ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
-        currentTime = time;
-        gameInfo.put(c.CURRENT_TIME, time);
+    public void update(Graphics g,int time,ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
+        current_time = time;
+        game_info.put(c.CURRENT_TIME, time);
         if (state == c.CHOOSE) {
             choose(mousePos, mouseClick);
         } else if(state == c.PLAY) {
@@ -269,7 +267,7 @@ public class Level extends State {
         else {
             produceSun = false;
         }
-        sunTimer = currentTime;
+        sunTimer = current_time;
 
         removeMouseImage();
         setupGroups();
@@ -279,17 +277,17 @@ public class Level extends State {
     
     public void play(ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
         if (zombieStartTime == 0.0) {
-            zombieStartTime = currentTime;
+            zombieStartTime = current_time;
         }
         else if(zombieList.size() > 0) {
             ZombieListItem data = zombieList.get(0);
-            if (data.time <= (currentTime - zombieStartTime)) {
+            if (data.time <= (current_time - zombieStartTime)) {
                 createZombie(data.name, data.map_y);
                 zombieList.remove(data);
             }
         }
         ArrayList<Object> list = new ArrayList<>();
-        list.add(gameInfo);
+        list.add(game_info);
         for (int i = 0; i < map_y_len; ++i) {
             bulletGroups.get(i).update(list);
             plantGroups.get(i).update(list);
@@ -328,8 +326,8 @@ public class Level extends State {
             }
         }
         if (produceSun) {
-            if ((currentTime - sunTimer) > c.PRODUCE_SUN_INTERVAL) {
-                sunTimer = currentTime;
+            if ((current_time - sunTimer) > c.PRODUCE_SUN_INTERVAL) {
+                sunTimer = current_time;
                 ArrayList<Integer> mapRandom = map.getRandomMapIndex();
                 ArrayList<Integer> mapPos = map
                     .getMapGridPos(mapRandom.get(0), mapRandom.get(1));
@@ -347,7 +345,7 @@ public class Level extends State {
         }
 
         //危险
-        menubar.update((int)currentTime);
+//        menubar.update((int)current_time);
 
         checkBulletCollisions();
         checkZombieCollisions();
@@ -471,7 +469,7 @@ public class Level extends State {
             int height = mouseRect.height();
             //画图并保存属性;
             hintImage = new Sprite(mouseImage.rect.image);
-            hintImage.paintObject(surface);
+            hintImage.paintObject(surface.getGraphics());
 //            Tool.setColorkey(c.BLACK)
             Tool.adjustAlpha(hintImage.rect.image, new Color(128));
             hintRect = hintImage.rect;
@@ -814,8 +812,8 @@ public class Level extends State {
     boolean done;
     public void checkGameState() {
         if (this.checkVictory()) {
-            int level = this.gameInfo.getInt(c.LEVEL_NUM);
-            this.gameInfo.put(c.LEVEL_NUM, level + 1);
+            int level = this.game_info.getInt(c.LEVEL_NUM);
+            this.game_info.put(c.LEVEL_NUM, level + 1);
             this.next = c.GAME_VICTORY;
             this.done = true;
         }
@@ -826,13 +824,13 @@ public class Level extends State {
     }
     public void drawMouseShow() {
         if (this.hintPlant) {
-            hintImage.paintObject(surface);;
+            hintImage.paintObject(surface.getGraphics());;
         }
         int x = this.mouseX;
         int y = this.mouseY;
         this.mouseImage.rect.adjustcx(x);
         this.mouseImage.rect.adjustcy(y);
-        mouseImage.paintObject(surface);;
+        mouseImage.paintObject(surface.getGraphics());;
     }
     public void drawZombieFreezeTrap(int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
@@ -842,27 +840,27 @@ public class Level extends State {
     }
     public void draw() {
         level = new Sprite(background.rect.image);
-        level.paintObject(surface);
+        level.paintObject(surface.getGraphics());
 //        self.level.blit(self.background, self.viewport, self.viewport)
 //        surface.blit(this.level, (0,0), this.viewport)
         if (this.state == c.CHOOSE) {
-            this.panel.paintObject(surface);
+            this.panel.paintObject(surface.getGraphics());
         }
         else if (this.state == c.PLAY) {
-            this.menubar.paintObject(surface);
+            this.menubar.paintObject(surface.getGraphics());
             for (int i = 0; i < this.map_y_len; ++i) {
-                this.plantGroups.get(i).paintObject(surface);
-                this.zombieGroups.get(i).paintObject(surface);
-                this.hypnoZombieGroups.get(i).paintObject(surface);
-                this.bulletGroups.get(i).paintObject(surface);
+                this.plantGroups.get(i).paintObject(surface.getGraphics());
+                this.zombieGroups.get(i).paintObject(surface.getGraphics());
+                this.hypnoZombieGroups.get(i).paintObject(surface.getGraphics());
+                this.bulletGroups.get(i).paintObject(surface.getGraphics());
                 this.drawZombieFreezeTrap(i);
             }
             for (Sprite sprite: this.cars) {
                 Car car = (Car) sprite;
-                car.paintObject(surface);
+                car.paintObject(surface.getGraphics());
             }
-            this.headGroup.paintObject(surface);
-            this.sunGroup.paintObject(surface);
+            this.headGroup.paintObject(surface.getGraphics());
+            this.sunGroup.paintObject(surface.getGraphics());
 
             if (this.dragPlant) {
                 this.drawMouseShow();

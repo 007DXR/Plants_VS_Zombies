@@ -10,8 +10,10 @@ import core.json.JSONObject;
 public class Main {
     public static Control game;
     public static JFrame window;
+    public static JPanel surface;
     public static void main() {
         window = new JFrame();
+        surface = new JPanel();
         game = new Control(window);
         JSONObject state_dict = new JSONObject();
         state_dict.put(c.MAIN_MENU, new MainMenu());
