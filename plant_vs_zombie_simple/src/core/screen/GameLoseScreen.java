@@ -1,15 +1,16 @@
-public class GameLoseScreen {
+public class GameLoseScreen extends Screen {
     
     public void GameLoseScreen() {
         super();
     }
     
-    public void getImageName(self) {
+    public String getImageName() {
         return c.GAME_LOOSE_IMAGE;
     }
     
-    def set_next_state(self):
-        return c.MAIN_MENU
+    public String set_next_state() {
+        return c.MAIN_MENU;
+    }
 }
 
 class c extends Constants {};
