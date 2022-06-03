@@ -196,7 +196,7 @@ public class Level extends State {
             cars.add(new Car(-25, y+20, i));
         }
     }
-    public void update(Graphics g,int time,ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
+    public void update(int time,ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         current_time = time;
         game_info.put(c.CURRENT_TIME, time);
         if (state == c.CHOOSE) {

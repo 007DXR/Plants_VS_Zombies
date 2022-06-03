@@ -32,6 +32,5 @@ public class test {
         state_array.add(c.GAME_LOSE);
         state_array.add(c.LEVEL);
         game.setup_states(state_dict, state_array, c.MAIN_MENU);
-        game.main();
     }
 }

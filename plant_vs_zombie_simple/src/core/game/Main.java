@@ -1,13 +1,8 @@
 package core.game;
 
-<<<<<<< HEAD
 import java.util.*;
 
 import javax.swing.*;
-=======
-import javax.swing.JFrame;
-import javax.swing.JPanel;
->>>>>>> 49ed4f85861decd55a9eda8e82c8612b7b2a8188
 
 import core.json.JSONObject;
 
@@ -20,14 +15,14 @@ public class Main {
     public static void main() {
         window = new JFrame();
         surface = new JPanel();
-        game = new Control(window);
+        game = new Control();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(816, 638);
         window.add(surface);
         window.setVisible(true);
         window.repaint();
         JSONObject state_dict = new JSONObject();
-        state_dict.put(c.MAIN_MENU, new MainMenu());
+        // state_dict.put(c.MAIN_MENU, new MainMenu());
         // state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
         // state_dict.put(c.GAME_LOSE, new GameLoseScreen());
         state_dict.put(c.LEVEL, new Level());
@@ -36,7 +31,6 @@ public class Main {
         state_array.add(c.GAME_VICTORY);
         state_array.add(c.GAME_LOSE);
         state_array.add(c.LEVEL);
-        // game.setup_states(state_dict, state_array, c.MAIN_MENU);
-        // game.main();
+        game.setup_states(state_dict, state_array, c.MAIN_MENU);
     }
 }
