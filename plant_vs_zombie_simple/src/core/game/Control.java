@@ -7,6 +7,7 @@ import core.json.JSONObject;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,9 +17,9 @@ public class Control{
     public boolean done;
     public int clock;
     public int fps;
-    public ArrayList<Integer> mousePos;
+    public ArrayList<Integer> mousePos = new ArrayList<>(Arrays.asList(0, 0));
     // pair, [0]get left pressed state, [1] get right pressed state
-    public ArrayList<Boolean> mouseClick;
+    public ArrayList<Boolean> mouseClick = new ArrayList<>(Arrays.asList(false, false));
     public int current_time;
     public JSONObject state_dict;
     /// state name array
@@ -32,8 +33,6 @@ public class Control{
         this.done = false;
         this.clock = (int)System.currentTimeMillis();
         this.fps = 60;
-        this.mousePos = null;
-        this.mouseClick = null;
         this.current_time = this.clock;
         this.state_dict = new JSONObject();
         this.state_array = new ArrayList<>();
