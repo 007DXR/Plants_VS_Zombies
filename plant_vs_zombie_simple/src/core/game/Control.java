@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Control extends JPanel{
+public class Control{
     public int state_index;
     public boolean done;
     public int clock;
@@ -32,8 +32,6 @@ public class Control extends JPanel{
         this.done = false;
         this.clock = (int)System.currentTimeMillis();
         this.fps = 60;
-//        this.keys = pg.key.get_pressed();
-        // value:[left mouse click, right mouse click];
         this.mousePos = null;
         this.mouseClick = null;
         this.current_time = this.clock;
@@ -61,10 +59,6 @@ public class Control extends JPanel{
             this.flip_state();
         }
         this.state.update(this.current_time, this.mousePos, this.mouseClick);
-        this.mousePos = null;
-        mouseClick = new ArrayList<>();
-        mouseClick.add(false);
-        mouseClick.add(false);
     }
 
     public void flip_state() {

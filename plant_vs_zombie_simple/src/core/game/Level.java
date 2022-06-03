@@ -124,7 +124,7 @@ public class Level extends State {
     }
     /// 读入map文件信息
     public void loadMap() {
-        String filePath = "level" + (int)game_info.get(c.LEVEL_NUM) + ".json";
+        String filePath = "level_" + (int)game_info.get(c.LEVEL_NUM) + ".json";
         mapData = loadJsonFile(filePath);
     }
     Rect bgRect;

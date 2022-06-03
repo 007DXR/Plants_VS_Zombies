@@ -1,6 +1,7 @@
 package core.game;
 
 import java.util.*;
+import java.util.Timer;
 
 import javax.swing.*;
 
@@ -18,7 +19,7 @@ public class Main extends JPanel{
     public static int y;
 
     
-    public static void main() {
+    public static void main(String[] args) {
         window = new JFrame();
         surface = new Main();
         window.add(surface);
@@ -29,6 +30,8 @@ public class Main extends JPanel{
         window.setVisible(true);
         window.repaint();
         JSONObject state_dict = new JSONObject();
+        // 计时器
+        int current_time = (int)System.currentTimeMillis();
         // state_dict.put(c.MAIN_MENU, new MainMenu());
         // state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
         // state_dict.put(c.GAME_LOSE, new GameLoseScreen());
@@ -63,13 +66,29 @@ public class Main extends JPanel{
         state_array.add(c.GAME_VICTORY);
         state_array.add(c.GAME_LOSE);
         state_array.add(c.LEVEL);
-        game.setup_states(state_dict, state_array, c.MAIN_MENU);
+        game.setup_states(state_dict, state_array, c.LEVEL);
         
-        while (true) {
-            left_click = false;
-            right_click = false;
-            game.event_loop(x, y, left_click, right_click);
-            game.update();
-        }
+        // while (true) {
+        //     left_click = false;
+        //     right_click = false;
+        //     game.event_loop(x, y, left_click, right_click);
+        //     game.update();
+        //     window.repaint();
+
+        // }
+
+        // 定时运行
+        Timer timer = new Timer();
+        int interval = 10;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                left_click = false;
+                right_click = false;
+                game.event_loop(x, y, left_click, right_click);
+                game.update();
+                window.repaint();
+            }
+        }, interval, interval);
     }
 }
