@@ -9,10 +9,10 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Control {
+public class Control extends JPanel{
     public int state_index;
-    public JFrame screen;
     public boolean done;
     public int clock;
     public int fps;
@@ -27,9 +27,8 @@ public class Control {
     public State state;
     public JSONObject game_info;
 
-    public Control(JFrame g) {
+    public Control() {
         this.state_index = 0;
-        this.screen = g;
         this.done = false;
         this.clock = (int)System.currentTimeMillis();
         this.fps = 60;
@@ -61,7 +60,7 @@ public class Control {
         if (this.state.done) {
             this.flip_state();
         }
-        this.state.update(this.screen, this.current_time, this.mouse_pos, this.mouse_click);
+        this.state.update(this.current_time, this.mousePos, this.mouseClick);
         this.mousePos = null;
         mouseClick = new ArrayList<>();
         mouseClick.add(false);
@@ -75,28 +74,23 @@ public class Control {
         this.state.startup(this.current_time, persist);
     }
 
-    public void event_loop() {
-        for event in pg.event.get() {
-            if event.type == pg.QUIT {
-                this.done = true;
-            }
-            else if event.type == pg.MOUSEBUTTONDOWN {
-                this.mouse_pos = pg.mouse.get_pos();
-                this.mouse_click[0], _, this.mouse_click[1] = pg.mouse.get_pressed();
-                System.out.println("pos:", this.mouse_pos, " mouse:", this.mouse_click);
-            }
-        }
+    // 更新鼠标状况
+    public void event_loop(int x, int y, boolean left_click, boolean right_click) {
+        mousePos.set(0, x);
+        mousePos.set(1, y);
+        mouseClick.set(0, left_click);
+        mouseClick.set(1, right_click);
     }
 
-    public void main() {
-        while (!this.done) {
-            this.event_loop();
-            this.update();
-            screen.repaint();
-//            this.clock.tick(this.fps);
-        }
-        System.out.println("game over");
-    }
+//     public void main() {
+//         while (!this.done) {
+//             // this.event_loop();
+//             this.update();
+//             screen.repaint();
+// //            this.clock.tick(this.fps);
+//         }
+//         System.out.println("game over");
+//     }
 }
 
 class c extends Constants {};

@@ -98,7 +98,6 @@ public class Level extends State {
     ArrayList<Card> cardPool;
     Panel panel;
     MenuBar menubar;
-    JFrame window;
     /// elements added into surface
     JPanel surface;
 
@@ -112,12 +111,7 @@ public class Level extends State {
     public void startup(int current_time, JSONObject persist) {
         //activate window
         this.current_time = current_time;
-        window = Main.window;
         surface = Main.surface;
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(816, 638);
-        window.add(surface);
-
         game_info = persist;
         this.persist = persist;
         game_info.remove(c.CURRENT_TIME);
@@ -128,9 +122,6 @@ public class Level extends State {
         loadMap();
         setupBackgroud();
         initState();
-
-        window.setVisible(true);
-        window.repaint();
     }
     /// 读入map文件信息
     public void loadMap() {
@@ -203,7 +194,7 @@ public class Level extends State {
             cars.add(new Car(-25, y+20, i));
         }
     }
-    public void update(Graphics g,int time,ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
+    public void update(int time,ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         current_time = time;
         game_info.put(c.CURRENT_TIME, time);
         if (state == c.CHOOSE) {
@@ -211,8 +202,6 @@ public class Level extends State {
         } else if(state == c.PLAY) {
             play(mousePos, mouseClick);
         }
-
-        window.repaint();
     }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
@@ -239,8 +228,8 @@ public class Level extends State {
         state = c.CHOOSE;
         panel = new Panel(c.all_card_list, mapData.optInt(c.INIT_SUN_NAME, 50));
     }
-    public void choose(ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
-        if (!mousePos.isEmpty() && mouseClick.size() > 0) {
+    public void choose(ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
+        if (!mousePos.isEmpty() && mouseClick.get(0)==true) {
             panel.checkCardClick(mousePos.get(0), mousePos.get(1));
             if (panel.checkStartButtonClick(mousePos.get(0), mousePos.get(1))) {
                 initPlay(panel.getSelectedCards());
@@ -275,7 +264,7 @@ public class Level extends State {
         setupCars();
     }
     
-    public void play(ArrayList<Integer> mousePos, ArrayList<Integer> mouseClick) {
+    public void play(ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         if (zombieStartTime == 0.0) {
             zombieStartTime = current_time;
         }
@@ -303,17 +292,17 @@ public class Level extends State {
         headGroup.update(list);
         sunGroup.update(list);
         
-        if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
+        if (!dragPlant && !mousePos.isEmpty() && mouseClick.get(0)==true) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
             if (result != null) {
                 setupMouseImage(c.plant_name_list[result.name_index], result);
             }
         }
         else if (dragPlant) {
-            if (mouseClick.size() > 1) {
+            if (mouseClick.get(1)==true) {
                 removeMouseImage();
             }
-            else if (mouseClick.size() > 0) {
+            else if (mouseClick.get(0)==true) {
                 if (menubar.checkMenuBarClick(mousePos.get(0), mousePos.get(1))) {
                     removeMouseImage();
                 }
@@ -835,7 +824,7 @@ public class Level extends State {
     public void drawZombieFreezeTrap(int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
             Zombie zombie = (Zombie)sprite;
-            zombie.drawFreezeTrap(window.getGraphics());
+            zombie.drawFreezeTrap(surface.getGraphics());
         }
     }
     public void draw() {
