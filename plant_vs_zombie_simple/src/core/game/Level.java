@@ -874,10 +874,5 @@ public class Level extends State {
         return null;
 
     }
-    @Override
-    public void update(Graphics surface, ArrayList<Integer> mousePos, int current_time) {
-        // TODO Auto-generated method stub
-        
-    }
    
 }
