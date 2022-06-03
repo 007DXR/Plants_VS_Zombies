@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import core.json.JSONObject;
 
-public abstract class State {
+public class State {
     public int start_time;
     public int current_time;
     public int end_time;
@@ -13,6 +13,7 @@ public abstract class State {
     public State next;
     public JSONObject persist;
     public JSONObject game_info;
+
     
     public void State() {
         start_time = 0;
@@ -23,8 +24,8 @@ public abstract class State {
         //not initialize persist
     }
     
-    abstract public void update(Graphics surface, ArrayList<Integer> mousePos, int current_time);
-    abstract public void startUp(int currentTime, JSONObject persist);
+    public void update(Graphics surface, ArrayList<Integer> mousePos, int current_time) {}
+    public void startUp(int currentTime, JSONObject persist) {}
     public JSONObject cleanUp() {
         done = false;
         return persist;
