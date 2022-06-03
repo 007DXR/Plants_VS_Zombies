@@ -6,11 +6,13 @@ import core.Constants;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TreeSet;
+import core.game.Group;
+import core.game.Sprite;
 
 public class Spikeweed extends Plant{
     long attack_timer = 0;
     long animate_interval = 200;
-    Zombie [] zombie_group;
+    Group zombie_group;
   
     public Spikeweed(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.SPIKEWEED, 1);
@@ -47,9 +49,10 @@ public class Spikeweed extends Plant{
     public void attacking(){
         if(current_time - attack_timer > 2000){
             attack_timer = current_time;
-            for(Zombie zombie: zombie_group){
-                if(canAttack(zombie))
-                    zombie.setDamage(1, false);
+            for(Sprite zombie: zombie_group.list){
+                Zombie zombiee = (Zombie)zombie; 
+                if(canAttack(zombiee))
+                    zombiee.setDamage(1, false);
             }
         }
     }

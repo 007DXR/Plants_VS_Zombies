@@ -6,8 +6,11 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 import core.game.PaintItf;
 
+
+import core.Tool;
 public class Panel 
     implements PaintItf{
+
     public ArrayList<Card> selected_cards = new ArrayList<>();
     public ArrayList<Card> card_list = new ArrayList<>();
     public int selected_num = 0;
@@ -43,12 +46,12 @@ public class Panel
         String root = "resources/graphics/Screen/";
 
         String menu_image_path = root + c.MENUBAR_BACKGROUND+".png";
-        menu_image = Card.loadImage(menu_image_path, 1.0, c.WHITE);
+        menu_image = Tool.loadImage(menu_image_path, 1.0, c.WHITE);
         menu_width = menu_image.getWidth();
         menu_height = menu_image.getHeight();
 
         String panel_image_path = root + c.PANEL_BACKGROUND+".png";
-        panel_image = Card.loadImage(panel_image_path, 1.0, c.WHITE);
+        panel_image = Tool.loadImage(panel_image_path, 1.0, c.WHITE);
         panel_width = panel_image.getWidth();
         panel_height = panel_image.getHeight();
 
@@ -58,7 +61,7 @@ public class Panel
         value_height = value_image.getHeight();
 
         String button_image_path = root + c.START_BUTTON+".png";
-        button_image = Card.loadImage(button_image_path, 1.0, c.WHITE);
+        button_image = Tool.loadImage(button_image_path, 1.0, c.WHITE);
         button_width = button_image.getWidth();
         button_height = button_image.getHeight();
     }

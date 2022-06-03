@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 
 import core.Constants;
 
+import core.Tool;
+
 public class Card {
     // 卡片在画布中的位置
     public int x;
@@ -33,7 +35,7 @@ public class Card {
         frozen_timer = -frozen_time;
         name = c.card_name_list[name_index];
         // image = loadImage("../resources/graphics/Cards/" + name + ".png");
-        orig_image = loadImage("resources/graphics/Cards/" + name + ".png",scale, c.BLACK);
+        orig_image = Tool.loadImage("resources/graphics/Cards/" + name + ".png",scale, c.BLACK);
         image = orig_image;
         width = image.getWidth();
         height = image.getHeight();
@@ -45,19 +47,6 @@ public class Card {
             return true;
         else
             return false;
-    }
-    
-    // 加载图片
-    public static BufferedImage loadImage(String filename, double scale, Color color) {
-        try {
-            BufferedImage img = ImageIO.read(new File(filename));
-            img = resize(img, scale);
-            img = adjustAlpha(img, color);
-            return img;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
     }
     
     // 判断能否选中
@@ -76,9 +65,9 @@ public class Card {
     public void setSelect(boolean can_select) {
         select = can_select;
         if (can_select)
-            image = adjustBrightness(orig_image, 255);
+            image = Tool.adjustBrightness(orig_image, 255);
         else
-            image = adjustBrightness(orig_image, 128);
+            image = Tool.adjustBrightness(orig_image, 128);
     }
     
     // 进入冷却
@@ -107,7 +96,7 @@ public class Card {
                 }
             }
         } else if (sun_cost > sun_value) {
-            output = adjustBrightness(orig_image, 192);
+            output = Tool.adjustBrightness(orig_image, 192);
         } else {
             output = orig_image;
         }
@@ -122,67 +111,10 @@ public class Card {
         }
     }
 
-    // 调整亮度
-    public BufferedImage adjustBrightness(BufferedImage image_, int alpha) {
-        int width = image_.getWidth();
-        int height = image_.getHeight();
-        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        for (int j1 = 0; j1 < height; ++j1) {
-            for (int j2 = 0; j2 < width; ++j2) {
-                int rgb = image_.getRGB(j2, j1);
-                int R, G, B;
-                R = ((rgb >> 16) & 0xff) * alpha / 256;
-                G = ((rgb >> 8) & 0xff) * alpha / 256;
-                B = (rgb & 0xff) * alpha / 256;
-                rgb = ((255 & 0xff) << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | ((B & 0xff));
-                output.setRGB(j2, j1, rgb);
-            }
-        }
-        return output;
-    }
     
     // 画图片
     public void paintObject(Graphics g) {
         g.drawImage(image, x, y, null);
-    }
-
-    // 图片缩放
-    public static BufferedImage resize(BufferedImage image_, double scale) {
-        int width = image_.getWidth();
-        int height = image_.getHeight();
-        int nwidth = (int) (width * scale);
-        int nheight = (int) (height * scale);
-
-        Image img2 = image_.getScaledInstance(nwidth, nheight, Image.SCALE_DEFAULT);
-        BufferedImage output = new BufferedImage(nwidth, nheight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics = output.createGraphics();
-        graphics.drawImage(img2, 0, 0, null);
-        graphics.dispose();
-        return output;
-    }
-
-    // 指定颜色透明化
-    public static BufferedImage adjustAlpha(BufferedImage image_, Color color) {
-        int width = image_.getWidth();
-        int height = image_.getHeight();
-        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-        for (int j = 0; j < height; ++j) {
-            for (int i = 0; i < width; ++i) {
-                int rgb = image_.getRGB(i, j);
-                if (checkColor(rgb, color.getRGB())) {
-                    rgb = (1 << 24) | (rgb & 0x00ffffff);
-                }
-                output.setRGB(i, j, rgb);
-            }
-        }
-        return output;
-    }
-
-    // 判断颜色相等
-    public static boolean checkColor(int color, int target) {
-        int rgb_color = color& 0x00ffffff;
-        int rgb_target = target & 0x00ffffff;
-        return rgb_color == rgb_target;
     }
 }
 
