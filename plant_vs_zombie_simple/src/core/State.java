@@ -12,6 +12,7 @@ public abstract class State {
     public boolean done;
     public State next;
     public JSONObject persist;
+    public JSONObject game_info;
     
     public void State() {
         start_time = 0;

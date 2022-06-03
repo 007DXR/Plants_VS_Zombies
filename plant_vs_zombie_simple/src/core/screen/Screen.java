@@ -6,7 +6,6 @@ import core.json.JSONObject;
 
 public class Screen extends State {
     String name;
-    JSONObject game_info;
     public Screen() {
         super();
         this.end_time = 3000;

@@ -1,19 +1,22 @@
 package core.game;
 
 import core.State;
+import core.json.JSONObject;
 
 public class MainMenu extends State{
+    String next;
+    
     public MainMenu () {
         super();
     }
     
-    public void startup(current_time, persist) {
-        this.next = c.LEVEL
-        this.persist = persist
-        this.game_info = persist
+    public void startup(int current_time, JSONObject persist) {
+        this.next = c.LEVEL;
+        this.persist = persist;
+        this.game_info = persist;
         
-        this.setupBackground()
-        this.setupOption()
+        this.setupBackground();
+        this.setupOption();
     }
 
     public void setupBackground(self) {
