@@ -22,7 +22,7 @@ public class dxrTest extends JPanel {
     static boolean click = false;
     static int x;
     static int y;
-    static Zombie zombie=new NormalZombie(816, 300);
+    static Zombie zombie=new NormalZombie(816, 300,null);
     // =new NormalZombie(x, y);
     // public void paintObject(Graphics g) {
     //     g.drawImage(zombie.image, zombie.x, zombie.y, null);
@@ -69,7 +69,7 @@ public class dxrTest extends JPanel {
         try{
         // TODO Auto-generated method stub
         super.paint(g);
-        g.drawImage(zombie.image, zombie.x, zombie.y, null);
+        g.drawImage(zombie.rect.image, zombie.rect.left, zombie.rect.top, null);
 
         }
         catch(Exception e){}

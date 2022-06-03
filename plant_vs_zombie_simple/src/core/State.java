@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 import core.json.JSONObject;
 
-public class State {
+public abstract class State {
     public int start_time;
     public int current_time;
     public int end_time;
@@ -24,8 +24,8 @@ public class State {
         //not initialize persist
     }
     
-    public void update(Graphics surface, ArrayList<Integer> mousePos, int current_time) {}
-    public void startUp(int currentTime, JSONObject persist) {}
+    public abstract void  update(Graphics surface, ArrayList<Integer> mousePos, int current_time);
+    public abstract void  startup(int currentTime, JSONObject persist);
     public JSONObject cleanUp() {
         done = false;
         return persist;

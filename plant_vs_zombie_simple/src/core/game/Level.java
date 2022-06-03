@@ -109,7 +109,7 @@ public class Level extends State {
         super();
     }
     /// 初始化
-    public void startUp(int current_time, JSONObject persist) {
+    public void startup(int current_time, JSONObject persist) {
         //activate window
         this.current_time = current_time;
         window = Main.window;
@@ -885,4 +885,10 @@ public class Level extends State {
         return null;
 
     }
+    @Override
+    public void update(Graphics surface, ArrayList<Integer> mousePos, int current_time) {
+        // TODO Auto-generated method stub
+        
+    }
+   
 }

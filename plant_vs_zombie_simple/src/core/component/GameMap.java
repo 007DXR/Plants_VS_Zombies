@@ -61,8 +61,8 @@ public class GameMap {
     /// 传出随机的格子
     public ArrayList<Integer> getRandomMapIndex() {
         Random random = new Random();
-        int map_x = random.nextInt(0, width - 1);
-        int map_y = random.nextInt(0, height - 1);
+        int map_x = random.nextInt(width - 1);
+        int map_y = random.nextInt(height - 1);
         ArrayList<Integer> list = new ArrayList<>();
         list.add(map_x);
         list.add(map_y);

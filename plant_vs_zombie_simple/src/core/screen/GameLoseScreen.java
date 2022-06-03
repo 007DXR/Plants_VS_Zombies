@@ -1,5 +1,7 @@
 package core.screen;
 
+import core.json.JSONObject;
+
 public class GameLoseScreen extends Screen {
     
     public  GameLoseScreen() {
@@ -13,5 +15,7 @@ public class GameLoseScreen extends Screen {
     public String set_next_state() {
         return c.MAIN_MENU;
     }
+
+
 }
 

@@ -1,6 +1,7 @@
 package core.screen;
 
 import core.*;
+import core.json.JSONObject;
 
 public class GameVictoryScreen extends Screen {
     public GameVictoryScreen() {
@@ -14,6 +15,8 @@ public class GameVictoryScreen extends Screen {
     public String set_next_state() {
         return c.LEVEL;
     }
+
+
 }
 
 class c extends Constants {};

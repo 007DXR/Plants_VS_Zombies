@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import core.Constants;
 import core.game.Control;
 import core.json.JSONObject;
+import core.screen.GameLoseScreen;
+import core.screen.GameVictoryScreen;
 
 public class Main {
     public static Control game;
@@ -17,9 +19,9 @@ public class Main {
         surface = new JPanel();
         game = new Control(window);
         JSONObject state_dict = new JSONObject();
-        state_dict.put(c.MAIN_MENU, new MainMenu());
-        // state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
-        // state_dict.put(c.GAME_LOSE, new GameLoseScreen());
+        // state_dict.put(c.MAIN_MENU, new MainMenu());
+        state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
+        state_dict.put(c.GAME_LOSE, new GameLoseScreen());
         state_dict.put(c.LEVEL, new Level());
         ArrayList<String> state_array = new ArrayList();
         state_array.add(c.MAIN_MENU);

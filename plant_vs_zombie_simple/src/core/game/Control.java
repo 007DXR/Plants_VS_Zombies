@@ -53,7 +53,7 @@ public class Control {
         this.state_array = state_array;
         this.state_name = start_state;
         this.state = (State) this.state_dict.get(this.state_name);
-        this.state.startUp(this.current_time, this.game_info);
+        this.state.startup(this.current_time, this.game_info);
     }
 
     public void update() {
@@ -72,7 +72,7 @@ public class Control {
         this.state_name = this.state_array.get(++state_index);
         JSONObject persist = this.state.cleanUp();
         this.state = (State)this.state_dict.get(this.state_name);
-        this.state.startUp(this.current_time, persist);
+        this.state.startup(this.current_time, persist);
     }
 
     public void event_loop() {
