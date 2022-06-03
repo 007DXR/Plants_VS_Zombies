@@ -12,7 +12,7 @@ public class IceShroom extends Plant {
     boolean start_freeze = false;
     int [] orig_pos;
     ArrayList<BufferedImage> snow_frames;
-    ArrayList<BufferedImage> trap_frames;
+    public ArrayList<BufferedImage> trap_frames;
     
     
     public IceShroom(int x, int y, boolean day){
@@ -41,8 +41,8 @@ public class IceShroom extends Plant {
         changeFrames(snow_frames);
         animate_timer = current_time;
         //移出屏幕使其消失？？？？
-        x = Constants.MAP_OFFSET_X;
-        y = Constants.MAP_OFFSET_Y;
+        this.rect.left = Constants.MAP_OFFSET_X;
+        this.rect.top = Constants.MAP_OFFSET_Y;
         start_freeze = true;
     }
 
@@ -75,7 +75,7 @@ public class IceShroom extends Plant {
         image = frames.get(frame_index);
     }
     
-    @Override
+
     public int [] getPosition(){
         return orig_pos;
     }

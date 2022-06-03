@@ -7,6 +7,7 @@ import core.zombies.Zombie;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TreeSet;
+import core.game.Group;
 
 public class Squash extends Plant{
     long aim_timer = 0;
@@ -16,7 +17,7 @@ public class Squash extends Plant{
     ArrayList<BufferedImage> attack_frames;
 
     Zombie attack_zombie = null;
-    Zombie []zombie_group = null;
+    Group zombie_group = null;
 
     public Squash(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.SQUASH, 1);
@@ -39,10 +40,18 @@ public class Squash extends Plant{
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(getState() == Constants.IDLE && x > zombie.x && 
-        (x+Constants.GRID_X_SIZE >= zombie.x))
+        if(getState() == Constants.IDLE &&
+        this.rect.left < zombie.rect.left + zombie.rect.width() &&
+        this.rect.left+this.rect.width() >=zombie.rect.left )
             return true;
         return false;
+    }
+
+
+    public void setAttack(Zombie zombie, Group zombie_group){
+        this.attack_zombie = zombie;
+        this.zombie_group = zombie_group;
+        setState(Constants.ATTACK);
     }
 
     @Override
@@ -61,14 +70,12 @@ public class Squash extends Plant{
         }
         else if(current_time - aim_timer > 1000){
             changeFrames(attack_frames);
-            x = attack_zombie.x;
+            this.rect.adjust(this.attack_zombie.rect.centerx(), this.rect.bottom());
             squashing = true;
             animate_interval = 300;
         }
     }
 
-
-    @Override
     public int [] getPosition(){
         return orig_pos;
     }

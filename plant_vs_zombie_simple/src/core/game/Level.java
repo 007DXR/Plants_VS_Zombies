@@ -7,9 +7,13 @@ import core.json.JSONArray;
 import core.State;
 import core.Tool;
 import core.bullets.Bullet;
+import core.car.Car;
 import core.Constants;
 import core.component.MenuBar;
 import core.component.Panel;
+import core.game.*;
+import core.zombies.*;
+import core.plants.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -41,50 +45,6 @@ class ZombieListItem {
         time = time_;
         name = name_;
         map_y = map_y_;
-    }
-}
-
-interface PaintItf {
-    public void paintObject(Graphics g);
-}
-
-class Surface extends JPanel {
-    LinkedList<PaintItf> list;
-    /// optional add, check first;
-    public void add(PaintItf item) {
-        if(!list.contains(item))
-           list.add(item);
-    }
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        for(PaintItf item: list) {
-            item.paintObject(g);
-        }
-    }
-}
-
-/// 画图类，简单的图片加左上角绘图的对象可以直接使用这个类
-class PaintItem implements PaintItf{
-    /// left
-    int x;
-    /// top
-    int y;
-    BufferedImage image;
-    public PaintItem(int x, int y, BufferedImage image) {
-        this.x = x;
-        this.y = y;
-        this.image = image;
-    }
-    public void adjust(Rect rect) {
-        this.x = rect.left;
-        this.y = rect.top;
-    }
-    public void paintObject(Graphics g) {
-        g.drawImage(image, x, y, null);
-    }
-    public Rect getRect() {
-        return new Rect(image.getWidth(), image.getHeight(), x, y);
     }
 }
 
@@ -125,159 +85,6 @@ class RectCollidedFunc extends CollidedFunc
     }
 }
 
-/// 精灵类，处理碰撞，实现绘图接口
-abstract class Sprite 
-    implements PaintItf
-{
-    //矩形碰撞体积
-    public Rect rect;
-    /// a pointer to delete elements in group when kill is ready
-    public LinkedList<Group> ptr;
-    /// 可选参数以表明原型的碰撞体积
-    public double radius;
-    /// 可选属性以用于进行绘图
-    BufferedImage image;
-    /// 将图片画出来
-    public void paintObject(Graphics g) {
-        g.drawImage(image, rect.left, rect.top, null);
-    }
-    public Sprite(Rect rect) {
-        this.rect = rect;
-        ptr = new LinkedList<>();
-    }
-    /// 检查一个精灵是否和一个组中的元素相交，若相交，返回检查到的第一个
-    /// param 默认情况可以为1.0,表示相交区域的缩放程度
-    public Sprite spritecollideany(Group group, CollidedFunc collidedFunc) {
-        for(Sprite s: group.list) {
-            if (collidedFunc.collid(this, s)) return s;
-        }
-        // 找不到
-        return null;
-    }
-    public void update(ArrayList<Object> args) {
-
-    }
-    public void added(Group g) {
-        ptr.add(g);
-    }
-    public void kill() {
-        for(Group g: ptr) {
-            g.remove(this);
-        }
-    }
-}
-
-/// 精灵类的容器
-class Group {
-    public LinkedList<Sprite> list;
-    public Group() {
-        list = new LinkedList<>();
-    }
-    public void update(ArrayList<Object> args) {
-        for (Sprite g: list) {
-            g.update(args);
-        }
-    }
-    public int size() {
-        return list.size();
-    }
-    public void add(Sprite item) {
-        list.add(item);
-        item.added(this);
-    }
-    public void remove(Sprite item) {
-        list.remove(item);
-    }
-}
-
-/// 矩形区域指示类
-class Rect {
-    public int width;
-    public int height;
-    public int left;
-    public int top;
-    public Rect(int width_, int height_) {
-        width = width_;
-        height = height_;
-        /// default;
-        left = 0;
-        top = 0;
-    }
-    public Rect(int width_, int height_, int left_, int top_) {
-        width = width_;
-        height = height_;
-        left = left_;
-        top = top_;
-    }
-    public int bottom() {
-        return top + height;
-    }
-    public int centerx() {
-        return (left + width) / 2;
-    }
-    public int centery() {
-        return (top + height) / 2;
-    }
-    public int centerx(double ratio) {
-        return (int)((left + width * ratio) / 2);
-    }
-    public int centery(double ratio) {
-        return (int)((top + height * ratio) / 2);
-    }
-    /// 给定相应属性，假定长宽正确，调整左上角坐标以适应
-    public void adjust(int centerx, int bottom) {
-        left = centerx * 2 - width;
-        top = bottom - height;
-    }
-    /// 调整中中心位置，假定长宽确定，改变左上角点以适应
-    public void adjustxy(int centerx, int centery) {
-        left = centerx * 2 - width;
-        top = centery * 2 - height;
-    }
-    /// 调整画图的左上角坐标
-    public void adjustlt(int left, int top) {
-        this.left = left;
-        this.top = top;
-    }
-    public boolean intersect(Rect y, double ratio) {
-        double xa,ya,wxa,wya;
-        double xb,yb,wxb,wyb;
-        if (width > height) {
-            xa = width;
-            ya = height;
-            wxa = centerx(ratio);
-            wya = centery(ratio);
-        } else {
-            xa = height;
-            ya = width;
-            wxa = centery(ratio);
-            wya = centerx(ratio);
-        }
-        if (y.width > y.height) {
-            xb = y.width;
-            yb = y.height;
-            wxb = y.centerx(ratio);
-            wyb = y.centery(ratio);
-        } else {
-            xb = y.height;
-            yb = y.width;
-            wxb = y.centery(ratio);
-            wyb = y.centerx(ratio);
-        }
-        xa *= ratio;
-        ya *= ratio;
-        wxa *= ratio;
-        wya *= ratio;
-        xb *= ratio;
-        yb *= ratio;
-        wxb *= ratio;
-        wyb *= ratio;
-
-        return Math.abs(wxa - wxb) < (xa + xb) / 2 &&
-            Math.abs(wya - wyb) < (ya + yb) / 2;
-    }
-}
-
 public class Level extends State {
     ///temporary;
     int mouseX,mouseY;
@@ -285,7 +92,7 @@ public class Level extends State {
     JSONObject persist;
     int map_y_len;
     int backgroundType;
-    Tool.Img background;
+    Sprite background;
     GameMap map;
     JSONObject mapData;
     double zombieStartTime;
@@ -297,7 +104,7 @@ public class Level extends State {
     MenuBar menubar;
     JFrame window;
     /// elements added into surface
-    Surface surface;
+    Graphics surface;
 
     /// work in map directory
     private Path rootDir = Paths.get("resources/data/map");
@@ -308,8 +115,8 @@ public class Level extends State {
     /// 初始化
     public void startUp(double currentTime, JSONObject persist) {
         //activate window
-        window = new JFrame()；
-        window.add(surface);
+        window = new JFrame();
+        surface = window.getGraphics();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(816, 638);
 
@@ -333,6 +140,10 @@ public class Level extends State {
         mapData = loadJsonFile(filePath);
     }
     Rect bgRect;
+    int viewportLeft;
+    int viewportWidth, viewportHeight;
+    Sprite level;
+
     public void setupBackgroud() {
     	int imgIndex = (int)mapData.get(c.BACKGROUND_TYPE);
     	backgroundType = imgIndex;
@@ -341,15 +152,15 @@ public class Level extends State {
         for(Tool.Img img: imgSet) {
             ++i;
             if(i == imgIndex) {
-                background = img;
+                background = new Sprite(img.image);
                 break;
             }
         }
-        bgRect = new Rect(background.image.getWidth(), background.image.getHeight());
-        /*
-        level = pg.Surface((bg_rect.w, bg_rect.h)).convert()
-        viewport = tool.SCREEN.get_rect(bottom=bg_rect.bottom)
-        viewport.x += c.BACKGROUND_OFFSET_X*/
+        bgRect = background.rect;
+//        level = pg.Surface((bg_rect.w, bg_rect.h)).convert();
+        viewportLeft = c.BACKGROUND_OFFSET_X;
+        viewportWidth = c.SCREEN_WIDTH;
+        viewportHeight = c.SCREEN_HEIGHT;
     }
     Group sunGroup;
     Group headGroup;
@@ -405,12 +216,6 @@ public class Level extends State {
 
         window.repaint();
     }
-    public void initBowlingMap() {
-        for (int x = 3; x < map.width; ++x)
-        for (int y = 0; y < map.height ; ++y) {
-            map.setMapGridType(x, y, c.MAP_EXIST);
-        }
-    }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
         if (mapData.optInt(c.CHOOSEBAR_TYPE, -1) != -1) {
@@ -430,9 +235,6 @@ public class Level extends State {
                 //识别这些名字对应的植物编号
             }*/
             //initPlay(cardPool.toArray(new int[cardPool.size()]));
-            if (barType == c.CHOSSEBAR_BOWLING) {
-                initBowlingMap();
-            }
         }
     }
     public void initChoose() {
@@ -531,7 +333,7 @@ public class Level extends State {
                 ArrayList<Integer> mapRandom = map.getRandomMapIndex();
                 ArrayList<Integer> mapPos = map
                     .getMapGridPos(mapRandom.get(0), mapRandom.get(1));
-                sunGroup.add(new Sun(mapPos.get(0), 0, mapPos.get(0), mapPos.get(1)));
+            //    sunGroup.add(new Sun(mapPos.get(0), 0, mapPos.get(0), mapPos.get(1)));
             }
         }
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
@@ -540,8 +342,9 @@ public class Level extends State {
                 if sun.checkCollision(mouse_pos[0], mouse_pos[1]):
                     menubar.increaseSunValue(sun.sun_value)*/
         }
-        for (Car car:cars):
+        for (Car car:cars) {
             car.update(list);
+        }
 
         //危险
         menubar.update((int)currentTime);
@@ -558,7 +361,7 @@ public class Level extends State {
         int y = Pos.get(1);
         if (name == c.NORMAL_ZOMBIE) {
             zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y, headGroup));
-        }
+        }/*
         else if (name == c.CONEHEAD_ZOMBIE) {
             zombieGroups.get(map_y).add(new ConeHeadZombie(c.ZOMBIE_START_X, y, headGroup));
         }
@@ -570,9 +373,9 @@ public class Level extends State {
         }
         else if (name == c.NEWSPAPER_ZOMBIE) {
             zombieGroups.get(map_y).add(new NewspaperZombie(c.ZOMBIE_START_X, y, headGroup));
-        }
+        } */
     }
-    PaintItem hintImage;
+    Sprite hintImage;
     Rect hintRect;
     Plant newPlant;
     public ArrayList<Integer> canSeedPlant() {
@@ -591,7 +394,10 @@ public class Level extends State {
         ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
-        if (plantName == c.SUNFLOWER) {
+        if (plantName == c.WALLNUT) {
+            newPlant = new WallNut(x, y);
+        }/*
+        else if (plantName == c.SUNFLOWER) {
             newPlant = new SunFlower(x, y, sun_group);
         }
         else if (plantName == c.PEASHOOTER) {
@@ -599,9 +405,6 @@ public class Level extends State {
         }
         else if (plantName == c.SNOWPEASHOOTER) {
             newPlant = new SnowPeaShooter(x, y, bullet_groups[map_y]);
-        }
-        else if (plantName == c.WALLNUT) {
-            newPlant = new WallNut(x, y);
         }
         else if (plantName == c.CHERRYBOMB) {
             newPlant = new CherryBomb(x, y);
@@ -641,15 +444,9 @@ public class Level extends State {
         }
         else if (plantName == c.HYPNOSHROOM) {
             newPlant = new HypnoShroom(x, y);
-        }
-        else if (plantName == c.WALLNUTBOWLING) {
-            newPlant = new WallNutBowling(x, y, map_y, self);
-        }
-        else if (plantName == c.REDWALLNUTBOWLING) {
-            newPlant = new RedWallNutBowling(x, y);
-        }
+        }*/
 
-        if (newPlant.canSleep && backgroundType == c.BACKGROUND_DAY) {
+        if (newPlant.can_sleep && backgroundType == c.BACKGROUND_DAY) {
             newPlant.setSleep();
         }
         plantGroups.get(map_y).add(newPlant);
@@ -657,31 +454,27 @@ public class Level extends State {
             menubar.decreaseSunValue(selectPlant.sun_cost);
             menubar.setCardFrozenTime(plantName);
         }
-        else {
+/*        else {
             menubar.deleateCard(selectPlant);
-        }
-
-        if (barType != c.CHOSSEBAR_BOWLING) {
-            map.setMapGridType(map_x, map_y, c.MAP_EXIST);
-        }
+        }*/
         removeMouseImage();
 
     }
     public void setupHintImage() {
         ArrayList<Integer> pos = canSeedPlant();
         if (!pos.isEmpty() && mouseImage != null) {
-            if (hintImage != null && pos.get(0) == hintRect.width &&
-                pos.get(1) == hintRect.height) {
+            if (hintImage != null && pos.get(0) == hintRect.width() &&
+                pos.get(1) == hintRect.height()) {
                 return;
             }
-            int width = mouseRect.width;
-            int height = mouseRect.height;
+            int width = mouseRect.width();
+            int height = mouseRect.height();
             //画图并保存属性;
-            surface.add(hintImage);
-            hintImage = new PaintItem(0, 0, mouseImage.image);
+            hintImage = new Sprite(mouseImage.rect.image);
+            hintImage.paintObject(surface);
 //            Tool.setColorkey(c.BLACK)
-            Tool.adjustAlpha(hintImage.image, new Color(128));
-            hintRect = hintImage.getRect();
+            Tool.adjustAlpha(hintImage.rect.image, new Color(128));
+            hintRect = hintImage.rect;
             hintRect.adjust(pos.get(0), pos.get(1));
             hintPlant = true;
         }
@@ -689,7 +482,7 @@ public class Level extends State {
             hintPlant = false;
         }
     }
-    PaintItem mouseImage;
+    Sprite mouseImage;
     Rect mouseRect;
     String plantName;
     Card selectPlant;
@@ -715,8 +508,7 @@ public class Level extends State {
         if (plantName == c.POTATOMINE || plantName == c.SQUASH ||
             plantName == c.SPIKEWEED || plantName == c.JALAPENO ||
             plantName == c.SCAREDYSHROOM || plantName == c.SUNSHROOM ||
-            plantName == c.ICESHROOM || plantName == c.HYPNOSHROOM ||
-            plantName == c.WALLNUTBOWLING || plantName == c.REDWALLNUTBOWLING) {
+            plantName == c.ICESHROOM || plantName == c.HYPNOSHROOM) {
             color = c.WHITE;
         }
         else {
@@ -725,8 +517,8 @@ public class Level extends State {
         //要把图片贴上去，这里主要是实现绘图
 //        mouseImage = tool.get_image(frame_list[0], x, y, width, height, color, 1)
         //暂时使用一个替代的功能;     
-        mouseImage = new PaintItem(x, y, frameList.first().image);
-        mouseRect = new Rect(width,height,x,y);
+        mouseImage = new Sprite(new Rect(frameList.first().image, x, y));
+        mouseRect = mouseImage.rect;
 //        pg.mouse.set_visible(false)
         dragPlant = true;
         this.plantName = plantName;
@@ -743,8 +535,9 @@ public class Level extends State {
         // 0.7倍
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.7);
         for (int i = 0; i < map_y_len; ++i) {
-            for (Sprite bullet : bulletGroups.get(i).list)
-                if ( ((Bullet)bullet).state == c.FLY ) {
+            for (Sprite sprite : bulletGroups.get(i).list) {
+                Bullet bullet = (Bullet)sprite;
+                if ( bullet.state == c.FLY ) {
                     // 检测碰撞到的僵尸
                     Zombie zombie = (Zombie)bullet.spritecollideany(zombieGroups.get(i), collidedFunc);
                     if (zombie != null && zombie.state != c.DIE) {
@@ -752,16 +545,11 @@ public class Level extends State {
                         bullet.setExplode();
                     }
                 }
+            }
         }
     }
     public void checkZombieCollisions() {
-        double ratio;
-        if (this.barType == c.CHOSSEBAR_BOWLING) {
-            ratio = 0.6;
-        }
-        else {
-            ratio = 0.7;
-        }
+        double ratio = 0.7;
         CollidedFunc collidedFunc = new CircleCollidedFunc(ratio);
         for (int i = 0; i < map_y_len; ++i) {
             ArrayList<Zombie> hypoZombies = new ArrayList();
@@ -772,29 +560,21 @@ public class Level extends State {
                 }
                 Plant plant = (Plant)zombie.spritecollideany(this.plantGroups.get(i), collidedFunc);
                 if (plant != null) {
-                    if (plant.name == c.WALLNUTBOWLING) {
-                        if (plant.canHit(i)) {
-                            zombie.setDamage(c.WALLNUT_BOWLING_DAMAGE);
-                            plant.changeDirection(i);
-                        }
-                    }
-                    else if (plant.name == c.REDWALLNUTBOWLING) {
-                        if (plant.state == c.IDLE) {
-                            plant.setAttack();
-                        }
-                    }
-                    else if (plant.name != c.SPIKEWEED) {
-                        zombie.setAttack(plant);
+                    if (plant.name != c.SPIKEWEED) {
+                        zombie.setAttack(plant, true);
                     }
                 }
             }
 /*
-            for hypno_zombie in this.hypno_zombie_groups[i]:
-                if hypno_zombie.health <= 0:
-                    continue
-                zombieList = pg.sprite.spritecollide(hypno_zombie,
-                               this.zombie_groups[i], false,collided_func)
-                for (Zombie zombie : zombieList) {
+            for (Sprite sprite : this.hypnoZombieGroups.get(i).list) {
+                Zombie hypno_zombie = (Zombie) sprite;
+                if (hypno_zombie.health <= 0) {
+                    continue;
+                }
+                ArrayList<Sprite> zombieList = hypno_zombie.spritecollide(
+                               this.zombieGroups.get(i), false,collidedFunc);
+                for (Sprite k : zombieList) {
+                    Zombie zombie = (Zombie) k;
                     if (zombie.state == c.DIE) {
                         continue;
                     }
@@ -805,22 +585,51 @@ public class Level extends State {
                         hypno_zombie.setAttack(zombie, false);
                     }
                 }
-            }*/
+            } */
         }
     }
     public void checkCarCollisions() {
-
+        CollidedFunc collidedFunc = new CircleCollidedFunc(0.8);
+        for (Car car :this.cars) {
+            ArrayList<Sprite> sprits = car.spritecollide(this.zombieGroups.get(car.map_y), false, collidedFunc);
+            for (Sprite sprite: sprits) {
+                Zombie zombie = (Zombie) sprite;
+                if (zombie != null && zombie.state != c.DIE) {
+                    car.setWalk();
+                    zombie.setDie();
+                }
+            }
+            if (car.dead) {
+                this.cars.remove(car);
+            }
+        }
     }
-    public void boomZombies() {
-
+    public void boomZombies(int x, int map_y, int y_range, int x_range) {
+        for (int i = 0; i < this.map_y_len; ++i) {
+            if (Math.abs(i - map_y) > y_range) {
+                continue;
+            }
+            for (Sprite sprite: this.zombieGroups.get(i).list) {
+                Zombie zombie = (Zombie)sprite;
+                if (Math.abs(zombie.rect.centerx() - x) <= x_range) {
+                    zombie.setBoomDie();
+                }
+            }
+        }
     }
-    public void freezeZombies() {
-
+    public void freezeZombies(Plant plant) {
+        for (int i = 0; i < this.map_y_len; ++i) {
+            for (Sprite sprite: this.zombieGroups.get(i).list) {
+                Zombie zombie = (Zombie) sprite;
+                if (zombie.rect.centerx() < c.SCREEN_WIDTH) {
+                    zombie.setFreeze(((IceShroom)plant).trap_frames.get(0));
+                }
+            }
+        }
     }
     public void killPlant(Plant plant) {
-        ArrayList<Integer> pos = plant.getPosition();
-        int x = pos.get(0);
-        int y = pos.get(1);
+        int x = plant.rect.left;
+        int y = plant.rect.top;
         ArrayList<Integer> mapPos = this.map.getMapIndex(x, y);
         int map_x = mapPos.get(0);
         int map_y = mapPos.get(1);
@@ -828,9 +637,8 @@ public class Level extends State {
             this.map.setMapGridType(map_x, map_y, c.MAP_EMPTY);
         }
         if (plant.name == c.CHERRYBOMB || plant.name == c.JALAPENO ||
-            (plant.name == c.POTATOMINE && ! plant.is_init) ||
-            plant.name == c.REDWALLNUTBOWLING) {
-            this.boomZombies(plant.rect.centerx, map_y, plant.explode_y_range,
+            (plant.name == c.POTATOMINE && ! plant.is_init) ) {
+            this.boomZombies(plant.rect.centerx(), map_y, plant.explode_y_range,
                             plant.explode_x_range);
         }
         else if (plant.name == c.ICESHROOM && plant.state != c.SLEEP) {
@@ -867,7 +675,7 @@ public class Level extends State {
                 if (zombieLen > 0) {
                     // do nothing
                 }
-                else if ((i-1) >= 0 && this.zombieGroups.get(i-1).size()) > 0) {
+                else if ((i-1) >= 0 && this.zombieGroups.get(i-1).size() > 0) {
                     // do nothing
                 }
                 else if ((i+1) < this.map_y_len && this.zombieGroups.get(i+1).size() > 0) {
@@ -886,10 +694,11 @@ public class Level extends State {
                     break;
                 }
             }
+        }
         else if (plant.name == c.POTATOMINE) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if plant.canAttack(zombie) {
+                if (plant.canAttack(zombie)) {
                     plant.setAttack();
                     break;
                 }
@@ -898,25 +707,25 @@ public class Level extends State {
         else if (plant.name == c.SQUASH) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if plant.canAttack(zombie) {
-                    plant.setAttack(zombie, this.zombieGroups[i]);
+                if (plant.canAttack(zombie)) {
+                    plant.setAttack(zombie, this.zombieGroups.get(i));
                     break;
                 }
             }
         }
         else if (plant.name == c.SPIKEWEED) {
             canAttack = false;
-            for (Sprite sprite : this.zombieGroups.get(i).list) {
+            for (Sprite sprite: this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if plant.canAttack(zombie) {
-                    can_attack = true
+                if (plant.canAttack(zombie)) {
+                    canAttack = true;
                     break;
                 }
             }
             if (plant.state == c.IDLE && canAttack) {
-                plant.setAttack(this.zombie_groups[i]);
+//                plant.setAttack(this.zombieGroups.get(i));
             }
-            else if (plant.state == c.ATTACK && !can_attack) {
+            else if (plant.state == c.ATTACK && !canAttack) {
                 plant.setIdle();
             }
         }
@@ -926,19 +735,19 @@ public class Level extends State {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
                 if (plant.needCry(zombie)) {
-                    need_cry = true;
+                    needCry = true;
                     break;
                 }
                 else if (plant.canAttack(zombie)) {
-                    can_attack = true;
+                    canAttack = true;
                 }
             }
-            if (need_cry) {
+            if (needCry) {
                 if (plant.state != c.CRY) {
                     plant.setCry();
                 }
             }
-            else if (can_attack) {
+            else if (canAttack) {
                 if (plant.state != c.ATTACK) {
                     plant.setAttack();
                 }
@@ -947,20 +756,17 @@ public class Level extends State {
                 plant.setIdle();
             }
         }
-        else if(plant.name == c.WALLNUTBOWLING ||
-             plant.name == c.REDWALLNUTBOWLING) {
-            //do nothing
-        }
         else {
             canAttack = false;
-            if (plant.state == c.IDLE && zombieLen > 0):
+            if (plant.state == c.IDLE && zombieLen > 0) {
                 for (Sprite sprite : this.zombieGroups.get(i).list) {
                     Zombie zombie = (Zombie)sprite;
                     if (plant.canAttack(zombie)) {
-                        can_attack = true;
+                        canAttack = true;
                         break;
                     }
                 }
+            }
             if (plant.state == c.IDLE && canAttack) {
                 plant.setAttack();
             }
@@ -997,7 +803,7 @@ public class Level extends State {
         for (int i = 0; i < this.map_y_len; ++i) {
             for (Sprite sprite :this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
-                if (zombie.rect.right < 0) {
+                if (zombie.rect.right() < 0) {
                     return true;
                 }
             }
@@ -1020,41 +826,48 @@ public class Level extends State {
     }
     public void drawMouseShow() {
         if (this.hintPlant) {
-            this.hintImage.adjust(hintRect);
-            surface.add(hintImage);
+            hintImage.paintObject(surface);;
         }
         int x = this.mouseX;
         int y = this.mouseY;
-        this.mouseRect.adjustxy(x, y);
-        this.mouseImage.adjust(mouseRect);
-        surface.add(mouseImage);
+        this.mouseImage.rect.adjustcx(x);
+        this.mouseImage.rect.adjustcy(y);
+        mouseImage.paintObject(surface);;
     }
     public void drawZombieFreezeTrap(int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
             Zombie zombie = (Zombie)sprite;
-//            zombie.drawFreezeTrap(surface);
+            zombie.drawFreezeTrap(window.getGraphics());
         }
     }
     public void draw() {
-        this.level.blit(this.background, this.viewport, this.viewport)
-        surface.blit(this.level, (0,0), this.viewport)
-        if this.state == c.CHOOSE:
-            this.panel.draw(surface)
-        elif this.state == c.PLAY:
-            this.menubar.draw(surface)
-            for i in range(this.map_y_len):
-                this.plant_groups[i].draw(surface)
-                this.zombie_groups[i].draw(surface)
-                this.hypno_zombie_groups[i].draw(surface)
-                this.bullet_groups[i].draw(surface)
-                this.drawZombieFreezeTrap(i, surface)
-            for car in this.cars:
-                car.draw(surface)
-            this.head_group.draw(surface)
-            this.sun_group.draw(surface)
+        level = new Sprite(background.rect.image);
+        level.paintObject(surface);
+//        self.level.blit(self.background, self.viewport, self.viewport)
+//        surface.blit(this.level, (0,0), this.viewport)
+        if (this.state == c.CHOOSE) {
+            this.panel.paintObject(surface);
+        }
+        else if (this.state == c.PLAY) {
+            this.menubar.paintObject(surface);
+            for (int i = 0; i < this.map_y_len; ++i) {
+                this.plantGroups.get(i).paintObject(surface);
+                this.zombieGroups.get(i).paintObject(surface);
+                this.hypnoZombieGroups.get(i).paintObject(surface);
+                this.bulletGroups.get(i).paintObject(surface);
+                this.drawZombieFreezeTrap(i);
+            }
+            for (Sprite sprite: this.cars) {
+                Car car = (Car) sprite;
+                car.paintObject(surface);
+            }
+            this.headGroup.paintObject(surface);
+            this.sunGroup.paintObject(surface);
 
-            if this.drag_plant:
-                this.drawMouseShow(surface)
+            if (this.dragPlant) {
+                this.drawMouseShow();
+            }
+        }
     }
     public static void main() {
     	Level level = new Level();

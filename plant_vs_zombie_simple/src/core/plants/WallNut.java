@@ -26,11 +26,11 @@ public class WallNut extends Plant{
     }
 
     public void idling(){
-        if(cracked1==false && getHp() < Constants.WALLNUT_CRACKED1_HEALTH){
+        if(cracked1==false && gethealth() < Constants.WALLNUT_CRACKED1_HEALTH){
             changeFrames(cracked1_frames);
             cracked1 = true;
         }
-        else if(cracked2==false && getHp() < Constants.WALLNUT_CRACKED2_HEALTH){
+        else if(cracked2==false && gethealth() < Constants.WALLNUT_CRACKED2_HEALTH){
             changeFrames(cracked2_frames);
             cracked2 = true;
         }

@@ -52,10 +52,11 @@ public class PotatoMine extends Plant{
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(is_init == true && zombie.x >= x && (zombie.x - x)<= explode_x_range)
+        if(is_init == true && 
+        zombie.rect.left+zombie.rect.width() >= this.rect.left &&
+        (zombie.rect.left - this.rect.left)<= explode_x_range)
             return true;
-        else
-            return false;
+        return false;
     }
 
     @Override

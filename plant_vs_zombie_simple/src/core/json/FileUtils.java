@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.stream.*;
 import java.io.Reader;
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
@@ -73,7 +74,11 @@ import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.Charsets;
+import org.apache.commons.io.FileExistsException;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOExceptionList;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.LineIterator;
 /**
  * General file manipulation utilities.
  * <p>

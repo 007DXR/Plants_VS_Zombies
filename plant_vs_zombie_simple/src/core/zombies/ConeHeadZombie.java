@@ -1,10 +1,10 @@
 package core.zombies;
 import core.Constants;
 import java.util.List;
-
+import core.game.*;
 public class ConeHeadZombie extends Zombie{
     boolean helmet;
-    public  ConeHeadZombie(int x,int y,List<ZombieHead> head_group){
+    public  ConeHeadZombie(int x,int y,LinkedList<Group> head_group){
     super(x, y, Constants.CONEHEAD_ZOMBIE, Constants.CONEHEAD_HEALTH, head_group,1);
     this.helmet = true;
 }

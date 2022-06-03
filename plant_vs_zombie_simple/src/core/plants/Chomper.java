@@ -3,6 +3,7 @@ package core.plants;
 import core.*;
 import core.zombies.*;
 import core.Constants;
+import core.game.Group;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class Chomper extends Plant {
     long digest_timer = 0;
     long digest_interval = 15000;
     Zombie attack_zombie = null;
-    Zombie [] zombie_group = null;
+    Group zombie_group = null;
     ArrayList<BufferedImage> digest_frames;
     ArrayList<BufferedImage> attack_frames;
 
@@ -35,7 +36,9 @@ public class Chomper extends Plant {
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(getState() == Constants.IDLE)
+        if(getState() == Constants.IDLE && zombie.state!= Constants.DIGEST &&
+        this.rect.left <= zombie.rect.left+zombie.rect.height()&&
+        this.rect.left + this.rect.width() + Constants.GRID_X_SIZE/3 >= zombie.rect.left)
             return true;
         return false;
     }
@@ -47,10 +50,10 @@ public class Chomper extends Plant {
     }
 
    
-    public void setAttack(Zombie zombie, Zombie [] zombie_group){
+    public void setAttack(Zombie zombie, Group zombie_group){
         attack_zombie = zombie;
         this.zombie_group = zombie_group;
-        setAttack();
+        setState(Constants.ATTACK);
         changeFrames(attack_frames);
     }
 
@@ -62,7 +65,7 @@ public class Chomper extends Plant {
     @Override
     public void attacking(){
         if(frame_index == frame_num - 3){
-            //zombie_group.remove(attack_zombie);
+            //this.zombie_group.remove(attack_zombie);
         }
             
         if(frame_index + 1 == frame_num)

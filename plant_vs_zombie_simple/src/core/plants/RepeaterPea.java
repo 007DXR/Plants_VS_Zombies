@@ -8,22 +8,25 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.bullets.Bullet;
+import java.util.List;
 
 import core.Constants;
 import core.*;
 
 class RepeaterPea extends Plant{
-    private int shoot_timer = 0; 
+    private long shoot_timer = 0; 
     private List<Bullet> bullet_group; 
     public RepeaterPea(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.RepeaterPea, 1); 
+        super(Constants.PLANT_HEALTH, x, y, Constants.REPEATERPEA, 1); 
         this.shoot_timer = 0; 
     }
 
     public void attacking(){
         if (this.current_time - this.shoot_timer > 2000){
-            this.bullet_group.add(Bullet(x, y, y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
-            this.bullet_group.add(Bullet(x + 40, y, y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false)); 
+            Bullet bullet1 = new Bullet(this.rect.left + this.rect.width(), this.rect.centery(), this.rect.centery(), Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false); 
+            this.bullet_group.add(bullet1); 
+            Bullet bullet2 = new Bullet(this.rect.left + this.rect.width() + 40, this.rect.centery(), this.rect.centery(), Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false); 
+            this.bullet_group.add(bullet2); 
             this.shoot_timer = this.current_time; 
         }
     }

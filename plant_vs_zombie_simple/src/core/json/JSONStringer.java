@@ -1,4 +1,4 @@
-package org.json;
+package core.json;
 
 /*
 Copyright (c) 2006 JSON.org

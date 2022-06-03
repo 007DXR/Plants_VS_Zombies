@@ -1,4 +1,4 @@
-package org.json;
+package core.json;
 
 import java.util.Locale;
 
