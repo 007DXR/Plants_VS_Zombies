@@ -723,7 +723,7 @@ public class Level extends State {
                 }
             }
             if (plant.state == c.IDLE && canAttack) {
-                plant.setAttack(this.zombieGroups.get(i));
+//                plant.setAttack(this.zombieGroups.get(i));
             }
             else if (plant.state == c.ATTACK && !canAttack) {
                 plant.setIdle();
