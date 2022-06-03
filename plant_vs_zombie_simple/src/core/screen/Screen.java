@@ -1,11 +1,12 @@
 package core.screen;
-
+import java.awt.Graphics;
 import core.*;
 import core.game.*;
 import core.json.JSONObject;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.TreeSet;
-public class Screen extends State {
+public abstract class Screen extends State {
     String name;
     Rect rect;
     public Screen() {
@@ -23,25 +24,26 @@ public class Screen extends State {
         this.next = this.set_next_state();
     }
   
-        public  String getImageName(){
-
-        }
-        public String set_next_state() {
-           
-        }
+        public abstract String getImageName();
+        public abstract String set_next_state() ;
     public void setupImage(String name) {
         TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
         BufferedImage image = frame_list.first().image;
         this.rect = new Rect(image,0,0);
    
     }
-
-    public void  update(Surface surface,int current_time,ArrayList<Integer> mouse_pos,Boolean mouse_click):
+    // ,ArrayList<Integer> mouse_pos,Boolean mouse_click
+    public void  update(Graphics surface, ArrayList<Integer> mousePos,int current_time){
         if(current_time - this.start_time < this.end_time){
-            surface.fill(c.WHITE)
-            surface.blit(this.image, this.rect);
+            // surface.fill(c.WHITE)
+            // surface.blit(this.image, this.rect);
+           
+                Sprite sprite = new Sprite(this.rect.image);
+                sprite.paintObject(surface);
+           
         }
         else
-            this.done = True;
+            this.done = true;
+        }
 }
 class c extends Constants {};

@@ -6,6 +6,8 @@ import java.util.Timer;
 import javax.swing.*;
 
 import core.json.JSONObject;
+import core.screen.GameLoseScreen;
+import core.screen.GameVictoryScreen;
 
 import java.awt.event.*;
 
@@ -33,8 +35,8 @@ public class Main extends JPanel{
         // 计时器
         int current_time = (int)System.currentTimeMillis();
         // state_dict.put(c.MAIN_MENU, new MainMenu());
-        // state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
-        // state_dict.put(c.GAME_LOSE, new GameLoseScreen());
+        state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
+        state_dict.put(c.GAME_LOSE, new GameLoseScreen());
 
         // 鼠标监听事件
         MouseAdapter l = new MouseAdapter() {
