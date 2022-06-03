@@ -138,10 +138,11 @@ public class Level extends State {
     	backgroundType = imgIndex;
         TreeSet<Tool.Img> imgSet = Tool.GFX.get(c.BACKGROUND_NAME);
         // TreeSet<Tool.Img> imgSet = Tool.GFX.get("PeaNormal_0");
-        int i = 0;
+        // int i = 0;
+        System.out.println("-------------------------(imgIndex);"+imgIndex);
         for(Tool.Img img: imgSet) {
-            ++i;
-            if(i == imgIndex) {
+            
+            if(img.tag == imgIndex) {
                 background = new Sprite(img.image);
                 break;
             }

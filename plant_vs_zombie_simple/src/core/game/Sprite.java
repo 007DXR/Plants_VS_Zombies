@@ -58,7 +58,7 @@ public class Sprite
         ptr = new LinkedList<>();
     }
     public Sprite(BufferedImage image) {
-        this.rect.image = image;
+        this.rect=new Rect(image);
         ptr = new LinkedList<>();
     }
     /// 检查一个精灵是否和一个组中的元素相交，若相交，返回检查到的第一个

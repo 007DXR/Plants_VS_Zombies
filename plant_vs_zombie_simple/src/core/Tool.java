@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -25,6 +26,11 @@ import java.awt.image.BufferedImage;
 class FindJavaVisitor extends SimpleFileVisitor<Path> {
     // private List<Path> result;
     HashMap<String, TreeSet<Tool.Img>> result;
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
+
+    public static boolean isNumeric(String str) {
+        return str != null && NUMBER_PATTERN.matcher(str).matches();
+    }
 
     public FindJavaVisitor(HashMap<String, TreeSet<Tool.Img>> result) {
         this.result = result;
@@ -32,39 +38,37 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        if (file.toString().endsWith(".png")) {
-            try {
-                String s[]  =file.getFileName().toString().split(".png")[0].split("_");
-                int len=s.length;
-                String fileName = "";
-                for (int i=0; i<len-1; ++i)
-                fileName+=s[i];
-                Integer fileIndex = Integer.valueOf(s[len-1]);
-                // String s[] = file.getFileName().toString().split("_");
-                
-                // Integer fileIndex = Integer.valueOf((s[1].split("\\."))[0]);
-                // System.out.println(fileIndex);
-                TreeSet<Tool.Img> frameList;
-                // HashMap<Integer,BufferedImage>frameList;
+        // 注意有两种后缀
+        String fileName = file.getFileName().toString();
+        int fileIndex = 0;
+        // System.out.println(file.toString() + "------" + fileName);
 
-                if (result.get(fileName) == null) {
-                    frameList = new TreeSet<Tool.Img>();
-                    result.put(fileName, frameList);
-                } else {
-                    frameList = (TreeSet<Tool.Img>) result.get(fileName);
-                }
-                frameList.add(
-                        new Tool.Img(fileIndex, Tool.loadImage(file.toAbsolutePath().toString(), 1, Constants.BLACK)));
-            } catch (Exception e) {
-                String fileName=file.getFileName().toString();
-                TreeSet<Tool.Img> frameList = new TreeSet<Tool.Img>();
-                result.put(fileName, frameList);
-                frameList.add(new Tool.Img(0,Tool.loadImage(file.toAbsolutePath().toString(), 1, Constants.BLACK)));
-                
-                System.out.println(fileName+" was loaded into  (TreeSet<Tool.Img>) Tool.GFX.get("+fileName+")");
+        // if (file.toString().endsWith(".png") || file.toString().endsWith(".jpg")) {
 
-            }
+        fileName = fileName.split("\\.")[0];
+        String s[] = fileName.split("_");
+        int len = s.length;
+        if (len > 1 && isNumeric(s[len - 1])) {
+
+            fileName = "";
+            for (int i = 0; i < len - 1; ++i)
+                fileName += s[i];
+
+            fileIndex = Integer.valueOf(s[len - 1]);
+
         }
+        System.out.println(fileName+fileIndex);
+        TreeSet<Tool.Img> frameList;
+
+        if (result.get(fileName) == null) {
+            frameList = new TreeSet<Tool.Img>();
+            result.put(fileName, frameList);
+        } else {
+            frameList = (TreeSet<Tool.Img>) result.get(fileName);
+        }
+        frameList.add(
+                new Tool.Img(fileIndex, Tool.loadImage(file.toAbsolutePath().toString(), 1, Constants.BLACK)));
+        // }
 
         return FileVisitResult.CONTINUE;
     }
@@ -73,7 +77,7 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
 public class Tool {
     public static HashMap<String, TreeSet<Tool.Img>> GFX = load_all_gfx();
     public static JSONObject ZOMBIE_RECT = loadImageRect("zombie");
-    public static JSONObject PLANT_RECT=loadImageRect("plant");
+    public static JSONObject PLANT_RECT = loadImageRect("plant");
 
     public static class Img implements Comparable<Img> {
         public int tag;
@@ -116,7 +120,7 @@ public class Tool {
                 R = ((rgb >> 16) & 0xff) * alpha / 256;
                 G = ((rgb >> 8) & 0xff) * alpha / 256;
                 B = (rgb & 0xff) * alpha / 256;
-                rgb = (((rgb>>24) & 0xff) << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | ((B & 0xff));
+                rgb = (((rgb >> 24) & 0xff) << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | ((B & 0xff));
                 output.setRGB(j2, j1, rgb);
             }
         }
@@ -161,6 +165,7 @@ public class Tool {
         int rgb_target = target & 0x00ffffff;
         return rgb_color == rgb_target;
     }
+
     // 从resources/graphics读取所有图片，用result.get('xxx')可得到某一类的图片
     public static HashMap<String, TreeSet<Img>> load_all_gfx() {
         Path dir = Paths.get("resources/graphics");
@@ -181,16 +186,15 @@ public class Tool {
 
     public static JSONObject loadImageRect(String file_name) {
         System.out.println("Start loadImageRect=====");
-        File file = new File("resources/data/entity/"+file_name+".json");
+        File file = new File("resources/data/entity/" + file_name + ".json");
         try {
             String content = FileUtils.readFileToString(file, "UTF-8");
             JSONObject jsonObject = new JSONObject(content);
-            return jsonObject.getJSONObject(file_name+"_image_rect");
+            return jsonObject.getJSONObject(file_name + "_image_rect");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        finally{
+        } finally {
             System.out.println("End loadImageRect=====");
         }
         return null;
