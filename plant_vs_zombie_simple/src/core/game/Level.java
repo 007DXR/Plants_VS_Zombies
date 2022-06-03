@@ -566,12 +566,15 @@ public class Level extends State {
                 }
             }
 /*
-            for hypno_zombie in this.hypno_zombie_groups[i]:
-                if hypno_zombie.health <= 0:
-                    continue
-                zombieList = pg.sprite.spritecollide(hypno_zombie,
-                               this.zombie_groups[i], false,collided_func)
-                for (Zombie zombie : zombieList) {
+            for (Sprite sprite : this.hypnoZombieGroups.get(i).list) {
+                Zombie hypno_zombie = (Zombie) sprite;
+                if (hypno_zombie.health <= 0) {
+                    continue;
+                }
+                ArrayList<Sprite> zombieList = hypno_zombie.spritecollide(
+                               this.zombieGroups.get(i), false,collidedFunc);
+                for (Sprite k : zombieList) {
+                    Zombie zombie = (Zombie) k;
                     if (zombie.state == c.DIE) {
                         continue;
                     }
@@ -582,7 +585,7 @@ public class Level extends State {
                         hypno_zombie.setAttack(zombie, false);
                     }
                 }
-            }*/
+            } */
         }
     }
     public void checkCarCollisions() {

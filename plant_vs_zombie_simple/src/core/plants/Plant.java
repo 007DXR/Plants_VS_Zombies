@@ -27,6 +27,8 @@ public class Plant extends Sprite{
     public double scale;
     public int frame_index=0;
     public int frame_num;
+    public Zombie attack_zombie = null;
+    public Group zombie_group;
 
     //public int width;
     //public int height;
@@ -49,6 +51,7 @@ public class Plant extends Sprite{
     public boolean is_init;
 
     public ArrayList<BufferedImage> frames;
+    ArrayList<BufferedImage> attack_frames;
     ArrayList<BufferedImage> sleep_frames;
     ArrayList<BufferedImage> idle_frames;
     ArrayList<BufferedImage> big_frames;
@@ -151,8 +154,15 @@ public class Plant extends Sprite{
         return false;
     }
 
-    public void setAttack(Zombie zombie, Group zombie_group){
+    public void setAttack() {
         state = Constants.ATTACK;
+    }
+
+    public void setAttack(Zombie zombie, Group zombie_group){
+        this.attack_zombie = zombie;
+        this.zombie_group = zombie_group;
+        this.state = c.ATTACK;
+        this.changeFrames(this.attack_frames);
     }
     
     
@@ -188,3 +198,5 @@ public class Plant extends Sprite{
        state = newState;
     }
 }
+
+class c extends Constants {};

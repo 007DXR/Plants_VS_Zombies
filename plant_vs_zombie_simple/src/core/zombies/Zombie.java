@@ -36,7 +36,7 @@ public abstract class Zombie extends Sprite{
     // public int ice_centerx;
     // public int ice_bottom;
     // ----------------------------------------
-    int health;
+    public int health;
     int damage;
     boolean dead = false;
     boolean losHead = false;
