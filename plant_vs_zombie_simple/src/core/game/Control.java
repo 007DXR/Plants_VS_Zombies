@@ -70,22 +70,17 @@ public class Control extends JPanel{
     public void flip_state() {
         this.state_name = this.state_array.get(++state_index);
         JSONObject persist = this.state.cleanUp();
-        this.state = (State)this.state_dict.get(this.state_name);
+        this.state = (State) this.state_dict.get(this.state_name);
         this.state.startUp(this.current_time, persist);
     }
 
-    // public void event_loop() {
-    //     for event in pg.event.get() {
-    //         if event.type == pg.QUIT {
-    //             this.done = true;
-    //         }
-    //         else if event.type == pg.MOUSEBUTTONDOWN {
-    //             this.mouse_pos = pg.mouse.get_pos();
-    //             this.mouse_click[0], _, this.mouse_click[1] = pg.mouse.get_pressed();
-    //             System.out.println("pos:", this.mouse_pos, " mouse:", this.mouse_click);
-    //         }
-    //     }
-    // }
+    // 更新鼠标状况
+    public void event_loop(int x, int y, boolean left_click, boolean right_click) {
+        mousePos.set(0, x);
+        mousePos.set(1, y);
+        mouseClick.set(0, left_click);
+        mouseClick.set(1, right_click);
+    }
 
 //     public void main() {
 //         while (!this.done) {

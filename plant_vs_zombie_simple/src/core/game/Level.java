@@ -98,7 +98,6 @@ public class Level extends State {
     ArrayList<Card> cardPool;
     Panel panel;
     MenuBar menubar;
-    JFrame window;
     /// elements added into surface
     JPanel surface;
 
@@ -110,9 +109,7 @@ public class Level extends State {
     }
     /// 初始化
     public void startUp(int current_time, JSONObject persist) {
-        //activate window
         this.current_time = current_time;
-        window = Main.window;
         surface = Main.surface;
         game_info = persist;
         this.persist = persist;
@@ -204,8 +201,6 @@ public class Level extends State {
         } else if(state == c.PLAY) {
             play(mousePos, mouseClick);
         }
-
-        window.repaint();
     }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
@@ -233,7 +228,7 @@ public class Level extends State {
         panel = new Panel(c.all_card_list, mapData.optInt(c.INIT_SUN_NAME, 50));
     }
     public void choose(ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
-        if (!mousePos.isEmpty() && mouseClick.size() > 0) {
+        if (!mousePos.isEmpty() && mouseClick.get(0)==true) {
             panel.checkCardClick(mousePos.get(0), mousePos.get(1));
             if (panel.checkStartButtonClick(mousePos.get(0), mousePos.get(1))) {
                 initPlay(panel.getSelectedCards());
@@ -296,17 +291,17 @@ public class Level extends State {
         headGroup.update(list);
         sunGroup.update(list);
         
-        if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
+        if (!dragPlant && !mousePos.isEmpty() && mouseClick.get(0)==true) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
             if (result != null) {
                 setupMouseImage(c.plant_name_list[result.name_index], result);
             }
         }
         else if (dragPlant) {
-            if (mouseClick.size() > 1) {
+            if (mouseClick.get(1)==true) {
                 removeMouseImage();
             }
-            else if (mouseClick.size() > 0) {
+            else if (mouseClick.get(0)==true) {
                 if (menubar.checkMenuBarClick(mousePos.get(0), mousePos.get(1))) {
                     removeMouseImage();
                 }
@@ -828,7 +823,7 @@ public class Level extends State {
     public void drawZombieFreezeTrap(int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
             Zombie zombie = (Zombie)sprite;
-            zombie.drawFreezeTrap(window.getGraphics());
+            zombie.drawFreezeTrap(surface.getGraphics());
         }
     }
     public void draw() {
