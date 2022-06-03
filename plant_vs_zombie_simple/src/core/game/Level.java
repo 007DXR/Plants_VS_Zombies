@@ -125,7 +125,7 @@ public class Level extends State {
     }
     /// 读入map文件信息
     public void loadMap() {
-        String filePath = "level_" + (int)game_info.get(c.LEVEL_NUM) + ".json";
+        String filePath = "./resources/data/map/level_" + (int)game_info.get(c.LEVEL_NUM) + ".json";
         mapData = loadJsonFile(filePath);
     }
     Rect bgRect;
@@ -137,6 +137,7 @@ public class Level extends State {
     	int imgIndex = (int)mapData.get(c.BACKGROUND_TYPE);
     	backgroundType = imgIndex;
         TreeSet<Tool.Img> imgSet = Tool.GFX.get(c.BACKGROUND_NAME);
+        // TreeSet<Tool.Img> imgSet = Tool.GFX.get("PeaNormal_0");
         int i = 0;
         for(Tool.Img img: imgSet) {
             ++i;
