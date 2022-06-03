@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import java.awt.*;
 
+import core.Tool;
+
 public class MenuBar {
     public int x = 10;
     public int y = 0;
@@ -23,7 +25,7 @@ public class MenuBar {
         String root = "plant_vs_zombie_simple/resources/graphics/Screen/";
 
         String menu_image_path = root + c.MENUBAR_BACKGROUND + ".png";
-        image = Card.loadImage(menu_image_path, 1.0, c.WHITE);
+        image = Tool.loadImage(menu_image_path, 1.0, c.WHITE);
         width = image.getWidth();
         height = image.getHeight();
 
