@@ -28,7 +28,7 @@ class  ScaredyShroom extends Plant{
         changeFrames(this.cry_frames);
     }
 
-    public void setAttack(){
+    public void setAttack(Zombie zombie, Group zombie_group){
         this.state = Constants.ATTACK;
         changeFrames(this.idle_frames);
     }
