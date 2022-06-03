@@ -10,7 +10,7 @@ public class State {
     public int current_time;
     public int end_time;
     public boolean done;
-    public State next;
+    public String next;
     public JSONObject persist;
     public JSONObject game_info;
 

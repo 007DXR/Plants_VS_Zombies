@@ -1,14 +1,12 @@
 package core.zombies;
-
-import core.Constants;
-
-import java.util.LinkedList;
-import java.util.List;
+import core.*;
+import java.util.*;
+import java.awt.image.BufferedImage;
 import core.game.*;
 public class BucketHeadZombie extends Zombie{
     boolean helmet;
 
-    public BucketHeadZombie(int x, int y, LinkedList<Group> head_group) {
+    public BucketHeadZombie(int x, int y, Group head_group) {
         super(x, y, Constants.BUCKETHEAD_ZOMBIE, Constants.BUCKETHEAD_HEALTH, head_group, 1);
         this.helmet = true;
     }
@@ -16,6 +14,23 @@ public class BucketHeadZombie extends Zombie{
     @Override
     public void loadImages() {
         // TODO Auto-generated method stub
-        
+        helmet_walk_frames = new ArrayList<BufferedImage>();
+        helmet_attack_frames = new ArrayList<BufferedImage>();
+        walk_frames = new ArrayList<BufferedImage>();
+        attack_frames = new ArrayList<BufferedImage>();
+        losthead_walk_frames = new ArrayList<BufferedImage>();
+        losthead_attack_frames = new ArrayList<BufferedImage>();
+        die_frames = new ArrayList<BufferedImage>();
+        boomdie_frames = new ArrayList<BufferedImage>();
+
+        loadFrames(helmet_walk_frames,name,Tool.ZOMBIE_RECT.getJSONObject(name).getInt("x"),Constants.BLACK);
+        loadFrames(helmet_attack_frames,name + "Attack",Tool.ZOMBIE_RECT.getJSONObject(name + "Attack").getInt("x"),Constants.BLACK);
+        loadFrames(walk_frames,name,Tool.ZOMBIE_RECT.getJSONObject(Constants.NORMAL_ZOMBIE).getInt("x"),Constants.BLACK);
+        loadFrames(attack_frames,name + "Attack",Tool.ZOMBIE_RECT.getJSONObject(Constants.NORMAL_ZOMBIE + "Attack").getInt("x"),Constants.BLACK);
+        loadFrames(losthead_walk_frames,name+ "LostHead",Tool.ZOMBIE_RECT.getJSONObject(Constants.NORMAL_ZOMBIE+ "LostHead").getInt("x"),Constants.BLACK);
+        loadFrames(losthead_attack_frames,name+ "LostHeadAttack",Tool.ZOMBIE_RECT.getJSONObject(Constants.NORMAL_ZOMBIE+ "LostHeadAttack").getInt("x"),Constants.BLACK);
+        loadFrames(die_frames,name+ "Die",Tool.ZOMBIE_RECT.getJSONObject(Constants.NORMAL_ZOMBIE+ "Die").getInt("x"),Constants.BLACK);
+        loadFrames(boomdie_frames,Constants.BOOMDIE,Tool.ZOMBIE_RECT.getJSONObject(Constants.BOOMDIE).getInt("x"),Constants.BLACK);
+        frames = helmet_walk_frames;
     }
 }
