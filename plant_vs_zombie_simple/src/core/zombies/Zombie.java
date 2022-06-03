@@ -13,6 +13,7 @@ import core.plants.Plant;
 import core.Constants;
 import core.game.*;
 
+import java.awt.Graphics;
 public abstract class Zombie extends Sprite{
 
     // 大小
@@ -331,10 +332,10 @@ public abstract class Zombie extends Sprite{
 
     }
 
-    public void drawFreezeTrap(Surface surface) {
+    public void drawFreezeTrap(Graphics g) {
         if (this.state == Constants.FREEZE) {
-            Sprite ice_trap = new Sprite();
-            surface.add(this.ice_trap_image, this.ice_trap_rect);
+            Sprite sprite = new Sprite(this.ice_trap_image);
+            sprite.paintObject(g);
         }
     }
     public void setHypno() {

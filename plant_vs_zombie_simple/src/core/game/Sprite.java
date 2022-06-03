@@ -36,7 +36,7 @@ class c extends Constants {}
 
 
 /// 精灵类，处理碰撞，实现绘图接口
-public abstract class Sprite 
+public class Sprite 
     implements PaintItf
 {
     //矩形碰撞体积

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import java.awt.image.BufferedImage;
 import java.awt.*;
+import core.game.PaintItf;
 
-public class Panel {
+public class Panel 
+    implements PaintItf{
     public ArrayList<Card> selected_cards = new ArrayList<>();
     public ArrayList<Card> card_list = new ArrayList<>();
     public int selected_num = 0;

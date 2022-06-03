@@ -13,7 +13,7 @@ import core.component.MenuBar;
 import core.component.Panel;
 import core.game.*;
 import core.zombies.*;
-import core.plants.*;;
+import core.plants.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -45,34 +45,6 @@ class ZombieListItem {
         time = time_;
         name = name_;
         map_y = map_y_;
-    }
-}
-
-interface PaintItf {
-    public void paintObject(Graphics g);
-}
-
-/// 画图类，简单的图片加左上角绘图的对象可以直接使用这个类
-class PaintItem implements PaintItf{
-    /// left
-    int x;
-    /// top
-    int y;
-    BufferedImage image;
-    public PaintItem(int x, int y, BufferedImage image) {
-        this.x = x;
-        this.y = y;
-        this.image = image;
-    }
-    public void adjust(Rect rect) {
-        this.x = rect.left;
-        this.y = rect.top;
-    }
-    public void paintObject(Graphics g) {
-        g.drawImage(image, x, y, null);
-    }
-    public Rect getRect() {
-        return new Rect(image, x, y);
     }
 }
 
@@ -120,7 +92,7 @@ public class Level extends State {
     JSONObject persist;
     int map_y_len;
     int backgroundType;
-    Tool.Img background;
+    Sprite background;
     GameMap map;
     JSONObject mapData;
     double zombieStartTime;
@@ -132,7 +104,7 @@ public class Level extends State {
     MenuBar menubar;
     JFrame window;
     /// elements added into surface
-    Surface surface;
+    Graphics surface;
 
     /// work in map directory
     private Path rootDir = Paths.get("resources/data/map");
@@ -144,7 +116,7 @@ public class Level extends State {
     public void startUp(double currentTime, JSONObject persist) {
         //activate window
         window = new JFrame();
-        window.add(surface);
+        surface = window.getGraphics();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(816, 638);
 
@@ -168,6 +140,10 @@ public class Level extends State {
         mapData = loadJsonFile(filePath);
     }
     Rect bgRect;
+    int viewportLeft;
+    int viewportWidth, viewportHeight;
+    Sprite level;
+
     public void setupBackgroud() {
     	int imgIndex = (int)mapData.get(c.BACKGROUND_TYPE);
     	backgroundType = imgIndex;
@@ -176,15 +152,15 @@ public class Level extends State {
         for(Tool.Img img: imgSet) {
             ++i;
             if(i == imgIndex) {
-                background = img;
+                background = new Sprite(img.image);
                 break;
             }
         }
-        bgRect = new Rect(background.image);
-        /*
-        level = pg.Surface((bg_rect.w, bg_rect.h)).convert()
-        viewport = tool.SCREEN.get_rect(bottom=bg_rect.bottom)
-        viewport.x += c.BACKGROUND_OFFSET_X*/
+        bgRect = background.rect;
+//        level = pg.Surface((bg_rect.w, bg_rect.h)).convert();
+        viewportLeft = c.BACKGROUND_OFFSET_X;
+        viewportWidth = c.SCREEN_WIDTH;
+        viewportHeight = c.SCREEN_HEIGHT;
     }
     Group sunGroup;
     Group headGroup;
@@ -399,7 +375,7 @@ public class Level extends State {
             zombieGroups.get(map_y).add(new NewspaperZombie(c.ZOMBIE_START_X, y, headGroup));
         } */
     }
-    PaintItem hintImage;
+    Sprite hintImage;
     Rect hintRect;
     Plant newPlant;
     public ArrayList<Integer> canSeedPlant() {
@@ -494,11 +470,11 @@ public class Level extends State {
             int width = mouseRect.width();
             int height = mouseRect.height();
             //画图并保存属性;
-            surface.add(hintImage);
-            hintImage = new PaintItem(0, 0, mouseImage.image);
+            hintImage = new Sprite(mouseImage.rect.image);
+            hintImage.paintObject(surface);
 //            Tool.setColorkey(c.BLACK)
-            Tool.adjustAlpha(hintImage.image, new Color(128));
-            hintRect = hintImage.getRect();
+            Tool.adjustAlpha(hintImage.rect.image, new Color(128));
+            hintRect = hintImage.rect;
             hintRect.adjust(pos.get(0), pos.get(1));
             hintPlant = true;
         }
@@ -506,7 +482,7 @@ public class Level extends State {
             hintPlant = false;
         }
     }
-    PaintItem mouseImage;
+    Sprite mouseImage;
     Rect mouseRect;
     String plantName;
     Card selectPlant;
@@ -541,8 +517,8 @@ public class Level extends State {
         //要把图片贴上去，这里主要是实现绘图
 //        mouseImage = tool.get_image(frame_list[0], x, y, width, height, color, 1)
         //暂时使用一个替代的功能;     
-        mouseImage = new PaintItem(x, y, frameList.first().image);
-        mouseRect = new Rect(mouseImage.image, x, y);
+        mouseImage = new Sprite(new Rect(frameList.first().image, x, y));
+        mouseRect = mouseImage.rect;
 //        pg.mouse.set_visible(false)
         dragPlant = true;
         this.plantName = plantName;
@@ -847,45 +823,46 @@ public class Level extends State {
     }
     public void drawMouseShow() {
         if (this.hintPlant) {
-            this.hintImage.adjust(hintRect);
-            surface.add(hintImage);
+            hintImage.paintObject(surface);;
         }
         int x = this.mouseX;
         int y = this.mouseY;
-        this.mouseRect.adjustxy(x, y);
-        this.mouseImage.adjust(mouseRect);
-        surface.add(mouseImage);
+        this.mouseImage.rect.adjustcx(x);
+        this.mouseImage.rect.adjustcy(y);
+        mouseImage.paintObject(surface);;
     }
     public void drawZombieFreezeTrap(int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
             Zombie zombie = (Zombie)sprite;
-            zombie.drawFreezeTrap(surface);
+            zombie.drawFreezeTrap(window.getGraphics());
         }
     }
     public void draw() {
-        this.level.blit(this.background, this.viewport, this.viewport)
-        surface.blit(this.level, (0,0), this.viewport)
+        level = new Sprite(background.rect.image);
+        level.paintObject(surface);
+//        self.level.blit(self.background, self.viewport, self.viewport)
+//        surface.blit(this.level, (0,0), this.viewport)
         if (this.state == c.CHOOSE) {
-            this.panel.draw(surface);
+            this.panel.paintObject(surface);
         }
         else if (this.state == c.PLAY) {
-            this.menubar.draw(surface)
+            this.menubar.paintObject(surface);
             for (int i = 0; i < this.map_y_len; ++i) {
-                this.plantGroups.get(i).draw(surface);
-                this.zombieGroups.get(i).draw(surface);
-                this.hypnoZombieGroups.get(i).draw(surface);
-                this.bulletGroups.get(i).draw(surface);
-                this.drawZombieFreezeTrap(i, surface);
+                this.plantGroups.get(i).paintObject(surface);
+                this.zombieGroups.get(i).paintObject(surface);
+                this.hypnoZombieGroups.get(i).paintObject(surface);
+                this.bulletGroups.get(i).paintObject(surface);
+                this.drawZombieFreezeTrap(i);
             }
             for (Sprite sprite: this.cars) {
                 Car car = (Car) sprite;
-                car.draw(surface);
+                car.paintObject(surface);
             }
-            this.headGroup.draw(surface)
-            this.sunGroup.draw(surface)
+            this.headGroup.paintObject(surface);
+            this.sunGroup.paintObject(surface);
 
             if (this.dragPlant) {
-                this.drawMouseShow(surface);
+                this.drawMouseShow();
             }
         }
     }

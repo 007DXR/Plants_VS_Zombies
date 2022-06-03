@@ -3,6 +3,7 @@ package core.game;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import java.awt.Graphics;
 /// 精灵类的容器
 public class Group {
     public LinkedList<Sprite> list;
@@ -12,6 +13,11 @@ public class Group {
     public void update(ArrayList<Object> args) {
         for (Sprite g: list) {
             g.update(args);
+        }
+    }
+    public void paintObject(Graphics g) {
+        for (Sprite i: list) {
+            i.paintObject(g);
         }
     }
     public int size() {
