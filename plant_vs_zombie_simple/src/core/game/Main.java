@@ -2,6 +2,7 @@ package core.game;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import core.Constants;
 import core.game.Control;
@@ -17,8 +18,8 @@ public class Main {
         game = new Control(window);
         JSONObject state_dict = new JSONObject();
         state_dict.put(c.MAIN_MENU, new MainMenu());
-        state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
-        state_dict.put(c.GAME_LOSE, new GameLoseScreen());
+        // state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
+        // state_dict.put(c.GAME_LOSE, new GameLoseScreen());
         state_dict.put(c.LEVEL, new Level());
         ArrayList<String> state_array = new ArrayList();
         state_array.add(c.MAIN_MENU);

@@ -1925,14 +1925,14 @@ public class FileUtils {
      * @return an iterator of java.io.File with the matching files
      * @since 1.2
      */
-    public static Iterator<File> iterateFiles(final File directory, final String[] extensions,
-        final boolean recursive) {
-        try {
-            return StreamIterator.iterator(streamFiles(directory, recursive, extensions));
-        } catch (final IOException e) {
-            throw new UncheckedIOException(directory.toString(), e);
-        }
-    }
+    // public static Iterator<File> iterateFiles(final File directory, final String[] extensions,
+    //     final boolean recursive) {
+    //     try {
+    //         return StreamIterator.iterator(streamFiles(directory, recursive, extensions));
+    //     } catch (final IOException e) {
+    //         throw new UncheckedIOException(directory.toString(), e);
+    //     }
+    // }
 
     /**
      * Iterates over the files in given directory (and optionally

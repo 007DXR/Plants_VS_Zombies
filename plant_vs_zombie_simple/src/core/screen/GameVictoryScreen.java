@@ -1,3 +1,7 @@
+package core.screen;
+
+import core.*;
+
 public class GameVictoryScreen extends Screen {
     public GameVictoryScreen() {
         super();

@@ -1,6 +1,8 @@
+package core.screen;
+
 public class GameLoseScreen extends Screen {
     
-    public void GameLoseScreen() {
+    public  GameLoseScreen() {
         super();
     }
     
@@ -13,4 +15,3 @@ public class GameLoseScreen extends Screen {
     }
 }
 
-class c extends Constants {};

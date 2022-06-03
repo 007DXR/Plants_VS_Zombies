@@ -69,6 +69,7 @@ public abstract class Zombie extends Sprite{
     ArrayList<BufferedImage> losthead_walk_frames;
     ArrayList<BufferedImage> losthead_attack_frames;
     ArrayList<BufferedImage> boomdie_frames;
+    ArrayList<BufferedImage> helmet_walk_frames;
     Group head_group;
     // String walk_name;
     // String attack_name;

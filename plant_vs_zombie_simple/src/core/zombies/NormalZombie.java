@@ -16,8 +16,7 @@ public class NormalZombie extends Zombie{
         losthead_attack_frames = new ArrayList<BufferedImage>();
         die_frames = new ArrayList<BufferedImage>();
         boomdie_frames = new ArrayList<BufferedImage>();
-        if (walk_frames == null)
-                System.out.print("---------empty");
+
         loadFrames(walk_frames,name,Tool.ZOMBIE_RECT.getJSONObject(name).getInt("x"),Constants.BLACK);
         loadFrames(attack_frames,name + "Attack",Tool.ZOMBIE_RECT.getJSONObject(name + "Attack").getInt("x"),Constants.BLACK);
         loadFrames(losthead_walk_frames,name+ "LostHead",Tool.ZOMBIE_RECT.getJSONObject(name+ "LostHead").getInt("x"),Constants.BLACK);
