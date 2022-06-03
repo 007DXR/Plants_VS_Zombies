@@ -24,7 +24,7 @@ public class State {
         //not initialize persist
     }
     
-    public void update(Graphics surface, ArrayList<Integer> mousePos, int current_time) {}
+    public void update(int time, ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {}
     public void startUp(int currentTime, JSONObject persist) {}
     public JSONObject cleanUp() {
         done = false;
