@@ -8,16 +8,17 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.bullets.Bullet;
+import java.util.List;
 
 import core.Constants;
 import core.*;
 
 class PuffShroom extends Plant{
-    private int shoot_timer = 0; 
+    private long shoot_timer = 0; 
     private List<Bullet> bullet_group; 
     boolean can_sleep = true;
     public PuffShroom(int x, int y, boolean day){
-        super(Constants.PLANT_HEALTH, x, y, Constants.PuffShroom, 1);
+        super(Constants.PLANT_HEALTH, x, y, Constants.PUFFSHROOM, 1);
         this.shoot_timer = 0; 
         if(day == true){setSleep();}
     }
@@ -25,7 +26,8 @@ class PuffShroom extends Plant{
 
     public void attacking(){
         if (this.current_time - this.shoot_timer > 3000){
-            this.bullet_group.add(Bullet(this.rect.left + this.rect.width(), this.rect.centery() + 10, this.rect.centery() + 10, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true)); 
+            Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.centery() + 10, this.rect.centery() + 10, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true); 
+            this.bullet_group.add(bullet); 
             this.shoot_timer = this.current_time; 
         }
     }
@@ -43,11 +45,11 @@ class PuffShroom extends Plant{
         ArrayList<BufferedImage> frame_list;
         frame_list.addAll(this.idle_frames);
         frame_list.addAll(this.sleep_frames);
-        List<String> name_list;
+        ArrayList<String> name_list;
         name_list.add(idle_name);
         name_list.add(sleep_name); 
-        for (int i = 0; i < name_list.getItemCount; i++){
-            loadFrames(frame_list.get(i), name_list[i], 1); 
+        for (int i = 0; i < name_list.size(); i++){
+            loadFrames(frame_list.get(i), name_list.get(i), 1); 
         }
         this.frames = this.idle_frames; 
     }

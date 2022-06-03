@@ -7,6 +7,7 @@ import core.zombies.Zombie;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TreeSet;
+import core.game.Group;
 
 public class Squash extends Plant{
     long aim_timer = 0;
@@ -16,7 +17,7 @@ public class Squash extends Plant{
     ArrayList<BufferedImage> attack_frames;
 
     Zombie attack_zombie = null;
-    Zombie []zombie_group = null;
+    Group zombie_group = null;
 
     public Squash(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.SQUASH, 1);
@@ -47,7 +48,7 @@ public class Squash extends Plant{
     }
 
 
-    public void setAttack(Zombie zombie, Zombie[]zombie_group){
+    public void setAttack(Zombie zombie, Group zombie_group){
         this.attack_zombie = zombie;
         this.zombie_group = zombie_group;
         setState(Constants.ATTACK);
