@@ -40,17 +40,17 @@ class PuffShroom extends Plant{
     public void loadImages(String name, double scale){
         String idle_name = name;
         String sleep_name = name + "Sleep";
-        this.idle_frames.clear();;
-        this.sleep_frames.clear();
-        ArrayList<BufferedImage> frame_list;
-        frame_list.addAll(this.idle_frames);
-        frame_list.addAll(this.sleep_frames);
-        ArrayList<String> name_list;
-        name_list.add(idle_name);
-        name_list.add(sleep_name); 
-        for (int i = 0; i < name_list.size(); i++){
-            loadFrames(frame_list.get(i), name_list.get(i), 1); 
-        }
-        this.frames = this.idle_frames; 
+        // this.idle_frames.clear();;
+        // this.sleep_frames.clear();
+        // ArrayList<BufferedImage> frame_list;
+        // frame_list.addAll(this.idle_frames);
+        // frame_list.addAll(this.sleep_frames);
+        // ArrayList<String> name_list;
+        // name_list.add(idle_name);
+        // name_list.add(sleep_name); 
+        // for (int i = 0; i < name_list.size(); i++){
+        //     loadFrames(frame_list.get(i), name_list.get(i), 1); 
+        // }
+        // this.frames = this.idle_frames; 
     }
 }
