@@ -295,7 +295,7 @@ public class Level extends State {
         }
         headGroup.update(list);
         sunGroup.update(list);
-        
+        menubar.update((int)current_time);
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.get(0)==true) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
             if (result != null) {
