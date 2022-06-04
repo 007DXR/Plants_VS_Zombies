@@ -126,13 +126,13 @@ public abstract class Zombie extends Sprite{
     }
 
     public void handleState() {
-        if (this.state == Constants.WALK)
+        if (this.state.equals(Constants.WALK))
             this.walking();
-        if (this.state == Constants.ATTACK)
+        if (this.state.equals( Constants.ATTACK))
             this.attacking();
-        if (this.state == Constants.DIE)
+        if (this.state.equals( Constants.DIE))
             this.dying();
-        if (this.state == Constants.FREEZE)
+        if (this.state.equals( Constants.FREEZE))
             this.freezing();
     }
 
@@ -145,7 +145,7 @@ public abstract class Zombie extends Sprite{
         } else if (this.health <= Constants.NORMAL_HEALTH && this.helmet) {
             this.changeFrames(this.walk_frames);
             this.helmet = false;
-            if (this.name == Constants.NEWSPAPER_ZOMBIE) {
+            if (this.name.equals( Constants.NEWSPAPER_ZOMBIE)) {
                 this.speed = 2;
             }
         }
@@ -195,7 +195,7 @@ public abstract class Zombie extends Sprite{
         if (this.health <= 0) {
             this.setDie();
         } else if (this.health <= Constants.LOSTHEAD_HEALTH && this.losHead == false) {
-            if (this.old_state == Constants.WALK) {
+            if (this.old_state.equals( Constants.WALK)) {
                 this.changeFrames(this.losthead_walk_frames);
             } else {
                 this.changeFrames(this.losthead_attack_frames);
@@ -224,7 +224,7 @@ public abstract class Zombie extends Sprite{
     }
 
     public void animation() {
-        if (this.state == Constants.FREEZE) {
+        if (this.state.equals( Constants.FREEZE)) {
 
             this.rect.image=Tool.adjustBrightness(this.rect.image, 192);
             return;
@@ -233,7 +233,7 @@ public abstract class Zombie extends Sprite{
                 this.getTimeRatio()) {
             this.frame_index += 1;
             if (this.frame_index >= this.frame_num) {
-                if (this.state == Constants.DIE) {
+                if (this.state.equals( Constants.DIE)) {
                     // this.kill();
                     return;
                 }
@@ -334,7 +334,7 @@ public abstract class Zombie extends Sprite{
     }
 
     public void drawFreezeTrap(Graphics g) {
-        if (this.state == Constants.FREEZE) {
+        if (this.state.equals( Constants.FREEZE)) {
             Sprite sprite = new Sprite(this.ice_trap_image);
             sprite.paintObject(g);
         }
@@ -345,3 +345,4 @@ public abstract class Zombie extends Sprite{
     }
 
 }
+class c extends Constants{};
