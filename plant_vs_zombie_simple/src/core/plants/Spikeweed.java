@@ -1,7 +1,7 @@
 package core.plants;
 
 import core.zombies.*;
-import core.Constants;
+import core.*;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Spikeweed extends Plant{
 
     @Override
     public void loadImages(String name, double scale){
-        //loadFrames(frames, name, 1, Constants.WHITE, scale);
+        loadFrames(frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.WHITE);
     }
 
     @Override

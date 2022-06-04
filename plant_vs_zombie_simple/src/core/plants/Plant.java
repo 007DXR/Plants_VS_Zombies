@@ -20,7 +20,7 @@ import core.game.Sprite;
  * Constant.java上的修改
  */
 
-public class Plant extends Sprite{
+public abstract class Plant extends Sprite{
 
     public int explode_y_range;
     public int explode_x_range;
@@ -28,7 +28,7 @@ public class Plant extends Sprite{
     public int frame_index=0;
     public int frame_num;
     public Zombie attack_zombie = null;
-    public Group zombie_group;
+    public Group zombie_group = null;
 
     //public int width;
     //public int height;
@@ -50,32 +50,28 @@ public class Plant extends Sprite{
     long current_time = 0;
     public boolean is_init;
 
-    public ArrayList<BufferedImage> frames;
-    ArrayList<BufferedImage> attack_frames;
-    ArrayList<BufferedImage> sleep_frames;
-    ArrayList<BufferedImage> idle_frames;
-    ArrayList<BufferedImage> big_frames;
+    public ArrayList<BufferedImage> frames  = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> framesArrayList = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> attack_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> sleep_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> idle_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> big_frames = new ArrayList<BufferedImage>();
+
 
     // 因为继承之后的构造函数只要传入x和y，所以这里没有修改
     public Plant(int health, int x, int y, String name, double scale){
         super(); 
         this.health = health;
-        //this.loadImages();
         this.state = Constants.IDLE;
         this.name = name;
         this.scale = scale;
-
-        //tool.loadImage();
-
-        //loadFrames(frames, name, image_x, colorkey, scale);
+        this.loadImages(name, scale);
+       
         this.frame_num = this.frames.size();
         this.rect = new Rect(this.frames.get(this.frame_index), x, y);
-
     }
     
-    public void loadImages(String name, double scale){
-        //loadFrames(frames, name, int image_x,Color colorkey, scale);
-    }
+    public abstract void loadImages(String name, double scale);
 
 
     // 判断鼠标点击
@@ -88,13 +84,14 @@ public class Plant extends Sprite{
     
     public void loadFrames(ArrayList<BufferedImage> frames, String name, int image_x, Color colorkey) {
         TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
+       
         for (Tool.Img frame : frame_list) {
             BufferedImage rect = frame.image;
             int width = rect.getWidth();
             int height = rect.getHeight();
             width -= image_x;
             // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
-            frames.add(Tool.adjustAlpha( frame.image.getSubimage(image_x, 0, width, height),colorkey));
+            frames.add(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }
@@ -118,11 +115,11 @@ public class Plant extends Sprite{
     }
 
     public void handleState(){
-        if(state == Constants.DIE)
+        if(state.equals(Constants.DIE))
             idling();
-        else if(state == Constants.ATTACK)
+        else if(state.equals(Constants.ATTACK))
             attacking();
-        else if(state == Constants.DIGEST)
+        else if(state.equals(Constants.DIGEST))
             digest();
     }
     public void idling(){}
@@ -148,7 +145,7 @@ public class Plant extends Sprite{
 
     
     public boolean canAttack(Zombie zombie){
-        if(this.state != Constants.SLEEP && zombie.state != Constants.DIE &&
+        if(!this.state.equals(Constants.SLEEP) && !zombie.state.equals(Constants.DIE) &&
         this.rect.left < zombie.rect.left + zombie.rect.width())
             return true;
         return false;

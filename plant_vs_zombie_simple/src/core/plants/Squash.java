@@ -26,21 +26,23 @@ public class Squash extends Plant{
 
     @Override
     public void loadImages(String name, double scale){
+        aim_frames = new ArrayList<BufferedImage>();
+        attack_frames = new ArrayList<BufferedImage>();
+
         String idle_name = name;
         String aim_name = name + "Aim";
         String attack_name = name + "Attack";
 
-        /*
-        loadFrames(idle_frames, idle_name, int image_x,Color colorkey, 1);
-        loadFrames(aim_frames, aim_name, int image_x,Color colorkey, 1);
-        loadFrames(attack_frames, attack_name, int image_x,Color colorkey, 1);
-        */
+        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(aim_frames, aim_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(attack_frames, attack_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        
         this.frames = idle_frames;
     }
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(getState() == Constants.IDLE &&
+        if(getState().equals(Constants.IDLE) &&
         this.rect.left < zombie.rect.left + zombie.rect.width() &&
         this.rect.left+this.rect.width() >=zombie.rect.left )
             return true;

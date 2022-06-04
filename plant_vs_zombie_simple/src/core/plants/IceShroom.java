@@ -15,26 +15,30 @@ public class IceShroom extends Plant {
     public ArrayList<BufferedImage> trap_frames;
     
     
-    public IceShroom(int x, int y, boolean day){
+    public IceShroom(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.ICESHROOM, 1);
         orig_pos = new int[]{x,y};
-        if(day == true)
-            setSleep();
     }
 
     @Override
     public void loadImages(String name, double scale){
+        snow_frames = new ArrayList<BufferedImage>();
+        trap_frames = new ArrayList<BufferedImage>();
+        
         String idle_name = name;
         String snow_name = name + "Snow";
         String sleep_name = name + "Sleep";
         String trap_name = name + "Trap";
+        
+        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
+        loadFrames(sleep_frames, sleep_name, Tool.PLANT_RECT.getJSONObject(sleep_name).getInt("x"), Constants.BLACK);
+        loadFrames(snow_frames, snow_name, Tool.PLANT_RECT.getJSONObject(snow_name).getInt("x"), Constants.BLACK);
+        loadFrames(trap_frames, trap_name, Tool.PLANT_RECT.getJSONObject(trap_name).getInt("x"), Constants.BLACK);
 
-        /*loadFrames(idle_frames, idle_name, int image_x,Color colorkey, 1);
-        loadFrames(snow_frames, snow_name, int image_x,Color colorkey, 1.5);
-        loadFrames(sleep_frames, sleep_name, int image_x,Color colorkey, 1);
-        loadFrames(trap_frames, trap_name, int image_x,Color colorkey, 1);
-        */
-        this.frames = idle_frames;
+        if(getState().equals(Constants.SLEEP))
+            frames = sleep_frames;
+        else
+            frames = idle_frames;
     }
 
     public void setFreeze(){
@@ -62,7 +66,7 @@ public class IceShroom extends Plant {
             if(current_time - animate_timer > 100){
                 frame_index+=1;
                 if(frame_index >= frame_num){
-                    if(getState() == Constants.SLEEP)
+                    if(getState().equals(Constants.SLEEP))
                         frame_index = 0;
                     else{
                         setFreeze();

@@ -1,6 +1,6 @@
 package core.plants;
 
-import core.Constants;
+import core.*;
 
 public class SunFlower extends Plant{
     long sun_timer = 0;
@@ -10,6 +10,10 @@ public class SunFlower extends Plant{
         super(Constants.PLANT_HEALTH, x, y, Constants.SUNFLOWER, 1);    
         sun_timer = 0;
         this.sun_group = sun_group;   
+    }
+
+    public void loadImages(String name, double scale){
+        loadFrames(frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
     }
 
     public void idling(){

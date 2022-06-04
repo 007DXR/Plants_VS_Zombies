@@ -15,7 +15,7 @@ import core.*;
 
 class SnowPeaShooter extends Plant{
     private long shoot_timer = 0; 
-    private List<Bullet> bullet_group; 
+    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
     public SnowPeaShooter(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.SNOWPEASHOOTER, 1); 
         this.shoot_timer = 0; 

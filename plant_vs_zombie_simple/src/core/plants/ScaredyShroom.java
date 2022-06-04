@@ -16,15 +16,14 @@ import core.*;
 
 class  ScaredyShroom extends Plant{
     private long shoot_timer = 0; 
-    private List<Bullet> bullet_group; 
+    private ArrayList<Bullet> bullet_group = new  ArrayList<Bullet>(); 
     boolean can_sleep = true;
     ArrayList<BufferedImage> cry_frames;
     private int cry_x_range = c.GRID_X_SIZE * 2;
     
-    public  ScaredyShroom(int x, int y, boolean day){
+    public  ScaredyShroom(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.SCAREDYSHROOM, 1);
         this.shoot_timer = 0; 
-        if(day == true){setSleep();};
     }
 
     public void setCry(){
@@ -52,7 +51,7 @@ class  ScaredyShroom extends Plant{
     }
 
     public boolean needCry(Zombie zombie){
-        if (zombie.state != Constants.DIE && this.rect.centerx() <= zombie.rect.left + zombie.rect.width() &&
+        if (!zombie.state.equals(Constants.DIE) && this.rect.centerx() <= zombie.rect.left + zombie.rect.width() &&
             this.rect.centerx() + this.cry_x_range > zombie.rect.centerx()){return true;}
         return false; 
     }

@@ -8,6 +8,8 @@ import java.awt.*;
 import java.util.TreeSet;
 import core.Tool;
 import core.Constants;
+import java.util.TreeSet;
+
 
 public class MenuBar {
     public int x = 10;
@@ -23,14 +25,10 @@ public class MenuBar {
     public int value_y;
 
     public MenuBar(int[] card_list, int sun_value) {
-        // String root = "plant_vs_zombie_simple/resources/graphics/Screen/";
-
-        // String menu_image_path = root + c.MENUBAR_BACKGROUND + ".png";
-        // image = Tool.loadImage(menu_image_path, 1.0, c.WHITE);
-        image = ( (TreeSet<Tool.Img>) Tool.GFX.get(c.MENUBAR_BACKGROUND)).first().image;
+        image = ((TreeSet<Tool.Img>)Tool.GFX.get(c.MENUBAR_BACKGROUND)).first().image;
         width = image.getWidth();
         height = image.getHeight();
-
+        this.card_list = new ArrayList<Card>(); 
         this.sun_value = sun_value;
         setupCards(card_list);
     }

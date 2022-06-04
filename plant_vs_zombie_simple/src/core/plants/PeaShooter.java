@@ -8,14 +8,13 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.bullets.Bullet;
-import java.util.List;
 
 import core.Constants;
 import core.*;
 
 class PeaShooter extends Plant{
     private long shoot_timer = 0; 
-    private List<Bullet> bullet_group; 
+    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
     public PeaShooter(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.PEASHOOTER, 1); 
         this.shoot_timer = 0; 

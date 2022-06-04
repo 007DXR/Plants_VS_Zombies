@@ -22,21 +22,24 @@ public class Chomper extends Plant {
         super(Constants.PLANT_HEALTH, x, y, Constants.CHOMPER, 1);
     }
 
+
     public void loadImages(String name, double scale){
+        digest_frames = new ArrayList<BufferedImage>();
+        attack_frames = new ArrayList<BufferedImage>();
         String idle_name = name;
         String attack_name = name + "Attack";
         String digest_name = name + "Digest";
 
-        /*loadFrames(idle_frames, idle_name, int image_x,Color colorkey);
-        loadFrames(attack_frames, attack_name, int image_x,Color colorkey);
-        loadFrames(digest_frames, digest_name, int image_x,Color colorkey);*/
+        loadFrames(this.frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
+        loadFrames(attack_frames, attack_name, Tool.PLANT_RECT.getJSONObject(attack_name).getInt("x"),Constants.BLACK);
+        loadFrames(digest_frames, digest_name, Tool.PLANT_RECT.getJSONObject(digest_name).getInt("x"),Constants.BLACK);
 
         this.frames = idle_frames;
     }
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(getState() == Constants.IDLE && zombie.state!= Constants.DIGEST &&
+        if(getState().equals(Constants.IDLE) && !zombie.state.equals(Constants.DIGEST) &&
         this.rect.left <= zombie.rect.left+zombie.rect.height()&&
         this.rect.left + this.rect.width() + Constants.GRID_X_SIZE/3 >= zombie.rect.left)
             return true;

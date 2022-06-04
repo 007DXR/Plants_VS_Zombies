@@ -1,6 +1,6 @@
 package core.plants;
 
-import core.Constants;
+import core.*;
 
 public class Sun extends Plant{
     int dst_x;
@@ -30,6 +30,9 @@ public class Sun extends Plant{
 
     }
 
+    public void loadImages(String name, double scale){
+        loadFrames(frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+    }
     @Override
     public void handleState(){
         if(this.rect.centerx() < dst_x)
@@ -54,7 +57,7 @@ public class Sun extends Plant{
 
     
     public boolean checkMouseClick(int x_, int y_){
-        if(getState() == Constants.DIE)
+        if(getState().equals(Constants.DIE))
             return false;
 
         if (x_ >= this.rect.left && x_ <= (this.rect.left + this.rect.width()) &&
