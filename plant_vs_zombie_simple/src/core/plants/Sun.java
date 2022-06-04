@@ -54,7 +54,7 @@ public class Sun extends Plant{
 
     
     public boolean checkMouseClick(int x_, int y_){
-        if(getState() == Constants.DIE)
+        if(getState().equals(Constants.DIE))
             return false;
 
         if (x_ >= this.rect.left && x_ <= (this.rect.left + this.rect.width()) &&

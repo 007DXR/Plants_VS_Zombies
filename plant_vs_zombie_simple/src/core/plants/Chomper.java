@@ -36,7 +36,7 @@ public class Chomper extends Plant {
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(getState() == Constants.IDLE && zombie.state!= Constants.DIGEST &&
+        if(getState().equals(Constants.IDLE) && !zombie.state.equals(Constants.DIGEST) &&
         this.rect.left <= zombie.rect.left+zombie.rect.height()&&
         this.rect.left + this.rect.width() + Constants.GRID_X_SIZE/3 >= zombie.rect.left)
             return true;

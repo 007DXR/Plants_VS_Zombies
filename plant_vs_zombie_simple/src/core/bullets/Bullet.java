@@ -52,7 +52,7 @@ public class Bullet extends Sprite{
 
         String flyname = this.name; 
         String explodename; 
-        if (this.name == Constants.BULLET_MUSHROOM){
+        if (this.name.equals(Constants.BULLET_MUSHROOM)){
             explodename = "BulletMushRoomExplode"; 
         }
         else{
@@ -90,7 +90,7 @@ public class Bullet extends Sprite{
                 this.kill(); 
             }
         }
-        else if(this.state == Constants.EXPLODE){
+        else if(this.state.equals(Constants.EXPLODE)){
             if (this.current_time - this.explode_timer > 500){
                 this.state = Constants.DIE; 
                 this.kill(); 

@@ -119,11 +119,11 @@ public class Plant extends Sprite{
     }
 
     public void handleState(){
-        if(state == Constants.DIE)
+        if(state.equals(Constants.DIE))
             idling();
-        else if(state == Constants.ATTACK)
+        else if(state.equals(Constants.ATTACK))
             attacking();
-        else if(state == Constants.DIGEST)
+        else if(state.equals(Constants.DIGEST))
             digest();
     }
     public void idling(){}
@@ -149,7 +149,7 @@ public class Plant extends Sprite{
 
     
     public boolean canAttack(Zombie zombie){
-        if(this.state != Constants.SLEEP && zombie.state != Constants.DIE &&
+        if(!this.state.equals(Constants.SLEEP) && !zombie.state.equals(Constants.DIE) &&
         this.rect.left < zombie.rect.left + zombie.rect.width())
             return true;
         return false;

@@ -40,7 +40,7 @@ public class Squash extends Plant{
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(getState() == Constants.IDLE &&
+        if(getState().equals(Constants.IDLE) &&
         this.rect.left < zombie.rect.left + zombie.rect.width() &&
         this.rect.left+this.rect.width() >=zombie.rect.left )
             return true;

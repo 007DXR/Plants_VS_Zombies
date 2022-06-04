@@ -62,7 +62,7 @@ public class IceShroom extends Plant {
             if(current_time - animate_timer > 100){
                 frame_index+=1;
                 if(frame_index >= frame_num){
-                    if(getState() == Constants.SLEEP)
+                    if(getState().equals(Constants.SLEEP))
                         frame_index = 0;
                     else{
                         setFreeze();
