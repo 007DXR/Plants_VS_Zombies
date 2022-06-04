@@ -52,12 +52,12 @@ public class Control{
         this.state.startUp(this.current_time, this.game_info);
     }
 
-    public void update() {
+    public void update(Graphics g) {
         this.current_time = (int)System.currentTimeMillis();
         if (this.state.done) {
             this.flip_state();
         }
-        this.state.update(this.current_time, this.mousePos, this.mouseClick);
+        this.state.update(g, this.current_time, this.mousePos, this.mouseClick);
     }
 
     public void flip_state() {

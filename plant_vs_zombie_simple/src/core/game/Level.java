@@ -108,6 +108,7 @@ public class Level extends State {
         super();
     }
     /// 初始化
+    @Override
     public void startUp(int current_time, JSONObject persist) {
         //activate window
         this.current_time = current_time;
@@ -125,7 +126,6 @@ public class Level extends State {
 
         // 绘制背景
         level = new Sprite(background.rect.image);
-        level.paintObject(surface.getGraphics());
     }
     /// 读入map文件信息
     public void loadMap() {
@@ -200,13 +200,14 @@ public class Level extends State {
             cars.add(new Car(-25, y+20, i));
         }
     }
-    public void update(int time,ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
+    @Override
+    public void update(Graphics g, int time,ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         current_time = time;
         game_info.put(c.CURRENT_TIME, time);
         if (state == c.CHOOSE) {
             choose(mousePos, mouseClick);
         } else if (state == c.PLAY) {
-            play(mousePos, mouseClick);
+            play(g, mousePos, mouseClick);
         }
     }
     public void initState() {
@@ -270,7 +271,7 @@ public class Level extends State {
         setupCars();
     }
     
-    public void play(ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
+    public void play(Graphics g, ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         if (zombieStartTime == 0.0) {
             zombieStartTime = current_time;
         }
@@ -313,11 +314,11 @@ public class Level extends State {
                     removeMouseImage();
                 }
                 else {
-                    addPlant();
+                    addPlant(g);
                 }
             }
             else if (mousePos.isEmpty()) {
-                setupHintImage();
+                setupHintImage(g);
             }
         }
         if (produceSun) {
@@ -374,13 +375,13 @@ public class Level extends State {
     public ArrayList<Integer> canSeedPlant() {
         return map.showPlant(mouseX, mouseY);
     }
-    public void addPlant() {
+    public void addPlant(Graphics g) {
         ArrayList<Integer> pos = canSeedPlant();
         if (pos.isEmpty()) {
             return;
         }
         if (hintImage == null) {
-            setupHintImage();
+            setupHintImage(g);
         }
         int x = hintRect.centerx();
         int y = hintRect.bottom();
@@ -453,7 +454,7 @@ public class Level extends State {
         removeMouseImage();
 
     }
-    public void setupHintImage() {
+    public void setupHintImage(Graphics g) {
         ArrayList<Integer> pos = canSeedPlant();
         if (!pos.isEmpty() && mouseImage != null) {
             if (hintImage != null && pos.get(0) == hintRect.width() &&
@@ -464,7 +465,7 @@ public class Level extends State {
             int height = mouseRect.height();
             //画图并保存属性;
             hintImage = new Sprite(mouseImage.rect.image);
-            hintImage.paintObject(surface.getGraphics());
+            hintImage.paintObject(g);
 //            Tool.setColorkey(c.BLACK)
             Tool.adjustAlpha(hintImage.rect.image, new Color(128));
             hintRect = hintImage.rect;
@@ -817,44 +818,46 @@ public class Level extends State {
             this.done = true;
         }
     }
-    public void drawMouseShow() {
+    public void drawMouseShow(Graphics g) {
         if (this.hintPlant) {
-            hintImage.paintObject(surface.getGraphics());;
+            hintImage.paintObject(g);;
         }
         int x = this.mouseX;
         int y = this.mouseY;
         this.mouseImage.rect.adjustcx(x);
         this.mouseImage.rect.adjustcy(y);
-        mouseImage.paintObject(surface.getGraphics());;
+        mouseImage.paintObject(g);;
     }
-    public void drawZombieFreezeTrap(int i) {
+    public void drawZombieFreezeTrap(Graphics g, int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
             Zombie zombie = (Zombie)sprite;
-            zombie.drawFreezeTrap(surface.getGraphics());
+            zombie.drawFreezeTrap(g);
         }
     }
+    @Override
     public void draw(Graphics g) {
+        level.paintObject(g);
         if (this.state == c.CHOOSE) {
             this.panel.paintObject(g);
         }
         else if (this.state == c.PLAY) {
-            this.menubar.paintObject(surface.getGraphics());
+            this.menubar.paintObject(g);
             for (int i = 0; i < this.map_y_len; ++i) {
-                this.plantGroups.get(i).paintObject(surface.getGraphics());
-                this.zombieGroups.get(i).paintObject(surface.getGraphics());
-                this.hypnoZombieGroups.get(i).paintObject(surface.getGraphics());
-                this.bulletGroups.get(i).paintObject(surface.getGraphics());
-                this.drawZombieFreezeTrap(i);
+                this.plantGroups.get(i).paintObject(g);
+                this.zombieGroups.get(i).paintObject(g);
+                this.hypnoZombieGroups.get(i).paintObject(g);
+                this.bulletGroups.get(i).paintObject(g);
+                this.drawZombieFreezeTrap(g, i);
             }
             for (Sprite sprite: this.cars) {
                 Car car = (Car) sprite;
-                car.paintObject(surface.getGraphics());
+                car.paintObject(g);
             }
-            this.headGroup.paintObject(surface.getGraphics());
-            this.sunGroup.paintObject(surface.getGraphics());
+            this.headGroup.paintObject(g);
+            this.sunGroup.paintObject(g);
 
             if (this.dragPlant) {
-                this.drawMouseShow();
+                this.drawMouseShow(g);
             }
         }
     }

@@ -85,7 +85,6 @@ public class Main extends JPanel{
                 System.out.println(x);
                 System.out.println(y);
                 game.event_loop(x, y, left_click, right_click);
-                game.update();
                 window.repaint();
                 // left_click = false;
                 // right_click = false;
@@ -96,6 +95,7 @@ public class Main extends JPanel{
     @Override
     public void paint(Graphics g) {
         // TODO Auto-generated method stub
+        game.update(g);
         super.paint(g);
         game.state.draw(g);
     }

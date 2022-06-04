@@ -24,7 +24,7 @@ public class State {
         //not initialize persist
     }
     
-    public void update(int time, ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {}
+    public void update(Graphics g, int time, ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {}
 
     public void startUp(int currentTime, JSONObject persist) {
     }
