@@ -50,9 +50,9 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
         int len = s.length;
         if (len > 1 && isNumeric(s[len - 1])) {
 
-            fileName = "";
-            for (int i = 0; i < len - 1; ++i)
-                fileName += s[i];
+            fileName = s[0];
+            for (int i = 1; i < len - 1; ++i)
+                fileName += "_"+s[i];
 
             fileIndex = Integer.valueOf(s[len - 1]);
 
