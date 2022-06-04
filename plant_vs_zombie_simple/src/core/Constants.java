@@ -25,7 +25,7 @@ public class Constants {
     // 草坪数据
     public static int GRID_X_LEN = 9;
     public static int GRID_Y_LEN = 5;
-    public static int GRID_X_SIZE = 80;
+    public static int GRID_X_SIZE = 84;
     public static int GRID_Y_SIZE = 100;
 
     // 游戏信息字典关键字
@@ -54,8 +54,8 @@ public class Constants {
     public static int MAP_EXIST = 1;
 
     public static int BACKGROUND_OFFSET_X = 220;
-    public static int MAP_OFFSET_X = 35;
-    public static int MAP_OFFSET_Y = 100;
+    public static int MAP_OFFSET_X = 31;
+    public static int MAP_OFFSET_Y = 85;
 
     // 菜单栏信息
     public static String CHOOSEBAR_TYPE = "choosebar_type";

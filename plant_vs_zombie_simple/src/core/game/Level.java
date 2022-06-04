@@ -203,9 +203,9 @@ public class Level extends State {
         mouseX = Main.x;
         mouseY = Main.y;
         game_info.put(c.CURRENT_TIME, time);
-        if (state.equals(c.CHOOSE)) {
+        if (state == c.CHOOSE) {
             choose(mousePos, mouseClick);
-        } else if (state.equals(c.PLAY)) {
+        } else if (state == c.PLAY) {
             play(g, mousePos, mouseClick);
         }
     }
@@ -355,17 +355,18 @@ public class Level extends State {
         int y = Pos.get(1);
         if (name.equals(c.NORMAL_ZOMBIE)) {
             zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y, headGroup));
-        }/*
-        else if (name.equals(c.CONEHEAD_ZOMBIE)) {
+        }
+        /*
+        else if (name == c.CONEHEAD_ZOMBIE) {
             zombieGroups.get(map_y).add(new ConeHeadZombie(c.ZOMBIE_START_X, y, headGroup));
         }
-        else if (name.equals(c.BUCKETHEAD_ZOMBIE)) {
+        else if (name == c.BUCKETHEAD_ZOMBIE) {
             zombieGroups.get(map_y).add(new BucketHeadZombie(c.ZOMBIE_START_X, y, headGroup));
         }
-        else if (name.equals(c.FLAG_ZOMBIE)) {
+        else if (name == c.FLAG_ZOMBIE) {
             zombieGroups.get(map_y).add(new FlagZombie(c.ZOMBIE_START_X, y, headGroup));
         }
-        else if (name.equals(c.NEWSPAPER_ZOMBIE)) {
+        else if (name == c.NEWSPAPER_ZOMBIE) {
             zombieGroups.get(map_y).add(new NewspaperZombie(c.ZOMBIE_START_X, y, headGroup));
         } */
     }
@@ -383,11 +384,17 @@ public class Level extends State {
         if (hintImage == null) {
             setupHintImage(g);
         }
-        int x = hintRect.centerx();
-        int y = hintRect.bottom();
-        ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
+        // int x = hintRect.centerx();
+        // int y = hintRect.centery();
+        ArrayList<Integer> mapIndex = map.getMapIndex(mouseX, mouseY);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
+        System.out.println(map_x);
+        System.out.println(map_y);
+        // 得到实际坐标
+        ArrayList<Integer> actualIndex = map.getMapGridPos(map_x, map_y);
+        int x = actualIndex.get(0);
+        int y = actualIndex.get(1);
         if (plantName.equals(c.WALLNUT)) {
             newPlant = new WallNut(x, y);
         }
@@ -501,10 +508,10 @@ public class Level extends State {
             height = rect.getHeight();
         }
 
-        if (plantName.equals(c.POTATOMINE) || plantName.equals(c.SQUASH) ||
-            plantName.equals(c.SPIKEWEED) || plantName.equals(c.JALAPENO) ||
-            plantName.equals(c.SCAREDYSHROOM) || plantName.equals(c.SUNSHROOM) ||
-            plantName.equals(c.ICESHROOM) || plantName.equals(c.HYPNOSHROOM)) {
+        if (plantName == c.POTATOMINE || plantName == c.SQUASH ||
+            plantName == c.SPIKEWEED || plantName == c.JALAPENO ||
+            plantName == c.SCAREDYSHROOM || plantName == c.SUNSHROOM ||
+            plantName == c.ICESHROOM || plantName == c.HYPNOSHROOM) {
             color = c.WHITE;
         }
         else {
@@ -533,7 +540,7 @@ public class Level extends State {
         for (int i = 0; i < map_y_len; ++i) {
             for (Sprite sprite : bulletGroups.get(i).list) {
                 Bullet bullet = (Bullet)sprite;
-                if ( bullet.state.equals(c.FLY) ) {
+                if ( bullet.state == c.FLY ) {
                     // 检测碰撞到的僵尸
                     Zombie zombie = (Zombie)bullet.spritecollideany(zombieGroups.get(i), collidedFunc);
                     if (zombie != null && zombie.state != c.DIE) {
@@ -571,13 +578,13 @@ public class Level extends State {
                                this.zombieGroups.get(i), false,collidedFunc);
                 for (Sprite k : zombieList) {
                     Zombie zombie = (Zombie) k;
-                    if (zombie.state.equals(c.DIE)) {
+                    if (zombie.state == c.DIE) {
                         continue;
                     }
-                    if (zombie.state.equals(c.WALK)) {
+                    if (zombie.state == c.WALK) {
                         zombie.setAttack(hypno_zombie, false);
                     }
-                    if (hypno_zombie.state.equals(c.WALK)) {
+                    if (hypno_zombie.state == c.WALK) {
                         hypno_zombie.setAttack(zombie, false);
                     }
                 }
@@ -632,16 +639,16 @@ public class Level extends State {
         if (this.barType != c.CHOSSEBAR_BOWLING) {
             this.map.setMapGridType(map_x, map_y, c.MAP_EMPTY);
         }
-        if (plant.name.equals(c.CHERRYBOMB) || plant.name.equals(c.JALAPENO) ||
-            (plant.name.equals(c.POTATOMINE) && ! plant.is_init) ) {
+        if (plant.name == c.CHERRYBOMB || plant.name == c.JALAPENO ||
+            (plant.name == c.POTATOMINE && ! plant.is_init) ) {
             this.boomZombies(plant.rect.centerx(), map_y, plant.explode_y_range,
                             plant.explode_x_range);
         }
-        else if (plant.name.equals(c.ICESHROOM) && !plant.state.equals(c.SLEEP)) {
+        else if (plant.name == c.ICESHROOM && plant.state != c.SLEEP) {
             this.freezeZombies(plant);
         }
         /*
-        else if (plant.name.equals(c.HYPNOSHROOM) && plant.state.equals(c.SLEEP)) {
+        else if (plant.name == c.HYPNOSHROOM && plant.state != c.SLEEP) {
             zombie = plant.kill_zombie
             zombie.setHypno()
             _, map_y = this.map.getMapIndex(zombie.rect.centerx, zombie.rect.bottom)
@@ -655,8 +662,8 @@ public class Level extends State {
         boolean canAttack;
         boolean needCry;
         int zombieLen = this.zombieGroups.get(i).list.size();
-        if (plant.name.equals(c.THREEPEASHOOTER)) {
-            if (plant.state.equals(c.IDLE)) {
+        if (plant.name == c.THREEPEASHOOTER) {
+            if (plant.state == c.IDLE) {
                 if (zombieLen > 0) {
                     plant.setAttack();
                 }
@@ -667,7 +674,7 @@ public class Level extends State {
                     plant.setAttack();
                 }
             }
-            else if (plant.state.equals(c.ATTACK)) {
+            else if (plant.state == c.ATTACK) {
                 if (zombieLen > 0) {
                     // do nothing
                 }
@@ -682,7 +689,7 @@ public class Level extends State {
                 }
             }
         }
-        else if (plant.name.equals(c.CHOMPER)) {
+        else if (plant.name == c.CHOMPER) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
                 if (plant.canAttack(zombie)) {
@@ -691,7 +698,7 @@ public class Level extends State {
                 }
             }
         }
-        else if (plant.name.equals(c.POTATOMINE)) {
+        else if (plant.name == c.POTATOMINE) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
                 if (plant.canAttack(zombie)) {
@@ -700,7 +707,7 @@ public class Level extends State {
                 }
             }
         }
-        else if (plant.name.equals(c.SQUASH)) {
+        else if (plant.name == c.SQUASH) {
             for (Sprite sprite : this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
                 if (plant.canAttack(zombie)) {
@@ -709,7 +716,7 @@ public class Level extends State {
                 }
             }
         }
-        else if (plant.name.equals(c.SPIKEWEED)) {
+        else if (plant.name == c.SPIKEWEED) {
             canAttack = false;
             for (Sprite sprite: this.zombieGroups.get(i).list) {
                 Zombie zombie = (Zombie)sprite;
@@ -718,14 +725,14 @@ public class Level extends State {
                     break;
                 }
             }
-            if (plant.state.equals(c.IDLE) && canAttack) {
+            if (plant.state == c.IDLE && canAttack) {
 //                plant.setAttack(this.zombieGroups.get(i));
             }
-            else if (plant.state.equals(c.ATTACK) && !canAttack) {
+            else if (plant.state == c.ATTACK && !canAttack) {
                 plant.setIdle();
             }
         }
-        else if (plant.name.equals(c.SCAREDYSHROOM)) {
+        else if (plant.name == c.SCAREDYSHROOM) {
             needCry = false;
             canAttack = false;
             for (Sprite sprite : this.zombieGroups.get(i).list) {
@@ -754,7 +761,7 @@ public class Level extends State {
         }
         else {
             canAttack = false;
-            if (plant.state.equals(c.IDLE) && zombieLen > 0) {
+            if (plant.state == c.IDLE && zombieLen > 0) {
                 for (Sprite sprite : this.zombieGroups.get(i).list) {
                     Zombie zombie = (Zombie)sprite;
                     if (plant.canAttack(zombie)) {
@@ -763,10 +770,10 @@ public class Level extends State {
                     }
                 }
             }
-            if (plant.state.equals(c.IDLE) && canAttack) {
+            if (plant.state == c.IDLE && canAttack) {
                 plant.setAttack();
             }
-            else if (plant.state.equals(c.ATTACK) && ! canAttack) {
+            else if (plant.state == c.ATTACK && ! canAttack) {
                 plant.setIdle();
             }
         }
@@ -843,10 +850,10 @@ public class Level extends State {
         level = new Sprite(level_rect);
         level.paintObject(g);
 
-        if (this.state.equals(c.CHOOSE)) {
+        if (this.state == c.CHOOSE) {
             this.panel.paintObject(g);
         }
-        else if (this.state.equals(c.PLAY)) {
+        else if (this.state == c.PLAY) {
             this.menubar.paintObject(g);
             for (int i = 0; i < this.map_y_len; ++i) {
                 this.plantGroups.get(i).paintObject(g);
