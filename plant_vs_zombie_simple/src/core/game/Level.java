@@ -385,10 +385,12 @@ public class Level extends State {
             setupHintImage(g);
         }
         int x = hintRect.centerx();
-        int y = hintRect.bottom();
+        int y = hintRect.centery();
         ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
+        System.out.println(map_x);
+        System.out.println(map_y);
         if (plantName.equals(c.WALLNUT)) {
             newPlant = new WallNut(x, y);
         }
