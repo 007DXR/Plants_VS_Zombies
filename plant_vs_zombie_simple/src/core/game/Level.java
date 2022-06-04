@@ -311,6 +311,8 @@ public class Level extends State {
                     removeMouseImage();
                 }
                 else {
+                    mouseX = mousePos.get(0);
+                    mouseY= mousePos.get(1); 
                     addPlant(g);
                 }
             }
