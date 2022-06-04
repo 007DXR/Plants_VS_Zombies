@@ -353,7 +353,7 @@ public class Level extends State {
         ArrayList<Integer> Pos = map.getMapGridPos(0, map_y);
         int x = Pos.get(0);
         int y = Pos.get(1);
-        if (name == c.NORMAL_ZOMBIE) {
+        if (name.equals(c.NORMAL_ZOMBIE)) {
             zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y, headGroup));
         }/*
         else if (name == c.CONEHEAD_ZOMBIE) {
