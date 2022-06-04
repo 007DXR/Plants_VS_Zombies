@@ -65,8 +65,8 @@ class CircleCollidedFunc extends CollidedFunc
     }
     public boolean collid(Sprite x, Sprite y) {
         double xr,yr;
-        xr = x.radius * ratio;
-        yr = y.radius * ratio;
+        xr = Math.max(x.rect.width(), x.rect.height()) * ratio;
+        yr = Math.max(y.rect.width(), y.rect.height()) * ratio;
         return (xr + yr) * (xr + yr) > 
         (x.rect.centerx() - y.rect.centerx()) * ((x.rect.centerx() - y.rect.centerx()))
         + (x.rect.centery() - y.rect.centery()) * (x.rect.centery() - y.rect.centery());

@@ -68,7 +68,7 @@ public class Chomper extends Plant {
     @Override
     public void attacking(){
         if(frame_index == frame_num - 3){
-            //this.zombie_group.remove(attack_zombie);
+            this.zombie_group.remove(attack_zombie);
         }
             
         if(frame_index + 1 == frame_num)
