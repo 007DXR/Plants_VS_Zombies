@@ -29,7 +29,7 @@ public class Main extends JPanel{
         window.add(surface);
         game = new Control();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(816, 638);
+        window.setSize(1500, 638);
         window.add(surface);
         window.setVisible(true);
         window.repaint();

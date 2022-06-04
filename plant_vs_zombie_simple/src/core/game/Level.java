@@ -176,7 +176,7 @@ public class Level extends State {
     }
     public void setupZombies() {
         JSONArray dataArray = mapData.getJSONArray(c.ZOMBIE_LIST);
-        ArrayList<ZombieListItem> zombieList = new ArrayList<>();
+        this.zombieList = new ArrayList<ZombieListItem>();
         for(int i = 0; i < dataArray.length(); ++i) {
             JSONObject object = dataArray.getJSONObject(i);
             ZombieListItem item = new ZombieListItem(
