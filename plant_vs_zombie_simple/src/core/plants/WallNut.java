@@ -1,6 +1,6 @@
 package core.plants;
 
-import core.Constants;
+import core.*;
 
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
@@ -9,20 +9,21 @@ public class WallNut extends Plant{
     int wallNut_state = 0;
     boolean cracked1 = false;
     boolean cracked2 = false;
+   
     ArrayList<BufferedImage> cracked1_frames;
     ArrayList<BufferedImage> cracked2_frames;
 
     public WallNut(int x, int y){
         super(Constants.WALLNUT_HEALTH, x, y, Constants.WALLNUT, 1);
-        this.load_images();
     }
     
     
-    public void load_images(){
+    public void loadImages(String name, double scale){
         String cracked1_frames_name = this.name + "_cracked1";
         String cracked2_frames_name = this.name + "_cracked2";
-        //loadFrames(cracked1_frames, cracked1_frames_name, image_x, colorkey, scale);
-        //loadFrames(cracked2_frames, cracked2_frames_name, image_x, colorkey, scale);
+        loadFrames(this.frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(cracked1_frames, cracked1_frames_name, Tool.PLANT_RECT.getJSONObject(cracked1_frames_name).getInt("x"),Constants.BLACK);
+        loadFrames(cracked2_frames, cracked2_frames_name, Tool.PLANT_RECT.getJSONObject(cracked2_frames_name).getInt("x"),Constants.BLACK);
     }
 
     public void idling(){

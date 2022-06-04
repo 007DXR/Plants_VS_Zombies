@@ -20,7 +20,7 @@ import core.game.Sprite;
  * Constant.java上的修改
  */
 
-public class Plant extends Sprite{
+public abstract class Plant extends Sprite{
 
     public int explode_y_range;
     public int explode_x_range;
@@ -61,22 +61,16 @@ public class Plant extends Sprite{
     public Plant(int health, int x, int y, String name, double scale){
         super(); 
         this.health = health;
-        //this.loadImages();
         this.state = Constants.IDLE;
         this.name = name;
         this.scale = scale;
-
-        //tool.loadImage();
-
-        //loadFrames(frames, name, image_x, colorkey, scale);
+        this.loadImages(name, scale);
+       
         this.frame_num = this.frames.size();
         this.rect = new Rect(this.frames.get(this.frame_index), x, y);
-
     }
     
-    public void loadImages(String name, double scale){
-        //loadFrames(frames, name, int image_x,Color colorkey, scale);
-    }
+    public abstract void loadImages(String name, double scale);
 
 
     // 判断鼠标点击

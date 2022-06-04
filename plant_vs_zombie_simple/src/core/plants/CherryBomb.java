@@ -18,6 +18,11 @@ public class CherryBomb extends Plant{
         setAttack();
     }
 
+    public void loadImages(String name, double scale){
+        loadFrames(this.frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+    }
+
+
     public void setBoom(){
         /**
          * BufferedImage frame = tool.GFX[Constants.CHERRY_BOOM_IMAGE];
