@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 import java.awt.*;
-
+import java.util.TreeSet;
 import core.Tool;
 import core.Constants;
 
@@ -27,7 +27,7 @@ public class MenuBar {
 
         // String menu_image_path = root + c.MENUBAR_BACKGROUND + ".png";
         // image = Tool.loadImage(menu_image_path, 1.0, c.WHITE);
-        image = Tool.GFX.get(c.MENUBAR_BACKGROUND);
+        image = ( (TreeSet<Tool.Img>) Tool.GFX.get(c.MENUBAR_BACKGROUND)).first().image;
         width = image.getWidth();
         height = image.getHeight();
 
