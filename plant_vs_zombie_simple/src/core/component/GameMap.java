@@ -50,8 +50,10 @@ public class GameMap {
     /// 传入格子坐标，传出图像单位
     public ArrayList<Integer> getMapGridPos(int map_x, int map_y) {
         ArrayList<Integer> list = new ArrayList<>();
-        list.add(map_x * c.GRID_X_SIZE + c.GRID_X_SIZE / 2 + c.MAP_OFFSET_X);
-        list.add(map_y * c.GRID_Y_SIZE + c.GRID_Y_SIZE / 5 * 3 + c.MAP_OFFSET_Y);
+        // list.add(map_x * c.GRID_X_SIZE + c.GRID_X_SIZE / 2 + c.MAP_OFFSET_X);
+        // list.add(map_y * c.GRID_Y_SIZE + c.GRID_Y_SIZE / 5 * 3 + c.MAP_OFFSET_Y);
+        list.add(map_x * c.GRID_X_SIZE+ c.MAP_OFFSET_X);
+        list.add(map_y * c.GRID_Y_SIZE+ c.MAP_OFFSET_Y);
         return list;
     }
     /// 传入格子，并指示是否存在植物 0/1

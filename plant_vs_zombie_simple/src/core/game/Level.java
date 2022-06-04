@@ -384,13 +384,17 @@ public class Level extends State {
         if (hintImage == null) {
             setupHintImage(g);
         }
-        int x = hintRect.centerx();
-        int y = hintRect.centery();
-        ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
+        // int x = hintRect.centerx();
+        // int y = hintRect.centery();
+        ArrayList<Integer> mapIndex = map.getMapIndex(mouseX, mouseY);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
         System.out.println(map_x);
         System.out.println(map_y);
+        // 得到实际坐标
+        ArrayList<Integer> actualIndex = map.getMapGridPos(map_x, map_y);
+        int x = actualIndex.get(0);
+        int y = actualIndex.get(1);
         if (plantName.equals(c.WALLNUT)) {
             newPlant = new WallNut(x, y);
         }
