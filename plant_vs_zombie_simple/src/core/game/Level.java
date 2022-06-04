@@ -200,6 +200,8 @@ public class Level extends State {
     @Override
     public void update(Graphics g, int time,ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         current_time = time;
+        mouseX = Main.x;
+        mouseY = Main.y;
         game_info.put(c.CURRENT_TIME, time);
         if (state == c.CHOOSE) {
             choose(mousePos, mouseClick);
@@ -311,8 +313,6 @@ public class Level extends State {
                     removeMouseImage();
                 }
                 else {
-                    mouseX = mousePos.get(0);
-                    mouseY= mousePos.get(1); 
                     addPlant(g);
                 }
             }

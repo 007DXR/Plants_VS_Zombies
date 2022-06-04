@@ -48,15 +48,18 @@ public class Main extends JPanel{
                     left_click = true;
                 if(e.getButton()==MouseEvent.BUTTON2)
                     right_click = true;
+                System.out.printf("%d %d\n",x,y);
             };
 
             @Override
             public void mouseMoved(MouseEvent e) {
                 x = e.getX();
                 y = e.getY();
+                System.out.printf("%d %d\n",x,y);
             }
         };
         surface.addMouseListener(l);
+        surface.addMouseMotionListener(l);
 
         state_dict.put(c.LEVEL, new Level());
         ArrayList<String> state_array = new ArrayList<>();
