@@ -201,9 +201,11 @@ public class Level extends State {
         game_info.put(c.CURRENT_TIME, time);
         if (state == c.CHOOSE) {
             choose(mousePos, mouseClick);
-        } else if(state == c.PLAY) {
+        } else if (state == c.PLAY) {
             play(mousePos, mouseClick);
         }
+        
+        draw();
     }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
