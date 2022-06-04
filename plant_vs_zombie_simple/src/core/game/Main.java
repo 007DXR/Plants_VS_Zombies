@@ -72,9 +72,9 @@ public class Main extends JPanel{
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                System.out.println(left_click);
-                System.out.println(x);
-                System.out.println(y);
+                // System.out.println(left_click);
+                // System.out.println(x);
+                // System.out.println(y);
                 game.event_loop(x, y, left_click, right_click);
                 window.repaint();
                 left_click = false;
