@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.awt.*;
 
 import core.Tool;
+import core.Constants;
 
 public class MenuBar {
     public int x = 10;
@@ -22,17 +23,18 @@ public class MenuBar {
     public int value_y;
 
     public MenuBar(int[] card_list, int sun_value) {
-        String root = "plant_vs_zombie_simple/resources/graphics/Screen/";
+        // String root = "plant_vs_zombie_simple/resources/graphics/Screen/";
 
-        String menu_image_path = root + c.MENUBAR_BACKGROUND + ".png";
-        image = Tool.loadImage(menu_image_path, 1.0, c.WHITE);
+        // String menu_image_path = root + c.MENUBAR_BACKGROUND + ".png";
+        // image = Tool.loadImage(menu_image_path, 1.0, c.WHITE);
+        image = Tool.GFX.get(c.MENUBAR_BACKGROUND);
         width = image.getWidth();
         height = image.getHeight();
 
         this.sun_value = sun_value;
         setupCards(card_list);
     }
-    
+
     // 更新状态
     public void update(int current_time) {
         this.current_time = current_time;
@@ -50,7 +52,7 @@ public class MenuBar {
             this.card_list.add(new Card(x, y, index, 0.78));
         }
     }
-    
+
     // 判断点击到卡片
     public Card checkCardClick(int x, int y) {
         Card result = null;
@@ -72,10 +74,9 @@ public class MenuBar {
         else
             return false;
     }
-    
+
     // 减少阳光
-    public void decreaseSunValue(int value)
-    {
+    public void decreaseSunValue(int value) {
         sun_value -= value;
     }
 
@@ -106,7 +107,9 @@ public class MenuBar {
     public void paintObject(Graphics g) {
         drawSunValue();
         g.drawImage(image, x, y, null);
-        for(Card card : card_list)
+        for (Card card : card_list)
             card.paintObject(g);
     }
 }
+
+class c extends Constants {};
