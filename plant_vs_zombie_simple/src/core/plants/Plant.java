@@ -14,6 +14,7 @@ import core.game.Group;
 import core.game.Rect;
 import core.game.Sprite; 
 
+
 /**
  * 需要修改的部分
  * 图片加载LoadFrames LoadImages
@@ -82,9 +83,16 @@ public abstract class Plant extends Sprite{
     //        return false;
     //}
     
-    public void loadFrames(ArrayList<BufferedImage> frames, String name, int image_x, Color colorkey) {
+    public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey) {
+        int image_x;
+        try{
+            image_x = Tool.PLANT_RECT.getJSONObject(name).getInt("x");
+        }catch(Exception e){
+            image_x = 0;
+        }
+
         TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
-       
+      
         for (Tool.Img frame : frame_list) {
             BufferedImage rect = frame.image;
             int width = rect.getWidth();
