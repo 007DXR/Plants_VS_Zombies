@@ -15,7 +15,7 @@ import core.*;
 
 class PuffShroom extends Plant{
     private long shoot_timer = 0; 
-    private List<Bullet> bullet_group; 
+    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
     boolean can_sleep = true;
     public PuffShroom(int x, int y, boolean day){
         super(Constants.PLANT_HEALTH, x, y, Constants.PUFFSHROOM, 1);

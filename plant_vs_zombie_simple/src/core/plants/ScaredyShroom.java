@@ -16,7 +16,7 @@ import core.*;
 
 class  ScaredyShroom extends Plant{
     private long shoot_timer = 0; 
-    private List<Bullet> bullet_group; 
+    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
     boolean can_sleep = true;
     ArrayList<BufferedImage> cry_frames;
     private int cry_x_range = c.GRID_X_SIZE * 2;

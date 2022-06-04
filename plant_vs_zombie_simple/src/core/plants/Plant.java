@@ -28,7 +28,7 @@ public class Plant extends Sprite{
     public int frame_index=0;
     public int frame_num;
     public Zombie attack_zombie = null;
-    public Group zombie_group;
+    public Group zombie_group = null;
 
     //public int width;
     //public int height;
@@ -50,11 +50,12 @@ public class Plant extends Sprite{
     long current_time = 0;
     public boolean is_init;
 
-    public ArrayList<BufferedImage> frames;
-    ArrayList<BufferedImage> attack_frames;
-    ArrayList<BufferedImage> sleep_frames;
-    ArrayList<BufferedImage> idle_frames;
-    ArrayList<BufferedImage> big_frames;
+    public ArrayList<BufferedImage> frames  = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> framesArrayList = new ArrayList<BufferedImage>();
+    ArrayList<BufferedImage> attack_frames = new ArrayList<BufferedImage>();
+    ArrayList<BufferedImage> sleep_frames = new ArrayList<BufferedImage>();
+    ArrayList<BufferedImage> idle_frames = new ArrayList<BufferedImage>();
+    ArrayList<BufferedImage> big_frames = new ArrayList<BufferedImage>();
 
     // 因为继承之后的构造函数只要传入x和y，所以这里没有修改
     public Plant(int health, int x, int y, String name, double scale){

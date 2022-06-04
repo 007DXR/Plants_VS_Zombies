@@ -30,9 +30,9 @@ public class Bullet extends Sprite{
     public int frame_index=0;
     public int frame_num;
 
-    public ArrayList<BufferedImage> frames;
-    ArrayList<BufferedImage> fly_frames;
-    ArrayList<BufferedImage> explode_frames;
+    public ArrayList<BufferedImage> frames = new ArrayList<BufferedImage>();
+    ArrayList<BufferedImage> fly_frames = new ArrayList<BufferedImage>();
+    ArrayList<BufferedImage> explode_frames = new ArrayList<BufferedImage>();
 
     public Bullet(int x, int y, int dest_y, String name, int damage, boolean ice){
         this.dest_y = dest_y; 

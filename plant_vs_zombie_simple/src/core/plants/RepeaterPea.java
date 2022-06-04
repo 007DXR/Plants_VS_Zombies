@@ -15,7 +15,7 @@ import core.*;
 
 class RepeaterPea extends Plant{
     private long shoot_timer = 0; 
-    private List<Bullet> bullet_group; 
+    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
     public RepeaterPea(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.REPEATERPEA, 1); 
         this.shoot_timer = 0; 
