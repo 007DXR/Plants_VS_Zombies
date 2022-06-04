@@ -8,18 +8,21 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.bullets.Bullet;
+import core.game.Group;
+
 import java.util.List;
 
 import core.Constants;
 import core.*;
 
-class PuffShroom extends Plant{
+public class PuffShroom extends Plant{
     private long shoot_timer = 0; 
-    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
+    private Group bullet_group; 
     boolean can_sleep = true;
-    public PuffShroom(int x, int y){
+    public PuffShroom(int x, int y, Group g){
         super(Constants.PLANT_HEALTH, x, y, Constants.PUFFSHROOM, 1);
         this.shoot_timer = 0; 
+        this.bullet_group = g;
     }
 
 

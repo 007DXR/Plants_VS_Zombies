@@ -8,17 +8,20 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.bullets.Bullet;
+import core.game.Group;
+
 import java.util.List;
 
 import core.Constants;
 import core.*;
 
-class SnowPeaShooter extends Plant{
+public class SnowPeaShooter extends Plant{
     private long shoot_timer = 0; 
-    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
-    public SnowPeaShooter(int x, int y){
+    private Group bullet_group; 
+    public SnowPeaShooter(int x, int y, Group g){
         super(Constants.PLANT_HEALTH, x, y, Constants.SNOWPEASHOOTER, 1); 
-        this.shoot_timer = 0; 
+        this.shoot_timer = 0;
+        this.bullet_group = g; 
     }
 
     public void attacking(){

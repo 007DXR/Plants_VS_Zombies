@@ -8,16 +8,17 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.bullets.Bullet;
-
+import core.game.Group;
 import core.Constants;
 import core.*;
 
-class PeaShooter extends Plant{
+public class PeaShooter extends Plant{
     private long shoot_timer = 0; 
-    private ArrayList<Bullet> bullet_group = new ArrayList<Bullet>(); 
-    public PeaShooter(int x, int y){
+    private Group bullet_group; 
+    public PeaShooter(int x, int y, Group g){
         super(Constants.PLANT_HEALTH, x, y, Constants.PEASHOOTER, 1); 
         this.shoot_timer = 0; 
+        this.bullet_group = g;
     }
 
     public void attacking(){

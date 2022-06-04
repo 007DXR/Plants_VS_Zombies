@@ -1,12 +1,13 @@
 package core.plants;
 
 import core.*;
+import core.game.Group;
 
 public class SunFlower extends Plant{
     long sun_timer = 0;
-    Sun []sun_group;
+    Group sun_group;
     
-    public SunFlower(int x, int y, Sun[] sun_group){
+    public SunFlower(int x, int y, Group sun_group){
         super(Constants.PLANT_HEALTH, x, y, Constants.SUNFLOWER, 1);    
         sun_timer = 0;
         this.sun_group = sun_group;   

@@ -14,16 +14,17 @@ import java.util.List;
 import core.Constants;
 import core.*;
 
-class  ScaredyShroom extends Plant{
+public class  ScaredyShroom extends Plant{
     private long shoot_timer = 0; 
-    private ArrayList<Bullet> bullet_group = new  ArrayList<Bullet>(); 
+    private Group bullet_group; 
     boolean can_sleep = true;
     ArrayList<BufferedImage> cry_frames;
     private int cry_x_range = c.GRID_X_SIZE * 2;
     
-    public  ScaredyShroom(int x, int y){
+    public  ScaredyShroom(int x, int y, Group g){
         super(Constants.PLANT_HEALTH, x, y, Constants.SCAREDYSHROOM, 1);
         this.shoot_timer = 0; 
+        this.bullet_group = g;
     }
 
     public void setCry(){

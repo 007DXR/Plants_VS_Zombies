@@ -394,30 +394,30 @@ public class Level extends State {
         else if (plantName.equals(c.SQUASH)) {
             newPlant = new Squash(x, y);
         }
-        /*else if (plantName.equals(c.SUNFLOWER)) {
-            newPlant = new SunFlower(x, y, sun_group);
-        }*/
-        /*else if (plantName.equals(c.PEASHOOTER)) {
-            newPlant = new PeaShooter(x, y, bullet_groups[map_y]);
+        else if (plantName.equals(c.SUNFLOWER)) {
+            newPlant = new SunFlower(x, y, sunGroup);
+        }
+        else if (plantName.equals(c.PEASHOOTER)) {
+            newPlant = new PeaShooter(x, y, bulletGroups.get(map_y));
         }
         else if (plantName.equals(c.SNOWPEASHOOTER)) {
-            newPlant = new SnowPeaShooter(x, y, bullet_groups[map_y]);
-        }*/
+            newPlant = new SnowPeaShooter(x, y, bulletGroups.get(map_y));
+        }
         else if (plantName.equals(c.CHERRYBOMB)) {
             newPlant = new CherryBomb(x, y);
         }
-        /*else if (plantName.equals(c.THREEPEASHOOTER)) {
-            newPlant = new ThreePeaShooter(x, y, bullet_groups, map_y);
+        else if (plantName.equals(c.THREEPEASHOOTER)) {
+            newPlant = new ThreePeaShooter(x, y, bulletGroups, map_y);
         }
         else if (plantName.equals(c.REPEATERPEA)) {
-            newPlant = new RepeaterPea(x, y, bullet_groups[map_y]);
-        }*/
+            newPlant = new RepeaterPea(x, y, bulletGroups.get(map_y));
+        }
         else if (plantName.equals(c.CHOMPER)) {
             newPlant = new Chomper(x, y);
         }
-        /*else if (plantName.equals(c.PUFFSHROOM)) {
-            newPlant = new PuffShroom(x, y, bullet_groups[map_y]);
-        }*/
+        else if (plantName.equals(c.PUFFSHROOM)) {
+            newPlant = new PuffShroom(x, y, bulletGroups.get(map_y));
+        }
         else if (plantName.equals(c.POTATOMINE)){
             newPlant = new PotatoMine(x, y);
         }
@@ -427,12 +427,12 @@ public class Level extends State {
         else if (plantName.equals(c.JALAPENO)) {
             newPlant = new Jalapeno(x, y);
         }
-        /*else if (plantName.equals(c.SCAREDYSHROOM)) {
-            newPlant = new ScaredyShroom(x, y, bullet_groups[map_y]);
+        else if (plantName.equals(c.SCAREDYSHROOM)) {
+            newPlant = new ScaredyShroom(x, y, bulletGroups.get(map_y));
         }
         else if (plantName.equals(c.SUNSHROOM)) {
-            newPlant = new SunShroom(x, y, sun_group);
-        }*/
+            newPlant = new SunShroom(x, y, sunGroup);
+        }
         else if (plantName.equals(c.ICESHROOM)) {
             newPlant = new IceShroom(x, y);
         }

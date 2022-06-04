@@ -8,19 +8,22 @@ import java.util.TreeSet;
 import javax.imageio.ImageIO;
 import core.zombies.Zombie;
 import core.bullets.Bullet;
+import core.game.Group;
+
 import java.util.List;
 
 import core.Constants;
 import core.*;
 
-class ThreePeaShooter extends Plant{
+public class ThreePeaShooter extends Plant{
     private long shoot_timer = 0; 
     private int map_y; 
-    private List<Bullet> bullet_group; 
-    public ThreePeaShooter(int x, int y){
+    private ArrayList<Group> bullet_group; 
+    public ThreePeaShooter(int x, int y, ArrayList<Group> g, int map_y){
         super(Constants.PLANT_HEALTH, x, y, Constants.THREEPEASHOOTER, 1); 
         this.shoot_timer = 0; 
-        //this.map_y = map_y; 
+        this.bullet_group = g;
+        this.map_y = map_y; 
     }
 
     public void attacking(){
@@ -31,7 +34,7 @@ class ThreePeaShooter extends Plant{
                 if (tmp_y < 0 || tmp_y >= Constants.GRID_Y_LEN){continue; }
                 int dest_y = this.rect.centery() + (i-1) * Constants.GRID_Y_SIZE + offset_y; 
                 Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.centery(), dest_y, Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false); 
-                this.bullet_group.add(bullet); 
+                this.bullet_group.get(tmp_y).add(bullet); 
             }
             this.shoot_timer = this.current_time; 
         }

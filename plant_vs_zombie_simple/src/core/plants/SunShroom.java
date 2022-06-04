@@ -2,6 +2,7 @@ package core.plants;
 
 import core.*;
 import core.Constants;
+import core.game.Group;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -15,10 +16,11 @@ public class SunShroom extends Plant{
     long change_timer = 0;
     long animate_interval = 200;
 
-    Sun []sun_group;
+    Group sun_group;
     
-    public SunShroom(int hp, int x, int y){
-        super(hp, x, y, Constants.SUNSHROOM, Constants.SMALL_SUNSHROOM_SCALE);   
+    public SunShroom(int x, int y, Group g){
+        super(Constants.PLANT_HEALTH, x, y, Constants.SUNSHROOM, Constants.SMALL_SUNSHROOM_SCALE);  
+        this.sun_group = g;
     }
 
     @Override
