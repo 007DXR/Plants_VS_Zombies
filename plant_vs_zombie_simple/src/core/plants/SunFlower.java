@@ -13,7 +13,7 @@ public class SunFlower extends Plant{
     }
 
     public void loadImages(String name, double scale){
-        loadFrames(frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(frames, name,  Constants.BLACK);
     }
 
     public void idling(){

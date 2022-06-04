@@ -33,9 +33,9 @@ public class PotatoMine extends Plant{
         String explode_name = name + "Explode";
 
         
-        loadFrames(init_frames, init_name, Tool.PLANT_RECT.getJSONObject(init_name).getInt("x"), Constants.BLACK);
-        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
-        loadFrames(explode_frames, explode_name, Tool.PLANT_RECT.getJSONObject(explode_name).getInt("x"), Constants.BLACK);
+        loadFrames(init_frames, init_name, Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Constants.BLACK);
+        loadFrames(explode_frames, explode_name, Constants.BLACK);
         
         this.frames = init_frames;
     }
