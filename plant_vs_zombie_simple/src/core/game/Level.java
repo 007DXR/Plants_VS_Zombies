@@ -122,6 +122,10 @@ public class Level extends State {
         loadMap();
         setupBackgroud();
         initState();
+
+        // 绘制背景
+        level = new Sprite(background.rect.image);
+        level.paintObject(surface.getGraphics());
     }
     /// 读入map文件信息
     public void loadMap() {
@@ -204,8 +208,6 @@ public class Level extends State {
         } else if (state == c.PLAY) {
             play(mousePos, mouseClick);
         }
-        
-        draw();
     }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
@@ -831,13 +833,9 @@ public class Level extends State {
             zombie.drawFreezeTrap(surface.getGraphics());
         }
     }
-    public void draw() {
-        level = new Sprite(background.rect.image);
-        level.paintObject(surface.getGraphics());
-//        self.level.blit(self.background, self.viewport, self.viewport)
-//        surface.blit(this.level, (0,0), this.viewport)
+    public void draw(Graphics g) {
         if (this.state == c.CHOOSE) {
-            this.panel.paintObject(surface.getGraphics());
+            this.panel.paintObject(g);
         }
         else if (this.state == c.PLAY) {
             this.menubar.paintObject(surface.getGraphics());

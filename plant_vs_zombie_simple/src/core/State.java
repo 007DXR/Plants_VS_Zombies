@@ -25,7 +25,10 @@ public class State {
     }
     
     public void update(int time, ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {}
-    public void startUp(int currentTime, JSONObject persist) {}
+
+    public void startUp(int currentTime, JSONObject persist) {
+    }
+    public void draw(Graphics g){}
     public JSONObject cleanUp() {
         done = false;
         return persist;
