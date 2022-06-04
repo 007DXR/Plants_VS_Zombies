@@ -109,7 +109,7 @@ public class Level extends State {
     }
     /// 初始化
     @Override
-    public void startUp(int current_time, JSONObject persist) {
+    public void startUp(long current_time, JSONObject persist) {
         //activate window
         this.current_time = current_time;
         surface = Main.surface;
@@ -285,10 +285,10 @@ public class Level extends State {
         ArrayList<Object> list = new ArrayList<>();
         list.add(game_info);
         for (int i = 0; i < map_y_len; ++i) {
-            bulletGroups.get(i).update(list);
-            plantGroups.get(i).update(list);
-            zombieGroups.get(i).update(list);
-            hypnoZombieGroups.get(i).update(list);
+            bulletGroups.get(i).update();
+            plantGroups.get(i).update();
+            zombieGroups.get(i).update();
+            hypnoZombieGroups.get(i).update();
             //迷惑的功能，暂时还没什么用
             /*
             for (zombie in hypno_zombie_groups[i]) {
@@ -296,8 +296,8 @@ public class Level extends State {
                     zombie.kill()
             }*/
         }
-        headGroup.update(list);
-        sunGroup.update(list);
+        headGroup.update();
+        sunGroup.update();
         menubar.update((int)current_time);
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.get(0)==true) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
@@ -337,7 +337,7 @@ public class Level extends State {
                     menubar.increaseSunValue(sun.sun_value)*/
         }
         for (Car car:cars) {
-            car.update(list);
+            car.update();
         }
 
         //危险
@@ -394,55 +394,52 @@ public class Level extends State {
         }
         else if (plantName.equals(c.SQUASH)) {
             newPlant = new Squash(x, y);
-        }/*
-        else if (plantName == c.SUNFLOWER) {
-            newPlant = new SunFlower(x, y, sun_group);
         }
-        else if (plantName == c.PEASHOOTER) {
+        /*else if (plantName.equals(c.SUNFLOWER)) {
+            newPlant = new SunFlower(x, y, sun_group);
+        }*/
+        /*else if (plantName.equals(c.PEASHOOTER)) {
             newPlant = new PeaShooter(x, y, bullet_groups[map_y]);
         }
-        else if (plantName == c.SNOWPEASHOOTER) {
+        else if (plantName.equals(c.SNOWPEASHOOTER)) {
             newPlant = new SnowPeaShooter(x, y, bullet_groups[map_y]);
-        }
-        else if (plantName == c.CHERRYBOMB) {
+        }*/
+        else if (plantName.equals(c.CHERRYBOMB)) {
             newPlant = new CherryBomb(x, y);
         }
-        else if (plantName == c.THREEPEASHOOTER) {
+        /*else if (plantName.equals(c.THREEPEASHOOTER)) {
             newPlant = new ThreePeaShooter(x, y, bullet_groups, map_y);
         }
-        else if (plantName == c.REPEATERPEA) {
+        else if (plantName.equals(c.REPEATERPEA)) {
             newPlant = new RepeaterPea(x, y, bullet_groups[map_y]);
-        }
-        else if (plantName == c.CHOMPER) {
+        }*/
+        else if (plantName.equals(c.CHOMPER)) {
             newPlant = new Chomper(x, y);
         }
-        else if (plantName == c.PUFFSHROOM) {
+        /*else if (plantName.equals(c.PUFFSHROOM)) {
             newPlant = new PuffShroom(x, y, bullet_groups[map_y]);
-        }
-        else if (plantName == c.POTATOMINE) {
+        }*/
+        else if (plantName.equals(c.POTATOMINE)){
             newPlant = new PotatoMine(x, y);
         }
-        else if (plantName == c.SQUASH) {
-            newPlant = new Squash(x, y);
-        }
-        else if (plantName == c.SPIKEWEED) {
+        else if (plantName.equals(c.SPIKEWEED)) {
             newPlant = new Spikeweed(x, y);
         }
-        else if (plantName == c.JALAPENO) {
+        else if (plantName.equals(c.JALAPENO)) {
             newPlant = new Jalapeno(x, y);
         }
-        else if (plantName == c.SCAREDYSHROOM) {
+        /*else if (plantName.equals(c.SCAREDYSHROOM)) {
             newPlant = new ScaredyShroom(x, y, bullet_groups[map_y]);
         }
-        else if (plantName == c.SUNSHROOM) {
+        else if (plantName.equals(c.SUNSHROOM)) {
             newPlant = new SunShroom(x, y, sun_group);
-        }
-        else if (plantName == c.ICESHROOM) {
+        }*/
+        else if (plantName.equals(c.ICESHROOM)) {
             newPlant = new IceShroom(x, y);
         }
-        else if (plantName == c.HYPNOSHROOM) {
+        else if (plantName.equals(c.HYPNOSHROOM)) {
             newPlant = new HypnoShroom(x, y);
-        }*/
+        }
 
         if (newPlant.can_sleep && backgroundType == c.BACKGROUND_DAY) {
             newPlant.setSleep();

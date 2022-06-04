@@ -33,9 +33,9 @@ public class Squash extends Plant{
         String aim_name = name + "Aim";
         String attack_name = name + "Attack";
 
-        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
-        loadFrames(aim_frames, aim_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
-        loadFrames(attack_frames, attack_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Constants.BLACK);
+        loadFrames(aim_frames, aim_name, Constants.BLACK);
+        loadFrames(attack_frames, attack_name, Constants.BLACK);
         
         this.frames = idle_frames;
     }
