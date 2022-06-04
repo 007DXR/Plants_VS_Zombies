@@ -19,7 +19,7 @@ public class CherryBomb extends Plant{
     }
 
     public void loadImages(String name, double scale){
-        loadFrames(this.frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(this.frames, name, Constants.BLACK);
     }
 
 

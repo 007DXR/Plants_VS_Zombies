@@ -21,7 +21,7 @@ public class Spikeweed extends Plant{
 
     @Override
     public void loadImages(String name, double scale){
-        loadFrames(frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.WHITE);
+        loadFrames(frames, name, Constants.WHITE);
     }
 
     @Override

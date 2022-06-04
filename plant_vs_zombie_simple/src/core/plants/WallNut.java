@@ -25,10 +25,9 @@ public class WallNut extends Plant{
         String cracked1_frames_name = this.name + "_cracked1";
         String cracked2_frames_name = this.name + "_cracked2";
    
-        loadFrames(this.frames, name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"), Constants.BLACK);
-        loadFrames(this.cracked1_frames, name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"),Constants.BLACK);
-        loadFrames(this.cracked2_frames, name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"),Constants.BLACK);
-
+        loadFrames(this.frames, name, Constants.BLACK);
+        loadFrames(this.cracked1_frames, cracked1_frames_name, Constants.BLACK);
+        loadFrames(this.cracked2_frames, cracked2_frames_name, Constants.BLACK);
     }
 
     public void idling(){
