@@ -66,15 +66,6 @@ public class Main extends JPanel{
         state_array.add(c.LEVEL);
         game.setup_states(state_dict, state_array, c.LEVEL);
 
-        // while (true) {
-        //     left_click = false;
-        //     right_click = false;
-        //     game.event_loop(x, y, left_click, right_click);
-        //     game.update();
-        //     window.repaint();
-
-        // }
-
         // 定时运行
         Timer timer = new Timer();
         int interval = 10;
@@ -86,8 +77,8 @@ public class Main extends JPanel{
                 System.out.println(y);
                 game.event_loop(x, y, left_click, right_click);
                 window.repaint();
-                // left_click = false;
-                // right_click = false;
+                left_click = false;
+                right_click = false;
             }
         }, interval, interval);
     }

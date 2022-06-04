@@ -123,9 +123,6 @@ public class Level extends State {
         loadMap();
         setupBackgroud();
         initState();
-
-        // 绘制背景
-        level = new Sprite(background.rect.image);
     }
     /// 读入map文件信息
     public void loadMap() {
@@ -834,9 +831,12 @@ public class Level extends State {
             zombie.drawFreezeTrap(g);
         }
     }
-    @Override
+
     public void draw(Graphics g) {
+        // 绘制背景
+        level = new Sprite(background.rect.image);
         level.paintObject(g);
+
         if (this.state == c.CHOOSE) {
             this.panel.paintObject(g);
         }
