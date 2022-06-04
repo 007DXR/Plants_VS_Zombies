@@ -10,9 +10,9 @@ public class Group {
     public Group() {
         list = new LinkedList<>();
     }
-    public void update(ArrayList<Object> args) {
+    public void update() {
         for (Sprite g: list) {
-            g.update(args);
+            g.update();
         }
     }
     public void paintObject(Graphics g) {

@@ -16,7 +16,7 @@ public class Car extends Sprite {
     public String state;
     
     public boolean dead;
-    public int current_time;
+    public long current_time;
     public int map_y;
 
     public int frame_index = 0;
@@ -42,8 +42,8 @@ public class Car extends Sprite {
         this.dead = false;
     }
 
-    public void update(int current_time) {
-        this.current_time = current_time;
+    public void update() {
+        this.current_time = System.currentTimeMillis();
         if (this.state == Constants.WALK) {
             this.rect.left += 4;
         }

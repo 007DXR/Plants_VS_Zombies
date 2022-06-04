@@ -14,7 +14,7 @@ public abstract class Screen extends State {
         this.end_time = 3000;
     }
 
-    public void startup(int current_time, JSONObject persist){
+    public void startup(long current_time, JSONObject persist){
         this.start_time = current_time;
         this.next = c.LEVEL;
         this.persist = persist;
@@ -33,7 +33,7 @@ public abstract class Screen extends State {
    
     }
     // ,ArrayList<Integer> mouse_pos,Boolean mouse_click
-    public void  update(Graphics surface, ArrayList<Integer> mousePos,int current_time){
+    public void  update(Graphics surface, ArrayList<Integer> mousePos,long current_time){
         if(current_time - this.start_time < this.end_time){
             // surface.fill(c.WHITE)
             // surface.blit(this.image, this.rect);
