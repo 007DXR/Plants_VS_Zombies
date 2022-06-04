@@ -109,7 +109,7 @@ public class Level extends State {
     }
     /// 初始化
     @Override
-    public void startUp(int current_time, JSONObject persist) {
+    public void startUp(long current_time, JSONObject persist) {
         //activate window
         this.current_time = current_time;
         surface = Main.surface;
@@ -285,10 +285,10 @@ public class Level extends State {
         ArrayList<Object> list = new ArrayList<>();
         list.add(game_info);
         for (int i = 0; i < map_y_len; ++i) {
-            bulletGroups.get(i).update(list);
-            plantGroups.get(i).update(list);
-            zombieGroups.get(i).update(list);
-            hypnoZombieGroups.get(i).update(list);
+            bulletGroups.get(i).update();
+            plantGroups.get(i).update();
+            zombieGroups.get(i).update();
+            hypnoZombieGroups.get(i).update();
             //迷惑的功能，暂时还没什么用
             /*
             for (zombie in hypno_zombie_groups[i]) {
@@ -296,8 +296,8 @@ public class Level extends State {
                     zombie.kill()
             }*/
         }
-        headGroup.update(list);
-        sunGroup.update(list);
+        headGroup.update();
+        sunGroup.update();
         menubar.update((int)current_time);
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.get(0)==true) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
@@ -337,7 +337,7 @@ public class Level extends State {
                     menubar.increaseSunValue(sun.sun_value)*/
         }
         for (Car car:cars) {
-            car.update(list);
+            car.update();
         }
 
         //危险

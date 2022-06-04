@@ -77,7 +77,7 @@ public class Sprite
         }
         return sprites;
     }
-    public void update(ArrayList<Object> args) {
+    public void update() {
 
     }
     public void added(Group g) {

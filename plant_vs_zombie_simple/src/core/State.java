@@ -6,9 +6,9 @@ import java.awt.Graphics;
 import core.json.JSONObject;
 
 public class State {
-    public int start_time;
-    public int current_time;
-    public int end_time;
+    public long start_time;
+    public long current_time;
+    public long end_time;
     public boolean done;
     public String next;
     public JSONObject persist;
@@ -26,7 +26,7 @@ public class State {
     
     public void update(Graphics g, int time, ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {}
 
-    public void startUp(int currentTime, JSONObject persist) {
+    public void startUp(long currentTime, JSONObject persist) {
     }
     public void draw(Graphics g){}
     public JSONObject cleanUp() {
