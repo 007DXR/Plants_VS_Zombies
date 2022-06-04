@@ -87,8 +87,8 @@ public class Main extends JPanel{
                 game.event_loop(x, y, left_click, right_click);
                 game.update();
                 window.repaint();
-                // left_click = false;
-                // right_click = false;
+                left_click = false;
+                right_click = false;
             }
         }, interval, interval);
     }
