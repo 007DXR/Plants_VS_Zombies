@@ -836,7 +836,8 @@ public class Level extends State {
 
     public void draw(Graphics g) {
         // 绘制背景
-        level = new Sprite(background.rect.image);
+        Rect level_rect = new Rect(background.rect.image, -viewportLeft, 0);
+        level = new Sprite(level_rect);
         level.paintObject(g);
 
         if (this.state == c.CHOOSE) {

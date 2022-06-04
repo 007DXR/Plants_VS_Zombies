@@ -31,16 +31,16 @@ public class Rect {
         return top + height();
     }
     public int centerx() {
-        return (left + width()) / 2;
+        return left + (width() / 2);
     }
     public int centery() {
-        return (top + height()) / 2;
+        return top + (height() / 2);
     }
     public int centerx(double ratio) {
-        return (int)((left + width() * ratio) / 2);
+        return left + (int)(width() * ratio / 2);
     }
     public int centery(double ratio) {
-        return (int)((top + height() * ratio) / 2);
+        return top + (int)(height() * ratio / 2);
     }
     public void adjusttop(int top) {
         this.top = top;
@@ -52,10 +52,10 @@ public class Rect {
         this.top = bottom - height();
     }
     public void adjustcx(int centerx) {
-        this.left = centerx * 2 - width();
+        this.left = centerx - (int)(width() / 2);
     }
     public void adjustcy(int centery) {
-        this.top = centery * 2 - height();
+        this.top = centery - (int)(height() / 2);
     }
     /// 给定相应属性，假定长宽正确，调整左上角坐标以适应
     public void adjust(int centerx, int bottom) {
