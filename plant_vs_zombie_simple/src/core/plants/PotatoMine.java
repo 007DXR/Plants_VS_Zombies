@@ -25,6 +25,9 @@ public class PotatoMine extends Plant{
 
     @Override
     public void loadImages(String name, double scale){
+        init_frames = new ArrayList<BufferedImage>();
+        explode_frames = new ArrayList<BufferedImage>();
+
         String init_name = name + "Init";
         String idle_name = name;
         String explode_name = name + "Explode";

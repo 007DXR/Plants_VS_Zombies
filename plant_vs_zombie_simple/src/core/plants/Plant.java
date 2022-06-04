@@ -56,8 +56,7 @@ public abstract class Plant extends Sprite{
     public ArrayList<BufferedImage> sleep_frames = new ArrayList<BufferedImage>();
     public ArrayList<BufferedImage> idle_frames = new ArrayList<BufferedImage>();
     public ArrayList<BufferedImage> big_frames = new ArrayList<BufferedImage>();
-    public ArrayList<BufferedImage> cracked1_frames;
-    public ArrayList<BufferedImage> cracked2_frames;
+
 
     // 因为继承之后的构造函数只要传入x和y，所以这里没有修改
     public Plant(int health, int x, int y, String name, double scale){

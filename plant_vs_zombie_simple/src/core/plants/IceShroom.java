@@ -22,6 +22,9 @@ public class IceShroom extends Plant {
 
     @Override
     public void loadImages(String name, double scale){
+        snow_frames = new ArrayList<BufferedImage>();
+        trap_frames = new ArrayList<BufferedImage>();
+        
         String idle_name = name;
         String snow_name = name + "Snow";
         String sleep_name = name + "Sleep";

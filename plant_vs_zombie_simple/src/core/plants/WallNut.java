@@ -9,6 +9,8 @@ public class WallNut extends Plant{
     int wallNut_state = 0;
     boolean cracked1 = false;
     boolean cracked2 = false;
+    public ArrayList<BufferedImage> cracked1_frames;
+    public ArrayList<BufferedImage> cracked2_frames;
 
 
     public WallNut(int x, int y){

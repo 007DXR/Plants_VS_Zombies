@@ -10,9 +10,9 @@ public class HypnoShroom extends Plant{
     public HypnoShroom(int hp, int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.HYPNOSHROOM, 1);
     }
-
    
     public void loadImages(String name, double scale){
+        
         String idle_name = name;
         String sleep_name = name + "Sleep";
     
