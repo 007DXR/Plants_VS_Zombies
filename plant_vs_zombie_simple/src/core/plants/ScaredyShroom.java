@@ -21,10 +21,9 @@ class  ScaredyShroom extends Plant{
     ArrayList<BufferedImage> cry_frames;
     private int cry_x_range = c.GRID_X_SIZE * 2;
     
-    public  ScaredyShroom(int x, int y, boolean day){
+    public  ScaredyShroom(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.SCAREDYSHROOM, 1);
         this.shoot_timer = 0; 
-        if(day == true){setSleep();};
     }
 
     public void setCry(){

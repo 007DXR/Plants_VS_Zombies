@@ -17,11 +17,8 @@ public class SunShroom extends Plant{
 
     Sun []sun_group;
     
-    public SunShroom(int hp, int x, int y, boolean day){
+    public SunShroom(int hp, int x, int y){
         super(hp, x, y, Constants.SUNSHROOM, Constants.SMALL_SUNSHROOM_SCALE);   
-        if(day == true){
-            setSleep();
-        }        
     }
 
     @Override
@@ -35,7 +32,6 @@ public class SunShroom extends Plant{
         loadFrames(big_frames, big_name, Tool.PLANT_RECT.getJSONObject(big_name).getInt("x"), Constants.BLACK);
 
         this.frames = idle_frames;
-
     }
     
 }

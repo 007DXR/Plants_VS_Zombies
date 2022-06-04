@@ -246,6 +246,7 @@ public class Level extends State {
     public boolean hintPlant;
     public boolean produceSun;
     public double sunTimer;
+
     public void initPlay(int[] cardList) {
         state = c.PLAY;
         if (barType == c.CHOOSEBAR_STATIC) {
@@ -387,8 +388,11 @@ public class Level extends State {
         ArrayList<Integer> mapIndex = map.getMapIndex(x, y);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
-        if (plantName == c.WALLNUT) {
+        if (plantName.equals(c.WALLNUT)) {
             newPlant = new WallNut(x, y);
+        }
+        else if (plantName.equals(c.SQUASH)) {
+            newPlant = new Squash(x, y);
         }/*
         else if (plantName == c.SUNFLOWER) {
             newPlant = new SunFlower(x, y, sun_group);
@@ -453,6 +457,7 @@ public class Level extends State {
         removeMouseImage();
 
     }
+    
     public void setupHintImage(Graphics g) {
         ArrayList<Integer> pos = canSeedPlant();
         if (!pos.isEmpty() && mouseImage != null) {
@@ -479,6 +484,7 @@ public class Level extends State {
     Rect mouseRect;
     String plantName;
     Card selectPlant;
+
     public void setupMouseImage(String plantName, Card selectPlant) {
         int x,y,width,height;
         Color color;

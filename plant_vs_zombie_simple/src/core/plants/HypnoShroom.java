@@ -7,11 +7,8 @@ public class HypnoShroom extends Plant{
     boolean can_sleep = true;
     long animate_interval = 200;
 
-    public HypnoShroom(int hp, int x, int y, boolean day){
+    public HypnoShroom(int hp, int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.HYPNOSHROOM, 1);
-        
-        if(day == true)
-            setSleep();
     }
 
    

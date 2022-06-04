@@ -15,11 +15,9 @@ public class IceShroom extends Plant {
     public ArrayList<BufferedImage> trap_frames;
     
     
-    public IceShroom(int x, int y, boolean day){
+    public IceShroom(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.ICESHROOM, 1);
         orig_pos = new int[]{x,y};
-        if(day == true)
-            setSleep();
     }
 
     @Override

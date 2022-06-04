@@ -83,6 +83,7 @@ public abstract class Plant extends Sprite{
     
     public void loadFrames(ArrayList<BufferedImage> frames, String name, int image_x, Color colorkey) {
         TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
+       
         for (Tool.Img frame : frame_list) {
             BufferedImage rect = frame.image;
             int width = rect.getWidth();
