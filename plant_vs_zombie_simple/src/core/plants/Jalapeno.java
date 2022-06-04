@@ -1,6 +1,7 @@
 package core.plants;
 
-import core.Constants;
+import core.*;
+
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ public class Jalapeno extends Plant{
     @Override
     public void loadImages(String name, double scale){
         String explode_name = name + "Explode";
-        //loadFrames(explode_frames, explode_name, image_x, colorkey, 1);
-        //loadFrames(frames, name, image_x, colorkey, 1);
+        loadFrames(explode_frames, explode_name, Tool.PLANT_RECT.getJSONObject(explode_name).getInt("x"), Constants.BLACK);
+        loadFrames(frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
     }
 
     public void setExplode(){

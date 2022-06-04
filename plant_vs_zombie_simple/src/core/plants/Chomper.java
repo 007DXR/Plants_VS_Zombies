@@ -22,14 +22,23 @@ public class Chomper extends Plant {
         super(Constants.PLANT_HEALTH, x, y, Constants.CHOMPER, 1);
     }
 
+    /*
+     * public void loadImages(String name, double scale){
+        String cracked1_frames_name = this.name + "_cracked1";
+        String cracked2_frames_name = this.name + "_cracked2";
+        loadFrames(this.frames, name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(cracked1_frames, cracked1_frames_name, Tool.PLANT_RECT.getJSONObject(cracked1_frames_name).getInt("x"),Constants.BLACK);
+        loadFrames(cracked2_frames, cracked2_frames_name, Tool.PLANT_RECT.getJSONObject(cracked2_frames_name).getInt("x"),Constants.BLACK);
+    }
+     */
     public void loadImages(String name, double scale){
         String idle_name = name;
         String attack_name = name + "Attack";
         String digest_name = name + "Digest";
 
-        /*loadFrames(idle_frames, idle_name, int image_x,Color colorkey);
-        loadFrames(attack_frames, attack_name, int image_x,Color colorkey);
-        loadFrames(digest_frames, digest_name, int image_x,Color colorkey);*/
+        loadFrames(this.frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
+        loadFrames(attack_frames, attack_name, Tool.PLANT_RECT.getJSONObject(attack_name).getInt("x"),Constants.BLACK);
+        loadFrames(digest_frames, digest_name, Tool.PLANT_RECT.getJSONObject(digest_name).getInt("x"),Constants.BLACK);
 
         this.frames = idle_frames;
     }

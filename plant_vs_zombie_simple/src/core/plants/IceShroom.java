@@ -28,13 +28,16 @@ public class IceShroom extends Plant {
         String snow_name = name + "Snow";
         String sleep_name = name + "Sleep";
         String trap_name = name + "Trap";
+        
+        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
+        loadFrames(sleep_frames, sleep_name, Tool.PLANT_RECT.getJSONObject(sleep_name).getInt("x"), Constants.BLACK);
+        loadFrames(snow_frames, snow_name, Tool.PLANT_RECT.getJSONObject(snow_name).getInt("x"), Constants.BLACK);
+        loadFrames(trap_frames, trap_name, Tool.PLANT_RECT.getJSONObject(trap_name).getInt("x"), Constants.BLACK);
 
-        /*loadFrames(idle_frames, idle_name, int image_x,Color colorkey, 1);
-        loadFrames(snow_frames, snow_name, int image_x,Color colorkey, 1.5);
-        loadFrames(sleep_frames, sleep_name, int image_x,Color colorkey, 1);
-        loadFrames(trap_frames, trap_name, int image_x,Color colorkey, 1);
-        */
-        this.frames = idle_frames;
+        if(getState().equals(Constants.SLEEP))
+            frames = sleep_frames;
+        else
+            frames = idle_frames;
     }
 
     public void setFreeze(){

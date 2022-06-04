@@ -29,11 +29,11 @@ public class PotatoMine extends Plant{
         String idle_name = name;
         String explode_name = name + "Explode";
 
-        /*
-        loadFrames(init_frames, init_name, int image_x,Color colorkey, 1);
-        loadFrames(idle_frames, idle_name, int image_x,Color colorkey, 1);
-        loadFrames(explode_frames, explode_name, int image_x,Color colorkey, 1);
-        */
+        
+        loadFrames(init_frames, init_name, Tool.PLANT_RECT.getJSONObject(init_name).getInt("x"), Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
+        loadFrames(explode_frames, explode_name, Tool.PLANT_RECT.getJSONObject(explode_name).getInt("x"), Constants.BLACK);
+        
         this.frames = init_frames;
     }
 

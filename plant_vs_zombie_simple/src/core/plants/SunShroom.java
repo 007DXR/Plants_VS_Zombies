@@ -30,9 +30,9 @@ public class SunShroom extends Plant{
         String big_name = name + "Big";
         String sleep_name = name + "Sleep";
 
-        /*loadFrames(idle_frames, idle_name, int image_x,Color colorkey, 1);
-        loadFrames(big_frames, big_name, int image_x,Color colorkey, 1);
-        loadFrames(sleep_frames, sleep_name, int image_x,Color colorkey, 1);*/
+        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
+        loadFrames(sleep_frames, sleep_name, Tool.PLANT_RECT.getJSONObject(sleep_name).getInt("x"), Constants.BLACK);
+        loadFrames(big_frames, big_name, Tool.PLANT_RECT.getJSONObject(big_name).getInt("x"), Constants.BLACK);
 
         this.frames = idle_frames;
 
