@@ -21,7 +21,7 @@ import core.game.Sprite;
  * Constant.java上的修改
  */
 
-public abstract class Plant extends Sprite{
+public class Plant extends Sprite{
 
     public int explode_y_range;
     public int explode_x_range;
@@ -72,7 +72,7 @@ public abstract class Plant extends Sprite{
         this.rect = new Rect(this.frames.get(this.frame_index), x, y);
     }
     
-    public abstract void loadImages(String name, double scale);
+   
 
 
     // 判断鼠标点击
@@ -82,7 +82,7 @@ public abstract class Plant extends Sprite{
     //    else
     //        return false;
     //}
-    
+    public void loadImages(String name, double scale){}
     public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey) {
         int image_x;
         try{
