@@ -27,7 +27,7 @@ public class MenuBar {
 
         // String menu_image_path = root + c.MENUBAR_BACKGROUND + ".png";
         // image = Tool.loadImage(menu_image_path, 1.0, c.WHITE);
-        image = Tool.GFX.get(c.MENUBAR_BACKGROUND);
+        image = Tool.GFX.get(c.MENUBAR_BACKGROUND)[0].image;
         width = image.getWidth();
         height = image.getHeight();
 
