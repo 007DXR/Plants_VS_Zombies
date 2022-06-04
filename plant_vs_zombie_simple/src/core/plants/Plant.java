@@ -52,10 +52,12 @@ public abstract class Plant extends Sprite{
 
     public ArrayList<BufferedImage> frames  = new ArrayList<BufferedImage>();
     public ArrayList<BufferedImage> framesArrayList = new ArrayList<BufferedImage>();
-    ArrayList<BufferedImage> attack_frames = new ArrayList<BufferedImage>();
-    ArrayList<BufferedImage> sleep_frames = new ArrayList<BufferedImage>();
-    ArrayList<BufferedImage> idle_frames = new ArrayList<BufferedImage>();
-    ArrayList<BufferedImage> big_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> attack_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> sleep_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> idle_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> big_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> cracked1_frames;
+    public ArrayList<BufferedImage> cracked2_frames;
 
     // 因为继承之后的构造函数只要传入x和y，所以这里没有修改
     public Plant(int health, int x, int y, String name, double scale){
@@ -90,7 +92,7 @@ public abstract class Plant extends Sprite{
             int height = rect.getHeight();
             width -= image_x;
             // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
-            frames.add(Tool.adjustAlpha( frame.image.getSubimage(image_x, 0, width, height),colorkey));
+            frames.add(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }

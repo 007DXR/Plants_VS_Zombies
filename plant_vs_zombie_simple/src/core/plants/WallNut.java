@@ -9,9 +9,7 @@ public class WallNut extends Plant{
     int wallNut_state = 0;
     boolean cracked1 = false;
     boolean cracked2 = false;
-   
-    ArrayList<BufferedImage> cracked1_frames;
-    ArrayList<BufferedImage> cracked2_frames;
+
 
     public WallNut(int x, int y){
         super(Constants.WALLNUT_HEALTH, x, y, Constants.WALLNUT, 1);
@@ -19,12 +17,16 @@ public class WallNut extends Plant{
     
     
     public void loadImages(String name, double scale){
+        cracked1_frames = new ArrayList<BufferedImage>();
+        cracked2_frames = new ArrayList<BufferedImage>();
+
         String cracked1_frames_name = this.name + "_cracked1";
         String cracked2_frames_name = this.name + "_cracked2";
-
+   
         loadFrames(this.frames, name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"), Constants.BLACK);
-        loadFrames(cracked1_frames, cracked1_frames_name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"),Constants.BLACK);
-        loadFrames(cracked2_frames, cracked2_frames_name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"),Constants.BLACK);
+        loadFrames(this.cracked1_frames, name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"),Constants.BLACK);
+        loadFrames(this.cracked2_frames, name, Tool.PLANT_RECT.getJSONObject("PeaNormal").getInt("x"),Constants.BLACK);
+
     }
 
     public void idling(){

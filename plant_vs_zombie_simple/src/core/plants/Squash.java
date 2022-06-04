@@ -26,13 +26,16 @@ public class Squash extends Plant{
 
     @Override
     public void loadImages(String name, double scale){
+        aim_frames = new ArrayList<BufferedImage>();
+        attack_frames = new ArrayList<BufferedImage>();
+
         String idle_name = name;
         String aim_name = name + "Aim";
         String attack_name = name + "Attack";
 
-        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(idle_name).getInt("x"), Constants.BLACK);
-        loadFrames(aim_frames, aim_name, Tool.PLANT_RECT.getJSONObject(aim_name).getInt("x"), Constants.BLACK);
-        loadFrames(attack_frames, attack_name, Tool.PLANT_RECT.getJSONObject(attack_name).getInt("x"), Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(aim_frames, aim_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
+        loadFrames(attack_frames, attack_name, Tool.PLANT_RECT.getJSONObject(name).getInt("x"), Constants.BLACK);
         
         this.frames = idle_frames;
     }
