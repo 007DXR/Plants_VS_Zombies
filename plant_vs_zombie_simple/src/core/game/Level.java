@@ -369,19 +369,18 @@ public class Level extends State {
         if (name.equals(c.NORMAL_ZOMBIE)) {
             zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
-        /*
         else if (name == c.CONEHEAD_ZOMBIE) {
-            zombieGroups.get(map_y).add(new ConeHeadZombie(c.ZOMBIE_START_X, y, headGroup));
+            zombieGroups.get(map_y).add(new ConeHeadZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
         else if (name == c.BUCKETHEAD_ZOMBIE) {
-            zombieGroups.get(map_y).add(new BucketHeadZombie(c.ZOMBIE_START_X, y, headGroup));
+            zombieGroups.get(map_y).add(new BucketHeadZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
         else if (name == c.FLAG_ZOMBIE) {
-            zombieGroups.get(map_y).add(new FlagZombie(c.ZOMBIE_START_X, y, headGroup));
+            zombieGroups.get(map_y).add(new FlagZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
         else if (name == c.NEWSPAPER_ZOMBIE) {
-            zombieGroups.get(map_y).add(new NewspaperZombie(c.ZOMBIE_START_X, y, headGroup));
-        } */
+            zombieGroups.get(map_y).add(new NewspaperZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
+        }
     }
     Sprite hintImage;
     Rect hintRect;
@@ -603,6 +602,7 @@ public class Level extends State {
     }
     public void checkCarCollisions() {
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.8);
+        LinkedList<Sprite> del = new LinkedList<>();
         for (Car car : this.cars) {
             ArrayList<Sprite> sprits = car.spritecollide(this.zombieGroups.get(car.map_y), false, collidedFunc);
             for (Sprite sprite : sprits) {
@@ -613,9 +613,10 @@ public class Level extends State {
                 }
             }
             if (car.dead) {
-                this.cars.remove(car);
+                del.add(car);
             }
         }
+        cars.removeAll(del);
     }
     public void boomZombies(int x, int map_y, int y_range, int x_range) {
         for (int i = 0; i < this.map_y_len; ++i) {
@@ -641,8 +642,8 @@ public class Level extends State {
         }
     }
     public void killPlant(Plant plant) {
-        int x = plant.rect.left;
-        int y = plant.rect.top;
+        int x = plant.rect.centerx();
+        int y = plant.rect.centery();
         ArrayList<Integer> mapPos = this.map.getMapIndex(x, y);
         int map_x = mapPos.get(0);
         int map_y = mapPos.get(1);
@@ -736,7 +737,7 @@ public class Level extends State {
                 }
             }
             if (plant.state == c.IDLE && canAttack) {
-//                plant.setAttack(this.zombieGroups.get(i));
+                plant.setAttack(null, this.zombieGroups.get(i));
             }
             else if (plant.state == c.ATTACK && !canAttack) {
                 plant.setIdle();

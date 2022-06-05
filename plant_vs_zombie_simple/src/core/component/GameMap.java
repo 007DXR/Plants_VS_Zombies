@@ -23,8 +23,6 @@ public class GameMap {
         try {
             image = ImageIO
                 .read(new File("plant_vs_zombie_simple\\resources\\graphics\\Items\\Background\\Background_0.jpg"));
-            width = image.getWidth();
-            height = image.getHeight();
         } catch(Exception e) {}
         map = new int[height][width];
         for(int i = 0; i < height; ++i)
@@ -39,7 +37,7 @@ public class GameMap {
         return map[map_y][map_x] == c.MAP_EMPTY;
     }
     /// 传入图像单位，传出相应格子位置，返回ArrayList, [0]保存x坐标格子，[1]保存y坐标格子
-    public ArrayList<Integer> getMapIndex(int x, int y) {
+    public static ArrayList<Integer> getMapIndex(int x, int y) {
         x -= c.MAP_OFFSET_X;
         y -= c.MAP_OFFSET_Y;
         ArrayList<Integer> list = new ArrayList<>();
@@ -48,7 +46,7 @@ public class GameMap {
         return list;
     }
     /// 传入格子坐标，传出图像单位
-    public ArrayList<Integer> getMapGridPos(int map_x, int map_y) {
+    public static ArrayList<Integer> getMapGridPos(int map_x, int map_y) {
         ArrayList<Integer> list = new ArrayList<>();
         // list.add(map_x * c.GRID_X_SIZE + c.GRID_X_SIZE / 2 + c.MAP_OFFSET_X);
         // list.add(map_y * c.GRID_Y_SIZE + c.GRID_Y_SIZE / 5 * 3 + c.MAP_OFFSET_Y);

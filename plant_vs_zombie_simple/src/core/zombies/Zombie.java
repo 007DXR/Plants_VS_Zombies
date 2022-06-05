@@ -234,7 +234,7 @@ public abstract class Zombie extends Sprite{
             this.frame_index += 1;
             if (this.frame_index >= this.frame_num) {
                 if (this.state.equals( Constants.DIE)) {
-                    // this.kill();
+                    this.kill();
                     return;
                 }
                 this.frame_index = 0;
