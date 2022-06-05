@@ -54,8 +54,8 @@ public class Main extends JPanel{
                     left_click = true;
                 if(e.getButton()==MouseEvent.BUTTON2)
                     right_click = true;
-                ArrayList<Integer> pos = GameMap.getMapIndex(x, y);
-                System.out.printf("%d %d %d %d\n",x,y,pos.get(0),pos.get(1));
+                // ArrayList<Integer> pos = GameMap.getMapIndex(x, y);
+                // System.out.printf("%d %d %d %d\n",x,y,pos.get(0),pos.get(1));
             };
 
             @Override

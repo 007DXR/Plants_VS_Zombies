@@ -401,8 +401,9 @@ public class Level extends State {
         ArrayList<Integer> mapIndex = map.getMapIndex(mouseX, mouseY);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
-        System.out.println(map_x);
-        System.out.println(map_y);
+        map.doPlant(map_x, map_y);
+        // System.out.println(map_x);
+        // System.out.println(map_y);
         // 得到实际坐标
         ArrayList<Integer> actualIndex = map.getMapGridPos(map_x, map_y);
         int x = actualIndex.get(0);
