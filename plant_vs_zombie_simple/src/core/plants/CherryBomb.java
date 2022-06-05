@@ -3,6 +3,7 @@ package core.plants;
 import core.Constants;
 import core.zombies.Zombie;
 import core.*;
+import core.game.Rect;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -24,11 +25,10 @@ public class CherryBomb extends Plant{
 
 
     public void setBoom(){
-        /**
-         * BufferedImage frame = tool.GFX[Constants.CHERRY_BOOM_IMAGE];
-         * Rect newRect = new Rect(frame, this.rect.left, this.rect.top);
-         * this.rect = newRect;
-         * */
+        BufferedImage frame = Tool.loadImage("resources/graphics/Screen/Boom.png", 1, Constants.BLACK);
+        Rect newRect = new Rect(frame, this.rect.left, this.rect.top);
+        this.rect = newRect;
+       
         start_boom = true;
     }
 

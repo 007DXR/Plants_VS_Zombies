@@ -84,7 +84,7 @@ public class Plant extends Sprite{
     //        return false;
     //}
     public void loadImages(String name, double scale){}
-    public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey) {
+    public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey, double scale) {
         int image_x;
         try{
             image_x = Tool.PLANT_RECT.getJSONObject(name).getInt("x");
@@ -100,7 +100,7 @@ public class Plant extends Sprite{
             int height = rect.getHeight();
             width -= image_x;
             // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
-            frames.add(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey));
+            frames.add(Tool.resize(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey), scale));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }
