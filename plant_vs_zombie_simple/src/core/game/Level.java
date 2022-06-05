@@ -329,9 +329,11 @@ public class Level extends State {
                 ArrayList<Integer> mapPos = map.getMapGridPos(
                     mapRandom.get(0), 
                     mapRandom.get(1));
-               sunGroup.add(new Sun(mapPos.get(0).intValue(), 0, 
-               mapPos.get(0).intValue(), 
-               mapPos.get(1).intValue(), 0.9));
+                    
+                    // test_scarlyw
+               System.out.println("product_sun_in_day");
+               sunGroup.add(new Sun(1, 0, 
+               1, mapPos.get(1).intValue(), 0.9));
             }
         }
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0 
@@ -602,9 +604,9 @@ public class Level extends State {
     }
     public void checkCarCollisions() {
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.8);
-        for (Car car :this.cars) {
+        for (Car car : this.cars) {
             ArrayList<Sprite> sprits = car.spritecollide(this.zombieGroups.get(car.map_y), false, collidedFunc);
-            for (Sprite sprite: sprits) {
+            for (Sprite sprite : sprits) {
                 Zombie zombie = (Zombie) sprite;
                 if (zombie != null && zombie.state != c.DIE) {
                     car.setWalk();

@@ -21,10 +21,13 @@ public class SunFlower extends Plant{
     }
 
     public void idling(){
+        System.out.println("current_time");
+        System.out.println(current_time);
         if(sun_timer == 0)
             sun_timer = current_time - (Constants.FLOWER_SUN_INTERVAL - 6000);
         else if(current_time - sun_timer > Constants.FLOWER_SUN_INTERVAL){
-            //this.sun_group.add(Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.BIG_SUN_SCALE));
+            System.out.println("produce_sun");
+            this.sun_group.add(new Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.BIG_SUN_SCALE));
             sun_timer = current_time;
         }
     }
