@@ -13,14 +13,14 @@ public class PotatoMine extends Plant{
     long animate_interval = 300;
     long init_timer = 0;
     long bomb_timer = 0;
-    int explode_y_range = 0;
-    int explode_x_range = Constants.GRID_X_SIZE;
 
     ArrayList<BufferedImage> init_frames;
     ArrayList<BufferedImage> explode_frames;
 
     public PotatoMine(int x, int y){
         super(Constants.PLANT_HEALTH, x, y, Constants.POTATOMINE, 1);
+        explode_y_range = 0;
+        explode_x_range = Constants.GRID_X_SIZE;
     }
 
     @Override
