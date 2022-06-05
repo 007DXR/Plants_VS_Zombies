@@ -74,10 +74,31 @@ public class Bullet extends Sprite{
         }
     }
 
+    public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey) {
+        int image_x;
+        try{
+            image_x = Tool.PLANT_RECT.getJSONObject(name).getInt("x");
+        }catch(Exception e){
+            image_x = 0;
+        }
 
-    public void update(int current_time){
-        this.current_time = current_time; 
-        if (this.state == Constants.FLY ){ // 在飞
+        TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
+      
+        for (Tool.Img frame : frame_list) {
+            BufferedImage rect = frame.image;
+            int width = rect.getWidth();
+            int height = rect.getHeight();
+            width -= image_x;
+            // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
+            frames.add(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey));
+            // tool.get_image(frame, image_x, 0, width, height, colorkey));
+        }
+    }
+
+
+    public void update(){
+        this.current_time = (int)System.currentTimeMillis();; 
+        if (this.state.equals(Constants.FLY )){ // 在飞
             if (this.rect.top != this.dest_y){
                 this.rect.top += this.y_vel; 
                 if (this.y_vel * (this.dest_y - this.rect.top) < 0){

@@ -22,10 +22,15 @@ public class PeaShooter extends Plant{
     }
 
     public void attacking(){
+        this.current_time = (int)System.currentTimeMillis();
         if (this.current_time - this.shoot_timer > 2000){
             Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.centery(), this.rect.centery(), Constants.BULLET_PEA, Constants.BULLET_DAMAGE_NORMAL, false); 
             this.bullet_group.add(bullet); 
             this.shoot_timer = this.current_time; 
         }
+    }
+
+    public void loadImages(String name, double scale){
+        loadFrames(this.frames, name, Constants.BLACK);
     }
 }

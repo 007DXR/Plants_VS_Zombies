@@ -31,4 +31,8 @@ public class SnowPeaShooter extends Plant{
             this.shoot_timer = this.current_time; 
         }
     }
+
+    public void loadImages(String name, double scale){
+        loadFrames(this.frames, name, Constants.BLACK);
+    }
 }
