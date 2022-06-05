@@ -62,7 +62,9 @@ public class Control{
     }
 
     public void flip_state() {
-        this.state_name = this.state_array.get(++state_index);
+        this.state_name = this.state.next;
+        // if(this.state_name.equals(c.GAME_VICTORY) || this.state_name.equals(c.GAME_LOSE))
+        //     this.state_name = c.LEVEL;
         JSONObject persist = this.state.cleanUp();
         this.state = (State)this.state_dict.get(this.state_name);
         this.state.startUp(this.current_time, persist);

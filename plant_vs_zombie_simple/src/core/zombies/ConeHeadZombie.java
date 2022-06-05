@@ -27,7 +27,7 @@ public class ConeHeadZombie extends Zombie{
         loadFrames(attack_frames,c.NORMAL_ZOMBIE + "Attack",Tool.ZOMBIE_RECT.getJSONObject(c.NORMAL_ZOMBIE + "Attack").getInt("x"),c.BLACK);
         loadFrames(losthead_walk_frames,c.NORMAL_ZOMBIE+ "LostHead",Tool.ZOMBIE_RECT.getJSONObject(c.NORMAL_ZOMBIE+ "LostHead").getInt("x"),c.BLACK);
         loadFrames(losthead_attack_frames,c.NORMAL_ZOMBIE+ "LostHeadAttack",Tool.ZOMBIE_RECT.getJSONObject(c.NORMAL_ZOMBIE+ "LostHeadAttack").getInt("x"),c.BLACK);
-        loadFrames(die_frames,name+ "Die",Tool.ZOMBIE_RECT.getJSONObject(c.NORMAL_ZOMBIE+ "Die").getInt("x"),c.BLACK);
+        loadFrames(die_frames,c.NORMAL_ZOMBIE+ "Die",Tool.ZOMBIE_RECT.getJSONObject(c.NORMAL_ZOMBIE+ "Die").getInt("x"),c.BLACK);
         loadFrames(boomdie_frames,c.BOOMDIE,Tool.ZOMBIE_RECT.getJSONObject(c.BOOMDIE).getInt("x"),c.BLACK);
         frames = helmet_walk_frames;
     }

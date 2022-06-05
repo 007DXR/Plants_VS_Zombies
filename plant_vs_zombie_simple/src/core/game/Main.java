@@ -72,7 +72,7 @@ public class Main extends JPanel{
 
         // 定时运行
         Timer timer = new Timer();
-        int interval = 10;
+        int interval = 20;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -90,8 +90,8 @@ public class Main extends JPanel{
     @Override
     public void paint(Graphics g) {
         // TODO Auto-generated method stub
-        game.update(g);
         super.paint(g);
+        game.update(g);
         game.state.draw(g);
     }
 }
