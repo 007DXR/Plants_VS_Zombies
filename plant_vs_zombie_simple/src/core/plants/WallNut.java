@@ -25,9 +25,9 @@ public class WallNut extends Plant{
         String cracked1_frames_name = this.name + "_cracked1";
         String cracked2_frames_name = this.name + "_cracked2";
    
-        loadFrames(this.frames, name, Constants.WHITE, 1);
-        loadFrames(this.cracked1_frames, cracked1_frames_name, Constants.WHITE, 1);
-        loadFrames(this.cracked2_frames, cracked2_frames_name, Constants.WHITE, 1);
+        loadFrames(this.frames, name, Constants.BLACK, 1);
+        loadFrames(this.cracked1_frames, cracked1_frames_name, Constants.BLACK, 1);
+        loadFrames(this.cracked2_frames, cracked2_frames_name, Constants.BLACK, 1);
     }
 
     public void idling(){
