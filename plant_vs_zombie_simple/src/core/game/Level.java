@@ -154,14 +154,15 @@ public class Level extends State {
         viewportWidth = c.SCREEN_WIDTH;
         viewportHeight = c.SCREEN_HEIGHT;
     }
-    Group sunGroup;
+    ArrayList<Sun> sunGroup;
     Group headGroup;
     ArrayList<Group> plantGroups;
     ArrayList<Group> zombieGroups;
     ArrayList<Group> hypnoZombieGroups;
     ArrayList<Group> bulletGroups;
     public void setupGroups() {
-        sunGroup = new Group();
+        sunGroup = new ArrayList<>();
+        // sunGroup = new Group();
         headGroup = new Group();
         plantGroups = new ArrayList<>();
         zombieGroups = new ArrayList<>();
@@ -297,7 +298,7 @@ public class Level extends State {
             }*/
         }
         headGroup.update();
-        sunGroup.update();
+        // sunGroup.update();
         menubar.update((int)current_time);
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.get(0)==true) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
@@ -325,16 +326,29 @@ public class Level extends State {
             if ((current_time - sunTimer) > c.PRODUCE_SUN_INTERVAL) {
                 sunTimer = current_time;
                 ArrayList<Integer> mapRandom = map.getRandomMapIndex();
-                ArrayList<Integer> mapPos = map
-                    .getMapGridPos(mapRandom.get(0), mapRandom.get(1));
-            //    sunGroup.add(new Sun(mapPos.get(0), 0, mapPos.get(0), mapPos.get(1)));
+                ArrayList<Integer> mapPos = map.getMapGridPos(
+                    mapRandom.get(0), 
+                    mapRandom.get(1));
+                    
+                    // test_scarlyw
+               System.out.println("product_sun_in_day");
+               sunGroup.add(new Sun(1, 0, 
+               1, mapPos.get(1).intValue(), 0.9));
             }
         }
-        if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0) {
+        if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0 
+            && mouseClick.get(0) == true) {
+            // System.out.println("in_sun");
             //检查碰撞
-            /*for sun in sun_group:
-                if sun.checkCollision(mouse_pos[0], mouse_pos[1]):
-                    menubar.increaseSunValue(sun.sun_value)*/
+            for (Sun sun : sunGroup) {
+                if (sun.checkMouseClick(mouseX, mouseY)) {
+                    System.out.println("get_sun");
+                    menubar.increaseSunValue(sun.sun_value);
+                }
+            }
+        }
+        for (Sun sun:sunGroup) {
+            sun.update();
         }
         for (Car car:cars) {
             car.update();
@@ -590,9 +604,9 @@ public class Level extends State {
     }
     public void checkCarCollisions() {
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.8);
-        for (Car car :this.cars) {
+        for (Car car : this.cars) {
             ArrayList<Sprite> sprits = car.spritecollide(this.zombieGroups.get(car.map_y), false, collidedFunc);
-            for (Sprite sprite: sprits) {
+            for (Sprite sprite : sprits) {
                 Zombie zombie = (Zombie) sprite;
                 if (zombie != null && zombie.state != c.DIE) {
                     car.setWalk();
@@ -863,8 +877,12 @@ public class Level extends State {
                 Car car = (Car) sprite;
                 car.paintObject(g);
             }
+            for (Sprite sprite: this.sunGroup) {
+                Sun sun = (Sun) sprite;
+                if (sun.state != Constants.DIE) sun.paintObject(g);
+            }
             this.headGroup.paintObject(g);
-            this.sunGroup.paintObject(g);
+            // this.sunGroup.paintObject(g);
 
             if (this.dragPlant) {
                 this.drawMouseShow(g);

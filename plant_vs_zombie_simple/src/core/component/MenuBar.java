@@ -29,7 +29,7 @@ public class MenuBar {
         width = image.getWidth();
         height = image.getHeight();
         this.card_list = new ArrayList<Card>(); 
-        this.sun_value = 1000000;
+        this.sun_value = sun_value;
         setupCards(card_list);
     }
 
@@ -95,6 +95,8 @@ public class MenuBar {
 
     // 画阳光数值
     public void drawSunValue() {
+        // System.out.println("sun_value");
+        // System.out.println(sun_value);
         BufferedImage value_image = Panel.getSunValueImage(sun_value);
         value_x = 21;
         value_y = y + height - 21;

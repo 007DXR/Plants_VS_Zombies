@@ -9,7 +9,7 @@ public class Sun extends Plant{
     int dst_x;
     int dst_y;
 
-    int sun_value;
+    public int sun_value;
     long die_timer;
 
     double move_speed = 1;
@@ -76,9 +76,8 @@ public class Sun extends Plant{
     public boolean checkMouseClick(int x_, int y_){
         if(getState().equals(Constants.DIE))
             return false;
-
         if (x_ >= this.rect.left && x_ <= (this.rect.left + this.rect.width()) &&
-         y_ >= this.rect.bottom() && y_ <= (this.rect.top)){
+         y_ <= this.rect.bottom() && y_ >= (this.rect.top)){
             setState(Constants.DIE);
             //阳光面板值++
             this.kill();
