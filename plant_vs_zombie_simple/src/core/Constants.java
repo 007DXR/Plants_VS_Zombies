@@ -55,7 +55,7 @@ public class Constants {
 
     public static int BACKGROUND_OFFSET_X = 220;
     public static int MAP_OFFSET_X = 35;
-    public static int MAP_OFFSET_Y = 100;
+    public static int MAP_OFFSET_Y = 80;
 
     // 菜单栏信息
     public static String CHOOSEBAR_TYPE = "choosebar_type";
