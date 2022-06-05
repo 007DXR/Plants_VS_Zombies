@@ -72,7 +72,7 @@ public class Main extends JPanel{
 
         // 定时运行
         Timer timer = new Timer();
-        int interval = 10;
+        int interval = 20;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
