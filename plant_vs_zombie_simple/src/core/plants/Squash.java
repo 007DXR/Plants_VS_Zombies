@@ -12,7 +12,7 @@ import core.game.Group;
 
 public class Squash extends Plant{
     long aim_timer = 0;
-    int [] orig_pos;
+    public int [] orig_pos;
     boolean squashing = false;
     ArrayList<BufferedImage> aim_frames;
     ArrayList<BufferedImage> attack_frames;
