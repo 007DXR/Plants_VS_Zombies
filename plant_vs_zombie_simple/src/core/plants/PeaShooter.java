@@ -13,8 +13,9 @@ import core.Constants;
 import core.*;
 
 public class PeaShooter extends Plant{
-    private long shoot_timer = 0; 
-    private Group bullet_group; 
+    long shoot_timer = 0; 
+    Group bullet_group; 
+    long animate_timer = 0;
     public PeaShooter(int x, int y, Group g){
         super(Constants.PLANT_HEALTH, x, y, Constants.PEASHOOTER, 1); 
         this.shoot_timer = 0; 

@@ -25,6 +25,7 @@ public class SnowPeaShooter extends Plant{
     }
 
     public void attacking(){
+        this.current_time = (int)System.currentTimeMillis();
         if (this.current_time - this.shoot_timer > 2000){
             Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.centery(), this.rect.centery(), Constants.BULLET_PEA_ICE, Constants.BULLET_DAMAGE_NORMAL, true); 
             this.bullet_group.add(bullet); 

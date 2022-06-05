@@ -27,6 +27,7 @@ public class PuffShroom extends Plant{
 
 
     public void attacking(){
+        this.current_time = (int)System.currentTimeMillis();
         if (this.current_time - this.shoot_timer > 3000){
             Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.centery() + 10, this.rect.centery() + 10, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true); 
             this.bullet_group.add(bullet); 

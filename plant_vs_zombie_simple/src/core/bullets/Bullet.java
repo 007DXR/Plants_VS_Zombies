@@ -40,6 +40,9 @@ public class Bullet extends Sprite{
         this.current_time = 0; 
         this.name = name; 
         this.ice = ice; 
+        this.loadImages(name, 1);
+        this.y_vel = 4; 
+        this.x_vel = 4; 
 
         this.frame_num = this.frames.size();
         this.rect = new Rect(this.frames.get(this.frame_index),x,y);
@@ -47,6 +50,7 @@ public class Bullet extends Sprite{
 
     public void loadImages(String name, double scale){
         //loadFrames(frames, name, int image_x,Color colorkey, scale);
+        loadFrames(this.frames, name);
         this.fly_frames.clear();
         this.explode_frames.clear();; 
 
@@ -62,19 +66,19 @@ public class Bullet extends Sprite{
         this.loadFrames(this.explode_frames, explodename);
     }
 
-    public void loadFrames(ArrayList<BufferedImage>frames,String name){
-        TreeSet<Tool.Img> frame_list=(TreeSet<Tool.Img>) Tool.GFX.get(name);
-        for (Tool.Img frame : frame_list) {
-            BufferedImage rect = frame.image;
-            int width = rect.getWidth();
-            int height = rect.getHeight();
-            width -= x_vel;
-            frames.add(frame.image.getSubimage(x_vel, 0, width, height));
-            // tool.get_image(frame, image_x, 0, width, height, colorkey));
-        }
-    }
+    // public void loadFrames(ArrayList<BufferedImage>frames,String name){
+    //     TreeSet<Tool.Img> frame_list=(TreeSet<Tool.Img>) Tool.GFX.get(name);
+    //     for (Tool.Img frame : frame_list) {
+    //         BufferedImage rect = frame.image;
+    //         int width = rect.getWidth();
+    //         int height = rect.getHeight();
+    //         width -= x_vel;
+    //         frames.add(frame.image.getSubimage(x_vel, 0, width, height));
+    //         // tool.get_image(frame, image_x, 0, width, height, colorkey));
+    //     }
+    // }
 
-    public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey) {
+    public void loadFrames(ArrayList<BufferedImage> frames, String name) {
         int image_x;
         try{
             image_x = Tool.PLANT_RECT.getJSONObject(name).getInt("x");
@@ -90,7 +94,7 @@ public class Bullet extends Sprite{
             int height = rect.getHeight();
             width -= image_x;
             // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
-            frames.add(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey));
+            frames.add(frame.image.getSubimage(image_x, 0, width, height));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }

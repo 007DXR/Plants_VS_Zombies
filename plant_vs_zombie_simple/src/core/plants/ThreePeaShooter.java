@@ -27,6 +27,7 @@ public class ThreePeaShooter extends Plant{
     }
 
     public void attacking(){
+        this.current_time = (int)System.currentTimeMillis();
         if (this.current_time - this.shoot_timer > 2000){
             int offset_y = 9; 
             for(int i = 0; i < 3; i++){
