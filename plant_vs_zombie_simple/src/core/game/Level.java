@@ -640,8 +640,8 @@ public class Level extends State {
         }
     }
     public void killPlant(Plant plant) {
-        int x = plant.rect.left;
-        int y = plant.rect.top;
+        int x = plant.rect.centerx();
+        int y = plant.rect.centery();
         ArrayList<Integer> mapPos = this.map.getMapIndex(x, y);
         int map_x = mapPos.get(0);
         int map_y = mapPos.get(1);
