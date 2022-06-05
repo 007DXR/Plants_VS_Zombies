@@ -19,7 +19,7 @@ public class Chomper extends Plant {
     ArrayList<BufferedImage> attack_frames;
 
     public Chomper(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.CHOMPER, 1);
+        super(Constants.PLANT_HEALTH, x, y-50, Constants.CHOMPER, 1);
     }
 
 
