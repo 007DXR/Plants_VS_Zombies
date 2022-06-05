@@ -67,7 +67,7 @@ public class Sun extends Plant{
                 die_timer = current_time;
             else if(current_time - die_timer > Constants.SUN_LIVE_TIME){
                 setState(Constants.DIE);
-                //kill();
+                this.kill();
             } 
         }
     }
@@ -81,7 +81,7 @@ public class Sun extends Plant{
          y_ >= this.rect.bottom() && y_ <= (this.rect.top)){
             setState(Constants.DIE);
             //阳光面板值++
-            //kill();
+            this.kill();
             return true;
         } 
         else

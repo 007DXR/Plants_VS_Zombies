@@ -60,9 +60,9 @@ public class Squash extends Plant{
     public void attacking(){
         if(squashing == true){
             if(frame_index == 2)
-                //zombie_group.remove(attack_zombie);
+                zombie_group.remove(attack_zombie);
             if(frame_index + 1 == frame_num){
-                //attack_zombie.kill();
+                attack_zombie.kill();
                 setDamage(1000);
             }
         }

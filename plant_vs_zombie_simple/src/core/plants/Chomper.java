@@ -81,7 +81,7 @@ public class Chomper extends Plant {
             digest_timer = current_time;
         else if(current_time - digest_timer > digest_interval){
             digest_timer = 0;
-            //attack_zombie.kill();
+            attack_zombie.kill();
             setIdle();
         }
     }
