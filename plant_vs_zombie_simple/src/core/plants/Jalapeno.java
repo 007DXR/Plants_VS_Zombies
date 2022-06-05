@@ -13,8 +13,8 @@ public class Jalapeno extends Plant{
     ArrayList<BufferedImage> explode_frames;
 
     public Jalapeno(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.JALAPENO, 1);
-        orig_pos = new int[]{x,y};
+        super(Constants.PLANT_HEALTH, x, y-15, Constants.JALAPENO, 1);
+        orig_pos = new int[]{x,y-15};
         explode_y_range = 0;
         explode_x_range = 377;
         setAttack();
@@ -32,6 +32,7 @@ public class Jalapeno extends Plant{
         changeFrames(explode_frames);
         animate_timer = current_time;
         this.rect.left = Constants.MAP_OFFSET_X;
+        this.rect.top -= 50;
         start_explode = true;
     }
 

@@ -13,7 +13,7 @@ public class CherryBomb extends Plant{
     long bomb_timer = 0;
 
     public CherryBomb(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.CHERRYBOMB, 1);
+        super(Constants.PLANT_HEALTH, x-10, y-10, Constants.CHERRYBOMB, 1);
         explode_y_range = (int)(1.5*Constants.GRID_Y_SIZE);
         explode_x_range = (int)(1.5*Constants.GRID_X_SIZE);
         setAttack();
@@ -26,7 +26,7 @@ public class CherryBomb extends Plant{
 
     public void setBoom(){
         BufferedImage frame = Tool.loadImage("resources/graphics/Screen/Boom.png", 1, Constants.BLACK);
-        Rect newRect = new Rect(frame, this.rect.left, this.rect.top);
+        Rect newRect = new Rect(frame, this.rect.left-50, this.rect.top-50);
         this.rect = newRect;
        
         start_boom = true;

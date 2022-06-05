@@ -19,7 +19,7 @@ public class Chomper extends Plant {
     ArrayList<BufferedImage> attack_frames;
 
     public Chomper(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.CHOMPER, 1);
+        super(Constants.PLANT_HEALTH, x, y-50, Constants.CHOMPER, 1);
     }
 
 
@@ -81,7 +81,7 @@ public class Chomper extends Plant {
             digest_timer = current_time;
         else if(current_time - digest_timer > digest_interval){
             digest_timer = 0;
-            //attack_zombie.kill();
+            attack_zombie.kill();
             setIdle();
         }
     }

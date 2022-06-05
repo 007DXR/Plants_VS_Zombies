@@ -20,7 +20,7 @@ public class Squash extends Plant{
     Group zombie_group = null;
 
     public Squash(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.SQUASH, 1);
+        super(Constants.PLANT_HEALTH, x, y-50, Constants.SQUASH, 1);
         orig_pos = new int[]{x,y};
     }
 
@@ -60,9 +60,9 @@ public class Squash extends Plant{
     public void attacking(){
         if(squashing == true){
             if(frame_index == 2)
-                //zombie_group.remove(attack_zombie);
+                zombie_group.remove(attack_zombie);
             if(frame_index + 1 == frame_num){
-                //attack_zombie.kill();
+                attack_zombie.kill();
                 setDamage(1000);
             }
         }
