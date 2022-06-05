@@ -30,8 +30,8 @@ public class Sun extends Plant{
     public void loadImages(String name, double scale){
         small_frames = new ArrayList<BufferedImage>();
         big_frames = new ArrayList<BufferedImage>();
-        loadFrames(big_frames, name, Constants.WHITE, Constants.BIG_SUN_SCALE);
-        loadFrames(small_frames, name, Constants.WHITE, Constants.SMALL_SUN_SCALE);
+        loadFrames(big_frames, name, Constants.BLACK, Constants.BIG_SUN_SCALE);
+        loadFrames(small_frames, name, Constants.BLACK, Constants.SMALL_SUN_SCALE);
         
         
         // 判断阳关是大小阳光

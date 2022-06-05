@@ -12,7 +12,8 @@ import core.*;
 import core.zombies.*;
 import core.game.Group;
 import core.game.Rect;
-import core.game.Sprite; 
+import core.game.Sprite;
+import core.json.JSONObject; 
 
 
 /**
@@ -85,23 +86,31 @@ public class Plant extends Sprite{
     //}
     public void loadImages(String name, double scale){}
     public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey, double scale) {
-        int image_x;
-        try{
-            image_x = Tool.PLANT_RECT.getJSONObject(name).getInt("x");
-        }catch(Exception e){
+
+        int image_x, image_y, width, height;
+        TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
+
+        if(Tool.PLANT_RECT.optJSONObject(name) != null){
+            JSONObject data = Tool.PLANT_RECT.optJSONObject(name);
+            image_x = data.getInt("x");
+            image_y = data.getInt("y");
+            width = data.getInt("width");
+            height = data.getInt("height");
+        }else{
             image_x = 0;
+            image_y = 0;
+            BufferedImage rect = frame_list.first().image;
+            width = rect.getWidth();
+            height = rect.getHeight();
         }
 
-        TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
-      
+        width -= image_x;
+
         for (Tool.Img frame : frame_list) {
-            BufferedImage rect = frame.image;
-            int width = rect.getWidth();
-            int height = rect.getHeight();
-            width -= image_x;
+           
             // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
             //frames.add(Tool.resize(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey), scale));
-            frames.add(Tool.adjustAlpha(Tool.resize(frame.image.getSubimage(image_x, 0, width, height),scale),colorkey));
+            frames.add(Tool.adjustAlpha(Tool.resize(frame.image.getSubimage(image_x, image_y, width, height),scale),colorkey));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }

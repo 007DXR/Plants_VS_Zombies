@@ -530,7 +530,9 @@ public class Level extends State {
         //要把图片贴上去，这里主要是实现绘图
 //        mouseImage = tool.get_image(frame_list[0], x, y, width, height, color, 1)
         //暂时使用一个替代的功能;     
-        mouseImage = new Sprite(new Rect(frameList.first().image, x, y));
+        //frame.image.getSubimage(image_x, image_y, width, height)
+        width -= x;
+        mouseImage = new Sprite(new Rect(Tool.adjustAlpha(frameList.first().image.getSubimage(x, y, width, height), color), x, y));
         mouseRect = mouseImage.rect;
 //        pg.mouse.set_visible(false)
         dragPlant = true;
