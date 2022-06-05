@@ -40,6 +40,7 @@ public class Bullet extends Sprite{
         this.current_time = 0; 
         this.name = name; 
         this.ice = ice; 
+        this.damage = damage;
         this.loadImages(name, 1);
         this.y_vel = 4; 
         this.x_vel = 4; 
