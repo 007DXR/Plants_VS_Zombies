@@ -100,7 +100,8 @@ public class Plant extends Sprite{
             int height = rect.getHeight();
             width -= image_x;
             // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
-            frames.add(Tool.resize(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey), scale));
+            //frames.add(Tool.resize(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey), scale));
+            frames.add(Tool.adjustAlpha(Tool.resize(frame.image.getSubimage(image_x, 0, width, height),scale),colorkey));
             // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }
