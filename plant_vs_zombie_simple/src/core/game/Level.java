@@ -65,14 +65,14 @@ class CircleCollidedFunc extends CollidedFunc
     }
     public boolean collid(Sprite x, Sprite y) {
         double xr,yr;
-        xr = x.rect.width() * ratio;
-        yr = y.rect.width() * ratio;
+        xr = x.rect.width() * 0.5 * ratio;
+        yr = y.rect.width() * 0.5 * ratio;
         return (xr + yr) * (xr + yr) > 
         (x.rect.centerx() - y.rect.centerx()) * ((x.rect.centerx() - y.rect.centerx()))
         + (x.rect.centery() - y.rect.centery()) * (x.rect.centery() - y.rect.centery());
     }
 }
-/// 矩形碰撞发生函数
+/// 矩形碰撞发生函数，实际上根本没用到过
 class RectCollidedFunc extends CollidedFunc
 {
     public RectCollidedFunc(double ratio) {
@@ -195,7 +195,7 @@ public class Level extends State {
         for (int i = 0; i < map_y_len; ++i) {
             ArrayList<Integer> pos = map.getMapGridPos(0, i);
             int y = pos.get(1);
-            cars.add(new Car(-25, y+20, i));
+            cars.add(new Car(-25, y+40, i));
         }
     }
     @Override
