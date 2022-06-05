@@ -76,6 +76,7 @@ public class Main extends JPanel{
         // HashMap<String,Object> state_dict = new HashMap<String,Object>();
         // state_dict.put(c.MAIN_MENU, new MainMenu());
 
+        // 音乐
         try {
             File file = new File("bgm.wav");
             URI uri = file.toURI();

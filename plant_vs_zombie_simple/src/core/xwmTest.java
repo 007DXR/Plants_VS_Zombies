@@ -78,5 +78,3 @@ public class xwmTest extends JPanel {
         catch(Exception e){}
     }
 }
-
-class c extends Constants{}

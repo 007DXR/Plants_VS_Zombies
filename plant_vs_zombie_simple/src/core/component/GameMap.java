@@ -87,6 +87,3 @@ public class GameMap {
         return pos;
     }
 }
-
-
-class c extends Constants{}

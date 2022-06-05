@@ -111,5 +111,3 @@ public class MenuBar {
             card.paintObject(g);
     }
 }
-
-class c extends Constants {};
