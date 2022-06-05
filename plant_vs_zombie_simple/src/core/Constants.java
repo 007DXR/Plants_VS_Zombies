@@ -103,7 +103,7 @@ public class Constants {
     public static int WALLNUT_BOWLING_DAMAGE = 10;
     
     public static int PRODUCE_SUN_INTERVAL = 7000;
-    public static int FLOWER_SUN_INTERVAL = 7000;
+    public static int FLOWER_SUN_INTERVAL = 20000;
     public static int SUN_LIVE_TIME = 7000;
     public static int SUN_VALUE = 25;
 

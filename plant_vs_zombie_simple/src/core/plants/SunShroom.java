@@ -41,7 +41,7 @@ public class SunShroom extends Plant{
         if(is_big == false){
             if(change_timer == 0)
                 change_timer = current_time;
-            else if(current_time - change_timer > 25000){
+            else if(current_time - change_timer > 60000){
                 changeFrames(big_frames);
                 is_big = true;
             }
