@@ -44,10 +44,11 @@ public class Control{
         game_info.put(c.LEVEL_NUM, c.START_LEVEL_NUM);
     }
  
-    public void setup_states(JSONObject state_dict, ArrayList<String> state_array, String start_state) {
+    public void setup_states(JSONObject state_dict,String start_state) {
         this.state_dict = state_dict;
-        this.state_array = state_array;
+        // this.state_array = state_array;
         this.state_name = start_state;
+       
         this.state = (State) this.state_dict.get(this.state_name);
         this.state.startUp(this.current_time, this.game_info);
     }

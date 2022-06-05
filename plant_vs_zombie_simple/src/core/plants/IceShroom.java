@@ -11,7 +11,7 @@ public class IceShroom extends Plant {
     boolean can_sleep = true;
     boolean start_freeze = false;
     int [] orig_pos;
-    ArrayList<BufferedImage> snow_frames;
+    public ArrayList<BufferedImage> snow_frames;
     public ArrayList<BufferedImage> trap_frames;
     
     
@@ -30,10 +30,11 @@ public class IceShroom extends Plant {
         String sleep_name = name + "Sleep";
         String trap_name = name + "Trap";
         
-        loadFrames(idle_frames, idle_name, Constants.BLACK);
-        loadFrames(sleep_frames, sleep_name, Constants.BLACK);
-        loadFrames(snow_frames, snow_name, Constants.BLACK);
-        loadFrames(trap_frames, trap_name, Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Constants.WHITE, 1);
+        loadFrames(sleep_frames, sleep_name, Constants.WHITE, 1);
+        loadFrames(snow_frames, snow_name, Constants.WHITE, 1.5);
+        loadFrames(trap_frames, trap_name, Constants.WHITE, 1);
+
 
         if(getState().equals(Constants.SLEEP))
             frames = sleep_frames;
@@ -44,7 +45,6 @@ public class IceShroom extends Plant {
     public void setFreeze(){
         changeFrames(snow_frames);
         animate_timer = current_time;
-        //移出屏幕使其消失？？？？
         this.rect.left = Constants.MAP_OFFSET_X;
         this.rect.top = Constants.MAP_OFFSET_Y;
         start_freeze = true;

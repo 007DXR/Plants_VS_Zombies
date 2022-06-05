@@ -318,7 +318,7 @@ public class Level extends State {
                     addPlant(g);
                 }
             }
-            else if (mousePos.isEmpty()) {
+            else {
                 setupHintImage(g);
             }
         }
@@ -366,7 +366,7 @@ public class Level extends State {
         int x = Pos.get(0);
         int y = Pos.get(1);
         if (name.equals(c.NORMAL_ZOMBIE)) {
-            zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y, headGroup));
+            zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
         /*
         else if (name == c.CONEHEAD_ZOMBIE) {
@@ -477,19 +477,16 @@ public class Level extends State {
     public void setupHintImage(Graphics g) {
         ArrayList<Integer> pos = canSeedPlant();
         if (!pos.isEmpty() && mouseImage != null) {
-            if (hintImage != null && pos.get(0) == hintRect.width() &&
-                pos.get(1) == hintRect.height()) {
+            if (hintImage != null && pos.get(0) == hintRect.left &&
+                pos.get(1) == hintRect.top) {
                 return;
             }
-            int width = mouseRect.width();
-            int height = mouseRect.height();
             //画图并保存属性;
             hintImage = new Sprite(mouseImage.rect.image);
-            hintImage.paintObject(g);
-//            Tool.setColorkey(c.BLACK)
-            Tool.adjustAlpha(hintImage.rect.image, new Color(128));
+            hintImage.rect.image=Tool.adjustHint(hintImage.rect.image);
             hintRect = hintImage.rect;
-            hintRect.adjust(pos.get(0), pos.get(1));
+            hintRect.adjustlt(pos.get(0), pos.get(1));
+            hintImage.paintObject(g);
             hintPlant = true;
         }
         else{

@@ -29,7 +29,7 @@ public class PuffShroom extends Plant{
     public void attacking(){
         this.current_time = (int)System.currentTimeMillis();
         if (this.current_time - this.shoot_timer > 3000){
-            Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.bottom() -Constants.MAP_OFFSET_Y + 40, this.rect.bottom() -Constants.MAP_OFFSET_Y + 40, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true); 
+            Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.bottom() -Constants.MAP_OFFSET_Y + 45, this.rect.bottom() -Constants.MAP_OFFSET_Y + 45, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true); 
             this.bullet_group.add(bullet); 
             this.shoot_timer = this.current_time; 
         }
@@ -41,7 +41,7 @@ public class PuffShroom extends Plant{
     }
 
     public void loadImages(String name, double scale){
-        loadFrames(this.frames, name, Constants.BLACK);
-        loadFrames(this.sleep_frames, name+"Sleep", Constants.BLACK);
+        loadFrames(this.frames, name, Constants.BLACK, scale);
+        loadFrames(this.sleep_frames, name+"Sleep", Constants.BLACK, scale);
     }
 }

@@ -2,6 +2,9 @@ package core.plants;
 
 import core.*;
 
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
 public class Sun extends Plant{
     int dst_x;
     int dst_y;
@@ -11,6 +14,9 @@ public class Sun extends Plant{
 
     double move_speed = 1;
     boolean is_big;
+
+    public ArrayList<BufferedImage> small_frames;
+    public ArrayList<BufferedImage> big_frames;
     
     public Sun(int x, int y, int dst_x, int dst_y, double scale){
         super(0, x, y, Constants.SUN, scale);
@@ -31,8 +37,19 @@ public class Sun extends Plant{
     }
 
     public void loadImages(String name, double scale){
-        loadFrames(frames, name,Constants.BLACK);
+        small_frames = new ArrayList<BufferedImage>();
+        big_frames = new ArrayList<BufferedImage>();
+        loadFrames(big_frames, name, Constants.BLACK, 1);
+        
+        for(BufferedImage bufImg: big_frames){
+            small_frames.add(Tool.resize(bufImg, Constants.SMALL_SUN_SCALE));
+        }
+        if(this.is_big)
+            frames = big_frames;
+        else
+            frames = small_frames;
     }
+
     @Override
     public void handleState(){
         if(this.rect.centerx() < dst_x)
@@ -50,7 +67,7 @@ public class Sun extends Plant{
                 die_timer = current_time;
             else if(current_time - die_timer > Constants.SUN_LIVE_TIME){
                 setState(Constants.DIE);
-                //kill();
+                this.kill();
             } 
         }
     }
@@ -63,7 +80,7 @@ public class Sun extends Plant{
          y_ <= this.rect.bottom() && y_ >= (this.rect.top)){
             setState(Constants.DIE);
             //阳光面板值++
-            //kill();
+            this.kill();
             return true;
         } 
         else

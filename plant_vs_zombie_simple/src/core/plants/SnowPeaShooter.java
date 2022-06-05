@@ -34,6 +34,6 @@ public class SnowPeaShooter extends Plant{
     }
 
     public void loadImages(String name, double scale){
-        loadFrames(this.frames, name, Constants.BLACK);
+        loadFrames(this.frames, name, Constants.BLACK, scale);
     }
 }

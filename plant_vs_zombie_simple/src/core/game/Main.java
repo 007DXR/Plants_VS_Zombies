@@ -8,6 +8,7 @@ import javax.swing.*;
 import core.json.JSONObject;
 import core.screen.GameLoseScreen;
 import core.screen.GameVictoryScreen;
+import core.screen.Screen;
 
 import java.awt.Graphics;
 import java.awt.event.*;
@@ -28,15 +29,19 @@ public class Main extends JPanel{
         surface = new Main();
         window.add(surface);
         game = new Control();
+        JSONObject state_dict=new JSONObject();
+        state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
+        state_dict.put(c.GAME_LOSE, new GameLoseScreen());
+        state_dict.put(c.LEVEL, new Level());
+        game.setup_states(state_dict, c.LEVEL);
+
+
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(816, 638);
         window.add(surface);
         window.setVisible(true);
         window.repaint();
-        JSONObject state_dict = new JSONObject();
-        // state_dict.put(c.MAIN_MENU, new MainMenu());
-        state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
-        state_dict.put(c.GAME_LOSE, new GameLoseScreen());
+        
 
         // 鼠标监听事件
         MouseAdapter l = new MouseAdapter() {
@@ -60,14 +65,8 @@ public class Main extends JPanel{
         };
         surface.addMouseListener(l);
         surface.addMouseMotionListener(l);
-
-        state_dict.put(c.LEVEL, new Level());
-        ArrayList<String> state_array = new ArrayList<>();
-        state_array.add(c.MAIN_MENU);
-        state_array.add(c.GAME_VICTORY);
-        state_array.add(c.GAME_LOSE);
-        state_array.add(c.LEVEL);
-        game.setup_states(state_dict, state_array, c.LEVEL);
+        // HashMap<String,Object> state_dict = new HashMap<String,Object>();
+        // state_dict.put(c.MAIN_MENU, new MainMenu());
 
         // 定时运行
         Timer timer = new Timer();

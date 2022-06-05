@@ -127,6 +127,29 @@ public class Tool {
         return output;
     }
 
+    // 调整透明卡片
+    public static BufferedImage adjustHint(BufferedImage image_) {
+        int width = image_.getWidth();
+        int height = image_.getHeight();
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        for (int j1 = 0; j1 < height; ++j1) {
+            for (int j2 = 0; j2 < width; ++j2) {
+                int rgb = image_.getRGB(j2, j1);
+                int R, G, B, alpha;
+                R = ((rgb >> 16) & 0xff);
+                G = ((rgb >> 8) & 0xff);
+                B = (rgb & 0xff);
+                alpha = (rgb >> 24) & 0xff;
+                if (alpha != 1)
+                {
+                    rgb = (128 << 24) | ((R & 0xff) << 16) | ((G & 0xff) << 8) | (B & 0xff);
+                    output.setRGB(j2, j1, rgb);
+                }
+            }
+        }
+        return output;
+    }
+
     // 图片缩放
     public static BufferedImage resize(BufferedImage image_, double scale) {
         int width = image_.getWidth();

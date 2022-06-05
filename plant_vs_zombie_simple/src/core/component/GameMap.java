@@ -43,8 +43,8 @@ public class GameMap {
         x -= c.MAP_OFFSET_X;
         y -= c.MAP_OFFSET_Y;
         ArrayList<Integer> list = new ArrayList<>();
-        list.add(x / c.GRID_X_SIZE);
-        list.add(y / c.GRID_Y_SIZE);
+        list.add((int)Math.floor(x*1.0 / c.GRID_X_SIZE));
+        list.add((int)Math.floor(y*1.0 / c.GRID_Y_SIZE));
         return list;
     }
     /// 传入格子坐标，传出图像单位

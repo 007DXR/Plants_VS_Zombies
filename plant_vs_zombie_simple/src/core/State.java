@@ -15,7 +15,7 @@ public class State {
     public JSONObject game_info;
 
     
-    public void State() {
+    public  State() {
         start_time = 0;
         current_time = 0;
         done = false;

@@ -19,7 +19,7 @@ public class Chomper extends Plant {
     ArrayList<BufferedImage> attack_frames;
 
     public Chomper(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.CHOMPER, 1);
+        super(Constants.PLANT_HEALTH, x, y-50, Constants.CHOMPER, 1);
     }
 
 
@@ -30,9 +30,9 @@ public class Chomper extends Plant {
         String attack_name = name + "Attack";
         String digest_name = name + "Digest";
 
-        loadFrames(idle_frames, idle_name,  Constants.BLACK);
-        loadFrames(attack_frames, attack_name, Constants.BLACK);
-        loadFrames(digest_frames, digest_name,Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Constants.BLACK, 1);
+        loadFrames(attack_frames, attack_name, Constants.BLACK, 1);
+        loadFrames(digest_frames, digest_name,Constants.BLACK, 1);
 
         this.frames = idle_frames;
     }
@@ -81,7 +81,7 @@ public class Chomper extends Plant {
             digest_timer = current_time;
         else if(current_time - digest_timer > digest_interval){
             digest_timer = 0;
-            //attack_zombie.kill();
+            attack_zombie.kill();
             setIdle();
         }
     }

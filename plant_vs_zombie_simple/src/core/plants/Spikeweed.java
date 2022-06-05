@@ -15,13 +15,13 @@ public class Spikeweed extends Plant{
     Group zombie_group;
   
     public Spikeweed(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y, Constants.SPIKEWEED, 1);
+        super(Constants.PLANT_HEALTH, x, y+30, Constants.SPIKEWEED, 1);
     }
     
 
     @Override
     public void loadImages(String name, double scale){
-        loadFrames(frames, name, Constants.WHITE);
+        loadFrames(frames, name, Constants.WHITE, 0.9);
     }
 
     @Override
