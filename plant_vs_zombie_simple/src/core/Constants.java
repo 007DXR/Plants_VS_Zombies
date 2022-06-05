@@ -113,7 +113,7 @@ public class Constants {
     public static String ICETRAP = "IceTrap";
     
     // 增加的植物状态
-    public static int SMALL_SUN_VALUE = 12;
+    public static int SMALL_SUN_VALUE = 15;
     public static double SMALL_SUN_SCALE = 0.6;
     public static double BIG_SUN_SCALE = 0.9;
     public static double SMALL_SUNSHROOM_SCALE = 0.6;

@@ -16,11 +16,11 @@ public class SunShroom extends Plant{
     long change_timer = 0;
     long animate_interval = 200;
 
-    Group sun_group;
+    ArrayList<Sun> sun_group;
     
-    public SunShroom(int x, int y, Group g){
+    public SunShroom(int x, int y, ArrayList<Sun> sunGroup){
         super(Constants.PLANT_HEALTH, x, y, Constants.SUNSHROOM, Constants.SMALL_SUNSHROOM_SCALE);  
-        this.sun_group = g;
+        this.sun_group = sunGroup;
     }
 
     @Override
