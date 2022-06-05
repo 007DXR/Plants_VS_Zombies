@@ -13,8 +13,8 @@ public class Jalapeno extends Plant{
     ArrayList<BufferedImage> explode_frames;
 
     public Jalapeno(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y-15, Constants.JALAPENO, 1);
-        orig_pos = new int[]{x,y-15};
+        super(Constants.PLANT_HEALTH, x, y, Constants.JALAPENO, 1);
+        orig_pos = new int[]{x,y};
         explode_y_range = 0;
         explode_x_range = 377;
         setAttack();
