@@ -51,10 +51,10 @@ public class SunShroom extends Plant{
             sun_timer = current_time - (Constants.FLOWER_SUN_INTERVAL - 6000);
         else if(current_time - sun_timer > Constants.FLOWER_SUN_INTERVAL){
             if(is_big){
-                //this.sun_group.add(Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.BIG_SUN_SCALE));
+                this.sun_group.add(new Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.BIG_SUN_SCALE));
             }
             else{
-                //this.sun_group.add(Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.SMALL_SUN_SCALE));
+                this.sun_group.add(new Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.SMALL_SUN_SCALE));
             }
             sun_timer = current_time;
         }

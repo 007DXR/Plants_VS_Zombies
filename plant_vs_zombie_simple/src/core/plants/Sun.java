@@ -21,13 +21,17 @@ public class Sun extends Plant{
     public Sun(int x, int y, int dst_x, int dst_y, double scale){
         super(0, x, y, Constants.SUN, scale);
         if(scale == Constants.BIG_SUN_SCALE){
+            //System.out.println("produce_sun");
             is_big = true;
             sun_value = Constants.SUN_VALUE;
         }
         else{
+            //System.out.println("produce_small_sun");
             is_big = false;
             sun_value = Constants.SMALL_SUN_VALUE;
         }
+        
+        this.loadImages(Constants.SUN, scale);
 
         this.dst_x = dst_x;
         this.dst_y = dst_y;
@@ -39,19 +43,20 @@ public class Sun extends Plant{
     public void loadImages(String name, double scale){
         small_frames = new ArrayList<BufferedImage>();
         big_frames = new ArrayList<BufferedImage>();
-        loadFrames(big_frames, name, Constants.BLACK, 1);
+        loadFrames(big_frames, name, Constants.WHITE, Constants.BIG_SUN_SCALE);
+        loadFrames(small_frames, name, Constants.WHITE, Constants.SMALL_SUN_SCALE);
         
-        for(BufferedImage bufImg: big_frames){
-            small_frames.add(Tool.resize(bufImg, Constants.SMALL_SUN_SCALE));
-        }
+        
         if(this.is_big)
             frames = big_frames;
-        else
+        else{
             frames = small_frames;
+        }
     }
 
     @Override
     public void handleState(){
+        
         if(this.rect.left < dst_x)
             this.rect.left += move_speed;
         else if(this.rect.left > dst_x)
@@ -59,7 +64,7 @@ public class Sun extends Plant{
         
         if(this.rect.top < dst_y)
             this.rect.top += move_speed;
-        else if(this.rect.top > dst_x)
+        else if(this.rect.top > dst_y)
         this.rect.top -= move_speed;
 
         if(this.rect.left == dst_x && this.rect.top == dst_y){
