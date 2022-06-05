@@ -1,6 +1,7 @@
 package core.plants;
 
 import core.*;
+import core.game.Rect;
 import core.Constants;
 import core.zombies.Zombie;
 
@@ -20,9 +21,7 @@ public class Squash extends Plant{
     Group zombie_group = null;
 
     public Squash(int x, int y){
-
         super(Constants.PLANT_HEALTH, x, y, Constants.SQUASH, 1);
-
         orig_pos = new int[]{x,y};
     }
 
@@ -34,7 +33,7 @@ public class Squash extends Plant{
         String idle_name = name;
         String aim_name = name + "Aim";
         String attack_name = name + "Attack";
-
+        //test_yyn
         loadFrames(idle_frames, idle_name, Constants.WHITE, 1);
         loadFrames(aim_frames, aim_name, Constants.WHITE, 1);
         loadFrames(attack_frames, attack_name, Constants.WHITE, 1);
@@ -66,6 +65,7 @@ public class Squash extends Plant{
             if(frame_index + 1 == frame_num){
                 attack_zombie.kill();
                 setDamage(1000);
+                System.out.println("test!");
             }
         }
         else if(aim_timer == 0){
@@ -74,7 +74,9 @@ public class Squash extends Plant{
         }
         else if(current_time - aim_timer > 1000){
             changeFrames(attack_frames);
-            this.rect.adjust(this.attack_zombie.rect.centerx(), this.rect.bottom());
+            Rect oldRect = this.rect;
+            this.rect = new Rect(this.frames.get(0), this.attack_zombie.rect.centerx()-oldRect.width()/2, oldRect.top-130);
+            //this.rect.adjustcx(this.attack_zombie.rect.centerx());
             squashing = true;
             animate_interval = 300;
         }
