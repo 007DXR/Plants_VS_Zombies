@@ -52,17 +52,17 @@ public class Sun extends Plant{
 
     @Override
     public void handleState(){
-        if(this.rect.centerx() < dst_x)
+        if(this.rect.left < dst_x)
             this.rect.left += move_speed;
-        else if(this.rect.centerx() > dst_x)
+        else if(this.rect.left > dst_x)
         this.rect.left -= move_speed;
         
-        if(this.rect.bottom() < dst_y)
+        if(this.rect.top < dst_y)
             this.rect.top += move_speed;
-        else if(this.rect.bottom() > dst_x)
+        else if(this.rect.top > dst_x)
         this.rect.top -= move_speed;
 
-        if(this.rect.centerx() == dst_x && this.rect.bottom() == dst_y){
+        if(this.rect.left == dst_x && this.rect.top == dst_y){
             if(die_timer == 0)
                 die_timer = current_time;
             else if(current_time - die_timer > Constants.SUN_LIVE_TIME){

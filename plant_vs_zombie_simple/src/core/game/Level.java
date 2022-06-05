@@ -331,9 +331,8 @@ public class Level extends State {
                     mapRandom.get(1));
                     
                     // test_scarlyw
-               System.out.println("product_sun_in_day");
-               sunGroup.add(new Sun(1, 0, 
-               1, mapPos.get(1).intValue(), 0.9));
+               sunGroup.add(new Sun(mapPos.get(0).intValue(), 0, 
+               mapPos.get(0).intValue(), mapPos.get(1).intValue(), 0.9));
             }
         }
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0 

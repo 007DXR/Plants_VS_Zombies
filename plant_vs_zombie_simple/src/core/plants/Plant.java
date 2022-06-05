@@ -125,7 +125,7 @@ public class Plant extends Sprite{
     }
 
     public void handleState(){
-        if(state.equals(Constants.DIE))
+        if(state.equals(Constants.IDLE))
             idling();
         else if(state.equals(Constants.ATTACK))
             attacking();

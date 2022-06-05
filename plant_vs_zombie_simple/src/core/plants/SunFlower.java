@@ -11,7 +11,8 @@ public class SunFlower extends Plant{
     ArrayList<Sun> sun_group;
     
     public SunFlower(int x, int y, ArrayList<Sun> sunGroup){
-        super(Constants.PLANT_HEALTH, x, y, Constants.SUNFLOWER, 1);    
+        super(Constants.PLANT_HEALTH, x, y, Constants.SUNFLOWER, 1);
+        System.out.println("produce_sun_flower");
         sun_timer = 0;
         this.sun_group = sunGroup;   
     }
@@ -27,7 +28,7 @@ public class SunFlower extends Plant{
             sun_timer = current_time - (Constants.FLOWER_SUN_INTERVAL - 6000);
         else if(current_time - sun_timer > Constants.FLOWER_SUN_INTERVAL){
             System.out.println("produce_sun");
-            this.sun_group.add(new Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.BIG_SUN_SCALE));
+            this.sun_group.add(new Sun(this.rect.centerx(), this.rect.centery(), this.rect.right(), this.rect.centery(), Constants.BIG_SUN_SCALE));
             sun_timer = current_time;
         }
     }
