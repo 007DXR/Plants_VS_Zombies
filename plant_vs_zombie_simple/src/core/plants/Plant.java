@@ -56,6 +56,7 @@ public class Plant extends Sprite{
     public ArrayList<BufferedImage> attack_frames = new ArrayList<BufferedImage>();
     public ArrayList<BufferedImage> sleep_frames = new ArrayList<BufferedImage>();
     public ArrayList<BufferedImage> idle_frames = new ArrayList<BufferedImage>();
+    public ArrayList<BufferedImage> cry_frames = new ArrayList<BufferedImage>();
     public ArrayList<BufferedImage> big_frames = new ArrayList<BufferedImage>();
 
 

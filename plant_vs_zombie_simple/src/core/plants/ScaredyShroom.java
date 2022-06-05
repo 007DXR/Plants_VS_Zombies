@@ -18,7 +18,6 @@ public class  ScaredyShroom extends Plant{
     private long shoot_timer = 0; 
     private Group bullet_group; 
     boolean can_sleep = true;
-    ArrayList<BufferedImage> cry_frames;
     private int cry_x_range = c.GRID_X_SIZE * 2;
     
     public  ScaredyShroom(int x, int y, Group g){
@@ -60,6 +59,8 @@ public class  ScaredyShroom extends Plant{
 
     public void loadImages(String name, double scale){
         loadFrames(this.frames, name, Constants.BLACK);
+        loadFrames(this.cry_frames, name+"Cry", Constants.BLACK);
+        loadFrames(this.sleep_frames, name+"Sleep", Constants.BLACK);
     }
 
 }
