@@ -14,7 +14,7 @@ public class PotatoMine extends Plant{
     long init_timer = 0;
     long bomb_timer = 0;
     int explode_y_range = 0;
-    int explode_x_range = Constants.GRID_X_SIZE / 3 * 2;
+    int explode_x_range = Constants.GRID_X_SIZE;
 
     ArrayList<BufferedImage> init_frames;
     ArrayList<BufferedImage> explode_frames;
@@ -55,9 +55,9 @@ public class PotatoMine extends Plant{
 
     @Override
     public boolean canAttack(Zombie zombie){
-        if(is_init == true && 
-        zombie.rect.left+zombie.rect.width() >= this.rect.left &&
-        (zombie.rect.left - this.rect.left)<= explode_x_range)
+        if(is_init == false && 
+        zombie.rect.right() >= this.rect.left &&
+        zombie.rect.left - this.rect.left<= explode_x_range)
             return true;
         return false;
     }
