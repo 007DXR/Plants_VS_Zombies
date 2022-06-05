@@ -369,16 +369,16 @@ public class Level extends State {
         if (name.equals(c.NORMAL_ZOMBIE)) {
             zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
-        else if (name == c.CONEHEAD_ZOMBIE) {
+        else if (name.equals(c.CONEHEAD_ZOMBIE)) {
             zombieGroups.get(map_y).add(new ConeHeadZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
-        else if (name == c.BUCKETHEAD_ZOMBIE) {
+        else if (name.equals(c.BUCKETHEAD_ZOMBIE)) {
             zombieGroups.get(map_y).add(new BucketHeadZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
-        else if (name == c.FLAG_ZOMBIE) {
+        else if (name.equals(c.FLAG_ZOMBIE)) {
             zombieGroups.get(map_y).add(new FlagZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
-        else if (name == c.NEWSPAPER_ZOMBIE) {
+        else if (name.equals(c.NEWSPAPER_ZOMBIE)) {
             zombieGroups.get(map_y).add(new NewspaperZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
     }
@@ -824,8 +824,6 @@ public class Level extends State {
         }
         return false;
     }
-    String next;
-    boolean done;
     public void checkGameState() {
         if (this.checkVictory()) {
             int level = this.game_info.getInt(c.LEVEL_NUM);
