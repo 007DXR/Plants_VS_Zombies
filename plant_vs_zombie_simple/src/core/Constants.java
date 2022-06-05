@@ -55,7 +55,7 @@ public class Constants {
 
     public static int BACKGROUND_OFFSET_X = 220;
     public static int MAP_OFFSET_X = 35;
-    public static int MAP_OFFSET_Y = 100;
+    public static int MAP_OFFSET_Y = 80;
 
     // 菜单栏信息
     public static String CHOOSEBAR_TYPE = "choosebar_type";
@@ -103,7 +103,7 @@ public class Constants {
     public static int WALLNUT_BOWLING_DAMAGE = 10;
     
     public static int PRODUCE_SUN_INTERVAL = 7000;
-    public static int FLOWER_SUN_INTERVAL = 7000;
+    public static int FLOWER_SUN_INTERVAL = 20000;
     public static int SUN_LIVE_TIME = 7000;
     public static int SUN_VALUE = 25;
 
