@@ -24,8 +24,8 @@ public class Jalapeno extends Plant{
     public void loadImages(String name, double scale){
         explode_frames = new ArrayList<BufferedImage>();
         String explode_name = name + "Explode";
-        loadFrames(explode_frames, explode_name, Constants.BLACK);
-        loadFrames(frames, name, Constants.BLACK);
+        loadFrames(explode_frames, explode_name, Constants.WHITE, 1);
+        loadFrames(frames, name, Constants.WHITE, 1);
     }
 
     public void setExplode(){

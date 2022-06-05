@@ -30,9 +30,9 @@ public class Chomper extends Plant {
         String attack_name = name + "Attack";
         String digest_name = name + "Digest";
 
-        loadFrames(idle_frames, idle_name,  Constants.BLACK);
-        loadFrames(attack_frames, attack_name, Constants.BLACK);
-        loadFrames(digest_frames, digest_name,Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Constants.BLACK, 1);
+        loadFrames(attack_frames, attack_name, Constants.BLACK, 1);
+        loadFrames(digest_frames, digest_name,Constants.BLACK, 1);
 
         this.frames = idle_frames;
     }

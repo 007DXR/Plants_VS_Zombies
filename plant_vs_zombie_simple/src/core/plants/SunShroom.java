@@ -29,9 +29,9 @@ public class SunShroom extends Plant{
         String big_name = name + "Big";
         String sleep_name = name + "Sleep";
 
-        loadFrames(idle_frames, idle_name,  Constants.BLACK);
-        loadFrames(sleep_frames, sleep_name, Constants.BLACK);
-        loadFrames(big_frames, big_name,  Constants.BLACK);
+        loadFrames(idle_frames, idle_name,  Constants.WHITE, 1);
+        loadFrames(sleep_frames, sleep_name, Constants.WHITE, 1);
+        loadFrames(big_frames, big_name,  Constants.WHITE, 1);
 
         this.frames = idle_frames;
     }

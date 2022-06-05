@@ -30,14 +30,11 @@ public class IceShroom extends Plant {
         String sleep_name = name + "Sleep";
         String trap_name = name + "Trap";
         
-        loadFrames(idle_frames, idle_name, Constants.BLACK);
-        loadFrames(sleep_frames, sleep_name, Constants.BLACK);
-        loadFrames(snow_frames, snow_name, Constants.BLACK);
-        loadFrames(trap_frames, trap_name, Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Constants.WHITE, 1);
+        loadFrames(sleep_frames, sleep_name, Constants.WHITE, 1);
+        loadFrames(snow_frames, snow_name, Constants.WHITE, 1.5);
+        loadFrames(trap_frames, trap_name, Constants.WHITE, 1);
 
-        for(int i = 0; i < snow_frames.size(); ++i){
-            snow_frames[i] = Tool.resize(snow_frames[i], 1.5);
-        }
 
         if(getState().equals(Constants.SLEEP))
             frames = sleep_frames;

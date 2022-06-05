@@ -33,9 +33,9 @@ public class Squash extends Plant{
         String aim_name = name + "Aim";
         String attack_name = name + "Attack";
 
-        loadFrames(idle_frames, idle_name, Constants.WHITE);
-        loadFrames(aim_frames, aim_name, Constants.WHITE);
-        loadFrames(attack_frames, attack_name, Constants.WHITE);
+        loadFrames(idle_frames, idle_name, Constants.WHITE, 1);
+        loadFrames(aim_frames, aim_name, Constants.WHITE, 1);
+        loadFrames(attack_frames, attack_name, Constants.WHITE, 1);
         
         this.frames = idle_frames;
     }

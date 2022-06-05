@@ -15,7 +15,7 @@ public class SunFlower extends Plant{
     }
 
     public void loadImages(String name, double scale){
-        loadFrames(frames, name,  Constants.BLACK);
+        loadFrames(frames, name,  Constants.BLACK, 1);
     }
 
     public void idling(){

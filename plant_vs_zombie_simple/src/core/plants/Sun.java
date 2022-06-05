@@ -39,7 +39,7 @@ public class Sun extends Plant{
     public void loadImages(String name, double scale){
         small_frames = new ArrayList<BufferedImage>();
         big_frames = new ArrayList<BufferedImage>();
-        loadFrames(big_frames, name,Constants.BLACK);
+        loadFrames(big_frames, name, Constants.BLACK, 1);
         
         for(BufferedImage bufImg: big_frames){
             small_frames.add(Tool.resize(bufImg, Constants.SMALL_SUN_SCALE));

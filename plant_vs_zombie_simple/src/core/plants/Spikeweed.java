@@ -21,7 +21,7 @@ public class Spikeweed extends Plant{
 
     @Override
     public void loadImages(String name, double scale){
-        loadFrames(frames, name, Constants.WHITE);
+        loadFrames(frames, name, Constants.WHITE, 0.9);
     }
 
     @Override

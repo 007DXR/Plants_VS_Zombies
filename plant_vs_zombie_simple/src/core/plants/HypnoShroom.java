@@ -16,8 +16,8 @@ public class HypnoShroom extends Plant{
         String idle_name = name;
         String sleep_name = name + "Sleep";
     
-        loadFrames(idle_frames, idle_name, Constants.BLACK);
-        loadFrames(sleep_frames, sleep_name, Constants.BLACK);
+        loadFrames(idle_frames, idle_name, Constants.WHITE, 1);
+        loadFrames(sleep_frames, sleep_name, Constants.WHITE, 1);
 
         if(getState().equals(Constants.SLEEP))
             frames = sleep_frames;
