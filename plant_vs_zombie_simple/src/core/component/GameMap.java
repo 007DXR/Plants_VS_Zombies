@@ -33,8 +33,13 @@ public class GameMap {
     public boolean isValid(int map_x, int map_y) {
         return (map_x >= 0 && map_x < width) && (map_y >= 0 && map_y < height);
     }
+
     public boolean isMovable(int map_x, int map_y) {
         return map[map_y][map_x] == c.MAP_EMPTY;
+    }
+
+    public void doPlant(int map_x, int map_y) {
+        map[map_y][map_x] = c.MAP_EXIST;
     }
     /// 传入图像单位，传出相应格子位置，返回ArrayList, [0]保存x坐标格子，[1]保存y坐标格子
     public static ArrayList<Integer> getMapIndex(int x, int y) {

@@ -54,8 +54,8 @@ public class Main extends JPanel{
                     left_click = true;
                 if(e.getButton()==MouseEvent.BUTTON2)
                     right_click = true;
-                ArrayList<Integer> pos = GameMap.getMapIndex(x, y);
-                System.out.printf("%d %d %d %d\n",x,y,pos.get(0),pos.get(1));
+                // ArrayList<Integer> pos = GameMap.getMapIndex(x, y);
+                // System.out.printf("%d %d %d %d\n",x,y,pos.get(0),pos.get(1));
             };
 
             @Override
@@ -72,7 +72,7 @@ public class Main extends JPanel{
 
         // 定时运行
         Timer timer = new Timer();
-        int interval = 20;
+        int interval = 10;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -81,8 +81,6 @@ public class Main extends JPanel{
                 // System.out.println(y);
                 game.event_loop(x, y, left_click, right_click);
                 window.repaint();
-                // if (left_click)
-                //     System.out.println("左键点击");
                 left_click = false;
                 right_click = false;
             }

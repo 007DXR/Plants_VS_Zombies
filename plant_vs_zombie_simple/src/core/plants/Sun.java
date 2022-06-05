@@ -20,19 +20,6 @@ public class Sun extends Plant{
     
     public Sun(int x, int y, int dst_x, int dst_y, double scale){
         super(0, x, y, Constants.SUN, scale);
-        if(scale == Constants.BIG_SUN_SCALE){
-            //System.out.println("produce_sun");
-            is_big = true;
-            sun_value = Constants.SUN_VALUE;
-        }
-        else{
-            //System.out.println("produce_small_sun");
-            is_big = false;
-            sun_value = Constants.SMALL_SUN_VALUE;
-        }
-        
-        this.loadImages(Constants.SUN, scale);
-
         this.dst_x = dst_x;
         this.dst_y = dst_y;
 
@@ -47,6 +34,19 @@ public class Sun extends Plant{
         loadFrames(small_frames, name, Constants.BLACK, Constants.SMALL_SUN_SCALE);
         
         
+        // 判断阳关是大小阳光
+        if(scale == Constants.BIG_SUN_SCALE){
+            is_big = true;
+            sun_value = Constants.SUN_VALUE;
+        }
+        else{
+            is_big = false;
+            sun_value = Constants.SMALL_SUN_VALUE;
+        }
+
+        for(BufferedImage bufImg: big_frames){
+            small_frames.add(Tool.adjustAlpha(Tool.resize(bufImg, Constants.SMALL_SUN_SCALE), c.BLACK));
+        }
         if(this.is_big)
             frames = big_frames;
         else{
