@@ -27,7 +27,7 @@ public class Car extends Sprite {
             Tool.GFX.get(Constants.CAR);
 
         this.rect = new Rect(Tool.adjustAlpha(frame_list.first().image,Constants.BLACK), x, y);
-        this.rect.adjustbt(y);
+        // this.rect.adjustbt(y);
         this.map_y = map_y;
         this.state = Constants.IDLE;
         this.dead = false;

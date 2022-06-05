@@ -3,6 +3,9 @@ package core.game;
 import java.util.*;
 import java.util.Timer;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 import core.component.GameMap;
@@ -14,6 +17,9 @@ import core.screen.Screen;
 import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.event.MouseEvent;
+import java.applet.*;
+import java.net.URI;
+import java.io.File;
 
 public class Main extends JPanel{
     public static Control game;
@@ -70,9 +76,21 @@ public class Main extends JPanel{
         // HashMap<String,Object> state_dict = new HashMap<String,Object>();
         // state_dict.put(c.MAIN_MENU, new MainMenu());
 
+        try {
+            File file = new File("bgm.wav");
+            URI uri = file.toURI();
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         // 定时运行
         Timer timer = new Timer();
-        int interval = 20;
+        int interval = 30;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
