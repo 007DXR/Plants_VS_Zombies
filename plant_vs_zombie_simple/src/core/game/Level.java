@@ -604,6 +604,7 @@ public class Level extends State {
     }
     public void checkCarCollisions() {
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.8);
+        LinkedList<Sprite> del = new LinkedList<>();
         for (Car car : this.cars) {
             ArrayList<Sprite> sprits = car.spritecollide(this.zombieGroups.get(car.map_y), false, collidedFunc);
             for (Sprite sprite : sprits) {
@@ -614,9 +615,10 @@ public class Level extends State {
                 }
             }
             if (car.dead) {
-                this.cars.remove(car);
+                del.add(car);
             }
         }
+        cars.removeAll(del);
     }
     public void boomZombies(int x, int map_y, int y_range, int x_range) {
         for (int i = 0; i < this.map_y_len; ++i) {
@@ -737,7 +739,7 @@ public class Level extends State {
                 }
             }
             if (plant.state == c.IDLE && canAttack) {
-//                plant.setAttack(this.zombieGroups.get(i));
+                plant.setAttack(null, this.zombieGroups.get(i));
             }
             else if (plant.state == c.ATTACK && !canAttack) {
                 plant.setIdle();
