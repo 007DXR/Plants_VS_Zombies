@@ -100,7 +100,7 @@ public class MenuBar {
         BufferedImage value_image = Panel.getSunValueImage(sun_value);
         value_x = 21;
         value_y = y + height - 21;
-        value_image.getGraphics().drawImage(value_image, value_x, value_y, null);
+        image.getGraphics().drawImage(value_image, value_x, value_y, null);
     }
 
     // 绘画
