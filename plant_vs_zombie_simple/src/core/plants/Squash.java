@@ -20,8 +20,8 @@ public class Squash extends Plant{
     Group zombie_group = null;
 
     public Squash(int x, int y){
-        super(Constants.PLANT_HEALTH, x, y-50, Constants.SQUASH, 1);
-        orig_pos = new int[]{x,y};
+        super(Constants.PLANT_HEALTH, x, y-50-Constants.GRID_Y_SIZE, Constants.SQUASH, 1);
+        orig_pos = new int[]{x,y-50-Constants.GRID_Y_SIZE};
     }
 
     @Override
