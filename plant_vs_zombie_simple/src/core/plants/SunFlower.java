@@ -12,7 +12,7 @@ public class SunFlower extends Plant{
     
     public SunFlower(int x, int y, ArrayList<Sun> sunGroup){
         super(Constants.PLANT_HEALTH, x, y, Constants.SUNFLOWER, 1);
-        System.out.println("produce_sun_flower");
+        //System.out.println("produce_sun_flower");
         sun_timer = 0;
         this.sun_group = sunGroup;   
     }
@@ -22,12 +22,11 @@ public class SunFlower extends Plant{
     }
 
     public void idling(){
-        System.out.println("current_time");
-        System.out.println(current_time);
+        //System.out.println("current_time");
+        //System.out.println(current_time);
         if(sun_timer == 0)
             sun_timer = current_time - (Constants.FLOWER_SUN_INTERVAL - 6000);
         else if(current_time - sun_timer > Constants.FLOWER_SUN_INTERVAL){
-            System.out.println("produce_sun");
             this.sun_group.add(new Sun(this.rect.centerx(), this.rect.centery(), this.rect.right(), this.rect.centery(), Constants.BIG_SUN_SCALE));
             sun_timer = current_time;
         }
