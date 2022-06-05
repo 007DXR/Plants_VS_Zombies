@@ -25,17 +25,8 @@ public class Car extends Sprite {
     public Car(int x, int y, int map_y) {
         TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) 
             Tool.GFX.get(Constants.CAR);
-        frames = new ArrayList<BufferedImage>(); 
-        for (Tool.Img frame : frame_list) {
-            BufferedImage rect = frame.image;
-            int width = rect.getWidth();
-            int height = rect.getHeight();
-            width += x;
-            // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
-            frames.add(frame.image.getSubimage(0, 0, width, height));
-                // tool.get_image(frame, image_x, 0, width, height, colorkey));
-        }
-        this.rect = new Rect(this.frames.get(this.frame_index), x, y);
+
+        this.rect = new Rect(Tool.adjustAlpha(frame_list.first().image,Constants.BLACK), x, y);
         this.rect.adjustbt(y);
         this.map_y = map_y;
         this.state = Constants.IDLE;

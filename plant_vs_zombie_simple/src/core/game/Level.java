@@ -195,7 +195,7 @@ public class Level extends State {
         for (int i = 0; i < map_y_len; ++i) {
             ArrayList<Integer> pos = map.getMapGridPos(0, i);
             int y = pos.get(1);
-            cars.add(new Car(-25, y+20, i));
+            cars.add(new Car(-25, y+40, i));
         }
     }
     @Override
