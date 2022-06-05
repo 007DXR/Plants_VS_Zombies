@@ -58,9 +58,9 @@ public class  ScaredyShroom extends Plant{
     }
 
     public void loadImages(String name, double scale){
-        loadFrames(this.frames, name, Constants.BLACK);
-        loadFrames(this.cry_frames, name+"Cry", Constants.BLACK);
-        loadFrames(this.sleep_frames, name+"Sleep", Constants.BLACK);
+        loadFrames(this.frames, name, Constants.WHITE);
+        loadFrames(this.cry_frames, name+"Cry", Constants.WHITE);
+        loadFrames(this.sleep_frames, name+"Sleep", Constants.WHITE);
     }
 
 }
