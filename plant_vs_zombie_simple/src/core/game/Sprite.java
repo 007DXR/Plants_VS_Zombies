@@ -31,10 +31,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.*;
 
-class c extends Constants {}
-
-
-
 /// 精灵类，处理碰撞，实现绘图接口
 public class Sprite 
     implements PaintItf
