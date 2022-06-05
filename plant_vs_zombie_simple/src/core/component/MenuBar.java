@@ -29,7 +29,7 @@ public class MenuBar {
         width = image.getWidth();
         height = image.getHeight();
         this.card_list = new ArrayList<Card>(); 
-        this.sun_value = 1000000;
+        this.sun_value = sun_value;
         setupCards(card_list);
     }
 

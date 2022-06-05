@@ -4,14 +4,16 @@ import core.*;
 import core.plants.Sun;
 import core.game.Group;
 
+import java.util.ArrayList;
+
 public class SunFlower extends Plant{
     long sun_timer = 0;
-    Group sun_group;
+    ArrayList<Sun> sun_group;
     
-    public SunFlower(int x, int y, Group sun_group){
+    public SunFlower(int x, int y, ArrayList<Sun> sunGroup){
         super(Constants.PLANT_HEALTH, x, y, Constants.SUNFLOWER, 1);    
         sun_timer = 0;
-        this.sun_group = sun_group;   
+        this.sun_group = sunGroup;   
     }
 
     public void loadImages(String name, double scale){
