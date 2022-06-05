@@ -35,6 +35,10 @@ public class IceShroom extends Plant {
         loadFrames(snow_frames, snow_name, Constants.BLACK);
         loadFrames(trap_frames, trap_name, Constants.BLACK);
 
+        for(int i = 0; i < snow_frames.size(); ++i){
+            snow_frames[i] = Tool.resize(snow_frames[i], 1.5);
+        }
+
         if(getState().equals(Constants.SLEEP))
             frames = sleep_frames;
         else
@@ -44,7 +48,6 @@ public class IceShroom extends Plant {
     public void setFreeze(){
         changeFrames(snow_frames);
         animate_timer = current_time;
-        //移出屏幕使其消失？？？？
         this.rect.left = Constants.MAP_OFFSET_X;
         this.rect.top = Constants.MAP_OFFSET_Y;
         start_freeze = true;
