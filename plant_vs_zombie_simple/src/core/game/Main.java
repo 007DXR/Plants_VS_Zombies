@@ -72,7 +72,7 @@ public class Main extends JPanel{
 
         // 定时运行
         Timer timer = new Timer();
-        int interval = 10;
+        int interval = 20;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -81,6 +81,8 @@ public class Main extends JPanel{
                 // System.out.println(y);
                 game.event_loop(x, y, left_click, right_click);
                 window.repaint();
+                if (left_click)
+                    System.out.println("左键点击");
                 left_click = false;
                 right_click = false;
             }
