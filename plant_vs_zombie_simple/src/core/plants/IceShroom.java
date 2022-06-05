@@ -11,7 +11,7 @@ public class IceShroom extends Plant {
     boolean can_sleep = true;
     boolean start_freeze = false;
     int [] orig_pos;
-    ArrayList<BufferedImage> snow_frames;
+    public ArrayList<BufferedImage> snow_frames;
     public ArrayList<BufferedImage> trap_frames;
     
     

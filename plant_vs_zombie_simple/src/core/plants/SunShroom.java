@@ -35,5 +35,29 @@ public class SunShroom extends Plant{
 
         this.frames = idle_frames;
     }
+
+    @Override
+    public void idling(){
+        if(is_big == false){
+            if(change_timer == 0)
+                change_timer = current_time;
+            else if(current_time - change_timer > 25000){
+                changeFrames(big_frames);
+                is_big = true;
+            }
+        }
+
+        if(sun_timer == 0)
+            sun_timer = current_time - (Constants.FLOWER_SUN_INTERVAL - 6000);
+        else if(current_time - sun_timer > Constants.FLOWER_SUN_INTERVAL){
+            if(is_big){
+                //this.sun_group.add(Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.BIG_SUN_SCALE));
+            }
+            else{
+                //this.sun_group.add(Sun(this.rect.centerx(), this.rect.bottom(), this.rect.right(), this.rect.bottom(), Constants.SMALL_SUN_SCALE));
+            }
+            sun_timer = current_time;
+        }
+    }
     
 }
