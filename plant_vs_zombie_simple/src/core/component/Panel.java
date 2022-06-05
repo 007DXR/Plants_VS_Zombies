@@ -72,7 +72,7 @@ public class Panel
         g.setColor(c.LIGHTYELLOW);
         g.fillRect(0, 0, 32, 17);
         g.setColor(c.NAVYBLUE);
-        g.setFont(new Font("楷体", Font.PLAIN, 22));
+        g.setFont(new Font("楷体", Font.PLAIN, 18));
         g.drawString(String.valueOf(sun_value), 4, 16);
         return e;
     }
