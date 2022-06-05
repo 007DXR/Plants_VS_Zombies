@@ -127,7 +127,7 @@ public class Tool {
         return output;
     }
 
-    // 调整亮度
+    // 调整透明卡片
     public static BufferedImage adjustHint(BufferedImage image_) {
         int width = image_.getWidth();
         int height = image_.getHeight();
