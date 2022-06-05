@@ -354,7 +354,7 @@ public class Level extends State {
         int x = Pos.get(0);
         int y = Pos.get(1);
         if (name.equals(c.NORMAL_ZOMBIE)) {
-            zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y, headGroup));
+            zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
         /*
         else if (name == c.CONEHEAD_ZOMBIE) {
