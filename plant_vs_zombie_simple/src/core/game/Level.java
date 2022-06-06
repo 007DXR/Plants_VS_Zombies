@@ -184,7 +184,7 @@ public class Level extends State {
         for(Tool.Img img: imgSet) {
             
             if(img.tag == imgIndex) {
-                background = new Sprite(img.image);
+                background = new Sprite(Tool.resize(img.image, 1.2));
                 break;
             }
         }
@@ -254,7 +254,7 @@ public class Level extends State {
     }
     public void initStart(){
         state = c.MAIN_MENU; 
-        start = new Start(250, 120, 2);
+        start = new Start(330, 140, 2.5);
     }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
