@@ -12,6 +12,7 @@ import core.component.GameMap;
 import core.json.JSONObject;
 import core.screen.GameLoseScreen;
 import core.screen.GameVictoryScreen;
+import core.screen.MainMenuScreen;
 import core.screen.Screen;
 
 import java.awt.Graphics;
@@ -37,6 +38,7 @@ public class Main extends JPanel{
         window.add(surface);
         game = new Control();
         JSONObject state_dict=new JSONObject();
+        state_dict.put(c.MAIN_MENU, new MainMenuScreen());
         state_dict.put(c.GAME_VICTORY, new GameVictoryScreen());
         state_dict.put(c.GAME_LOSE, new GameLoseScreen());
         state_dict.put(c.LEVEL, new Level());

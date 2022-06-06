@@ -50,7 +50,7 @@ public class Control{
         this.state_name = start_state;
        
         this.state = (State) this.state_dict.get(this.state_name);
-        this.state.startUp(this.current_time, this.game_info);
+        this.state.sstartUp(this.current_time, this.game_info);
     }
 
     public void update(Graphics g) {

@@ -30,6 +30,7 @@ import java.awt.image.BufferedImage;
 
 import core.component.Card;
 import core.component.GameMap;
+import core.component.Start;
 
 import java.io.*;
 import java.nio.file.*;
@@ -100,6 +101,7 @@ public class Level extends State {
     MenuBar menubar;
     /// elements added into surface
     JPanel surface;
+    Start start; 
 
     /// work in map directory
     private Path rootDir = Paths.get("resources/data/map");
@@ -122,7 +124,25 @@ public class Level extends State {
         mapData = new JSONObject();
         loadMap();
         setupBackgroud();
+        initStart(); 
         initState();
+    }
+
+    public void sstartUp(long current_time, JSONObject persist) {
+        //activate window
+        this.current_time = current_time;
+        surface = Main.surface;
+        game_info = persist;
+        this.persist = persist;
+        game_info.remove(c.CURRENT_TIME);
+        game_info.put(c.CURRENT_TIME, current_time);
+        map_y_len = c.GRID_Y_LEN;
+        map = new GameMap(c.GRID_X_LEN, map_y_len);
+        mapData = new JSONObject();
+        // loadMap();
+        setupMain();
+        initStart(); 
+        // initState();
     }
     /// 读入map文件信息
     public void loadMap() {
@@ -136,6 +156,26 @@ public class Level extends State {
 
     public void setupBackgroud() {
     	int imgIndex = (int)mapData.get(c.BACKGROUND_TYPE);
+    	backgroundType = imgIndex;
+        TreeSet<Tool.Img> imgSet = Tool.GFX.get(c.BACKGROUND_NAME);
+        // TreeSet<Tool.Img> imgSet = Tool.GFX.get("PeaNormal_0");
+        // int i = 0;
+        System.out.println("-------------------------(imgIndex);"+imgIndex);
+        for(Tool.Img img: imgSet) {
+            
+            if(img.tag == imgIndex) {
+                background = new Sprite(img.image);
+                break;
+            }
+        }
+        bgRect = background.rect;
+//        level = pg.Surface((bg_rect.w, bg_rect.h)).convert();
+        viewportLeft = c.BACKGROUND_OFFSET_X;
+        viewportWidth = c.SCREEN_WIDTH;
+        viewportHeight = c.SCREEN_HEIGHT;
+    }
+    public void setupMain() {
+    	int imgIndex = 6;
     	backgroundType = imgIndex;
         TreeSet<Tool.Img> imgSet = Tool.GFX.get(c.BACKGROUND_NAME);
         // TreeSet<Tool.Img> imgSet = Tool.GFX.get("PeaNormal_0");
@@ -204,11 +244,17 @@ public class Level extends State {
         mouseX = Main.x;
         mouseY = Main.y;
         game_info.put(c.CURRENT_TIME, time);
-        if (state.equals(c.CHOOSE)) {
+        if (state.equals(c.MAIN_MENU)){
+            start(mousePos, mouseClick);
+        } else if (state.equals(c.CHOOSE)) {
             choose(mousePos, mouseClick);
         } else if (state.equals(c.PLAY)) {
             play(g, mousePos, mouseClick);
         }
+    }
+    public void initStart(){
+        state = c.MAIN_MENU; 
+        start = new Start(250, 120, 2);
     }
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
@@ -240,6 +286,16 @@ public class Level extends State {
             panel.checkCardClick(mousePos.get(0), mousePos.get(1));
             if (panel.checkStartButtonClick(mousePos.get(0), mousePos.get(1))) {
                 initPlay(panel.getSelectedCards());
+            }
+        }
+    }
+
+    public void start(ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
+        if (!mousePos.isEmpty() && mouseClick.get(0)==true) {
+            if (start.checkMouseClick(mousePos.get(0), mousePos.get(1))) {
+                loadMap();
+                setupBackgroud();
+                initState();
             }
         }
     }
@@ -869,7 +925,10 @@ public class Level extends State {
         level = new Sprite(level_rect);
         level.paintObject(g);
 
-        if (this.state.equals(c.CHOOSE)) {
+        if (this.state.equals(c.MAIN_MENU)) {
+            this.start.paintObject(g);
+        }
+        else if (this.state.equals(c.CHOOSE)) {
             this.panel.paintObject(g);
         }
         else if (this.state.equals(c.PLAY)) {
