@@ -124,7 +124,7 @@ public class Level extends State {
         mapData = new JSONObject();
         loadMap();
         setupBackgroud();
-        initStart(); 
+        // initStart(); 
         initState();
     }
 
