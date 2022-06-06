@@ -86,6 +86,7 @@ public class Main extends JPanel{
             Clip clip = AudioSystem.getClip();
             clip.open(audioIn);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             
         } catch (Exception e) {
             System.out.println(e.getMessage());

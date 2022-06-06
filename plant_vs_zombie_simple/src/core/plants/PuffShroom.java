@@ -20,7 +20,7 @@ public class PuffShroom extends Plant{
     private Group bullet_group; 
     boolean can_sleep = true;
     public PuffShroom(int x, int y, Group g){
-        super(Constants.PLANT_HEALTH, x, y, Constants.PUFFSHROOM, 1);
+        super(Constants.PLANT_HEALTH, x, y+20, Constants.PUFFSHROOM, 1);
         this.shoot_timer = 0; 
         this.bullet_group = g;
     }

@@ -44,7 +44,7 @@ public class  ScaredyShroom extends Plant{
 
     public void attacking(){
         this.current_time = (int)System.currentTimeMillis();
-        if (this.current_time - this.shoot_timer > 2000){
+        if (this.current_time - this.shoot_timer > 2000 && !this.state.equals(Constants.CRY)){
             Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.bottom() -Constants.MAP_OFFSET_Y +40, this.rect.bottom() -Constants.MAP_OFFSET_Y + 40, Constants.BULLET_MUSHROOM, Constants.BULLET_DAMAGE_NORMAL, true); 
             this.bullet_group.add(bullet); 
             this.shoot_timer = this.current_time; 

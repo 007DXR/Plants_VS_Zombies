@@ -4,7 +4,7 @@ import java.util.*;
 import java.awt.image.BufferedImage;
 import core.game.*;
 public class BucketHeadZombie extends Zombie{
-    boolean helmet;
+    boolean helmet= true;
 
     public BucketHeadZombie(int x, int y, Group head_group) {
         super(x, y, c.BUCKETHEAD_ZOMBIE, c.BUCKETHEAD_HEALTH, head_group, 1);

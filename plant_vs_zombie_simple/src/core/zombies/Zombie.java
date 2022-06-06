@@ -92,14 +92,6 @@ public abstract class Zombie extends Sprite{
 
     }
 
-    // 判断鼠标点击
-    // public boolean checkMouseClick(int x_, int y_) {
-    //     if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
-    //         return true;
-    //     else
-    //         return false;
-    // }
-
     public abstract void loadImages();
 
     // the zombie is hypo&&attack other zombies when it ate a HypnoShroom
@@ -170,7 +162,7 @@ public abstract class Zombie extends Sprite{
             this.changeFrames(this.attack_frames);
             this.helmet = false;
         }
-        if (this.current_time - this.attack_timer > Constants.ATTACK_INTERVAL * this.getTimeRatio()) {
+        if (this.health > Constants.LOSTHEAD_HEALTH && this.current_time - this.attack_timer > Constants.ATTACK_INTERVAL * this.getTimeRatio()) {
             if (this.prey.health > 0) {
                 if (this.prey_is_plant) {
                     this.prey.setDamage(this.damage);
