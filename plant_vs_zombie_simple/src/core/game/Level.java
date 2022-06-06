@@ -128,7 +128,7 @@ public class Level extends State {
         initState();
     }
 
-    public void sstartUp(long current_time, JSONObject persist) {
+    public void menustartUp(long current_time, JSONObject persist) {
         //activate window
         this.current_time = current_time;
         surface = Main.surface;

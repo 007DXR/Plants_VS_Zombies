@@ -6,6 +6,7 @@ import core.json.JSONObject;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TreeSet;
+import core.Tool;
 public abstract class Screen extends State {
     String name;
     Rect rect;
@@ -49,7 +50,7 @@ public abstract class Screen extends State {
         
     public void draw(Graphics g) {
         if (!done) {
-            Sprite sprite = new Sprite(this.rect.image);
+            Sprite sprite = new Sprite(Tool.resize(this.rect.image, 1.1));
             sprite.paintObject(g);
         }
     }

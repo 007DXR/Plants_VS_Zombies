@@ -28,7 +28,7 @@ public class State {
 
     public void startUp(long currentTime, JSONObject persist) {
     }
-    public void sstartUp(long currentTime, JSONObject persist) {
+    public void menustartUp(long currentTime, JSONObject persist) {
     }
     public void draw(Graphics g){}
     public JSONObject cleanUp() {
