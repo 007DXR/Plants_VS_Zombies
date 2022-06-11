@@ -1,11 +1,9 @@
 package core.plants;
 
-import java.io.File;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TreeSet;
-import javax.imageio.ImageIO;
 
 import core.Constants;
 import core.*;
@@ -15,12 +13,6 @@ import core.game.Rect;
 import core.game.Sprite;
 import core.json.JSONObject; 
 
-
-/**
- * 需要修改的部分
- * 图片加载LoadFrames LoadImages
- * Constant.java上的修改
- */
 
 public class Plant extends Sprite{
 
@@ -32,19 +24,15 @@ public class Plant extends Sprite{
     public Zombie attack_zombie = null;
     public Group zombie_group = null;
 
-    //public int width;
-    //public int height;
     public BufferedImage image;
 
     public int health;
-    //public int x;
-    //public int y;
 
     public String state;
     public String name;
     public String old_state;
-    //public Zombie kill_zombie;
-    public boolean can_sleep = false;//蘑菇是true，全局判断给他setSleep
+
+    public boolean can_sleep = false;//蘑菇是true
 
     long animate_interval = 100;
     long animate_timer = 0;
@@ -61,7 +49,7 @@ public class Plant extends Sprite{
     public ArrayList<BufferedImage> big_frames = new ArrayList<BufferedImage>();
 
 
-    // 因为继承之后的构造函数只要传入x和y，所以这里没有修改
+   
     public Plant(int health, int x, int y, String name, double scale){
         super(); 
         this.health = health;
@@ -73,20 +61,11 @@ public class Plant extends Sprite{
         this.frame_num = this.frames.size();
         this.rect = new Rect(this.frames.get(this.frame_index), x, y);
     }
-    
-   
 
-
-    // 判断鼠标点击
-    //public boolean checkMouseClick(int x_, int y_) {
-    //    if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
-    //        return true;
-    //    else
-    //        return false;
-    //}
     public void loadImages(String name, double scale){}
-    public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey, double scale) {
 
+    public void loadFrames(ArrayList<BufferedImage> frames, String name, Color colorkey, double scale) {
+        /* 加载某状态下的植物所有图片 */
         int image_x, image_y, width, height;
         TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
 
@@ -107,16 +86,11 @@ public class Plant extends Sprite{
         width -= image_x;
 
         for (Tool.Img frame : frame_list) {
-           
-            // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
-            //frames.add(Tool.resize(Tool.adjustAlpha(frame.image.getSubimage(image_x, 0, width, height),colorkey), scale));
             frames.add(Tool.adjustAlpha(Tool.resize(frame.image.getSubimage(image_x, image_y, width, height),scale),colorkey));
-            // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }
 
     public void changeFrames(ArrayList<BufferedImage> frames) {
-        // '''change image frames&&modify rect position'''
         this.frames = frames;
         this.frame_num = this.frames.size();
         this.frame_index = 0;
@@ -127,13 +101,14 @@ public class Plant extends Sprite{
 
 
     public void update(){
-        // current_time = game_info[Constants.CURRENT_TIME];
+        /* 时间状态和动画更新 */
         current_time = System.currentTimeMillis();
         handleState();
         animation();
     }
 
     public void handleState(){
+        /* 根据状态判断植物动作 */
         if(state.equals(Constants.IDLE))
             idling();
         else if(state.equals(Constants.ATTACK))
@@ -150,6 +125,7 @@ public class Plant extends Sprite{
 
 
     public void animation(){
+        /* 动画，主要实现换图和打击 */
         if(current_time - animate_timer > animate_interval){
             frame_index = (frame_index+1)%frame_num;
             animate_timer = current_time;
@@ -164,6 +140,7 @@ public class Plant extends Sprite{
 
     
     public boolean canAttack(Zombie zombie){
+        /* 根据状态和范围判断是否可以攻击 */
         if(!this.state.equals(Constants.SLEEP) && !zombie.state.equals(Constants.DIE) &&
         this.rect.left < zombie.rect.left + zombie.rect.width())
             return true;
@@ -185,6 +162,7 @@ public class Plant extends Sprite{
     public void setIdle(){
         state = Constants.IDLE;
     }
+
     public void setSleep(){
         state = Constants.SLEEP;
         changeFrames(sleep_frames);
@@ -192,11 +170,11 @@ public class Plant extends Sprite{
 
 
     public void setDamage(int damage){
+        /* 削减生命值并判断是否死亡 */
         health -= damage;
         hit_timer = current_time;
         if(health <= 0){
             state = Constants.DIE;
-            //kill_zombie = zombie;
         }
     }
     
@@ -205,7 +183,6 @@ public class Plant extends Sprite{
     }
 
     
-
     public String getState(){
         return state;
     }

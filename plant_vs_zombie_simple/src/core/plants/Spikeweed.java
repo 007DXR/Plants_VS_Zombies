@@ -3,9 +3,6 @@ package core.plants;
 import core.zombies.*;
 import core.*;
 
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.TreeSet;
 import core.game.Group;
 import core.game.Sprite;
 

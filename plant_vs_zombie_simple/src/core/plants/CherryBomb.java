@@ -6,7 +6,6 @@ import core.*;
 import core.game.Rect;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class CherryBomb extends Plant{  
     boolean start_boom = false;
@@ -55,6 +54,7 @@ public class CherryBomb extends Plant{
 
     @Override
     public boolean canAttack(Zombie zombie){
+        /* 对在爆炸范围内的僵尸返回true */
         if(start_boom == true && 
         Math.abs(zombie.rect.centerx() - this.rect.centerx()) <= explode_x_range &&
         Math.abs(zombie.rect.centery() - this.rect.centery()) <= explode_y_range )

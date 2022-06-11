@@ -1,11 +1,10 @@
 package core.plants;
 
-import core.*;
 import core.Constants;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.TreeSet;
+
 
 public class IceShroom extends Plant {
     boolean can_sleep = true;
@@ -43,6 +42,7 @@ public class IceShroom extends Plant {
     }
 
     public void setFreeze(){
+        /* 冻结僵尸 */
         changeFrames(snow_frames);
         animate_timer = current_time;
         this.rect.left = Constants.MAP_OFFSET_X;

@@ -1,12 +1,10 @@
 package core.plants;
 
-import core.*;
 import core.Constants;
 import core.zombies.Zombie;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.TreeSet;
 
 public class PotatoMine extends Plant{
     boolean is_init = true;
