@@ -1,23 +1,13 @@
 package core.plants;
 
-import java.io.File;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.TreeSet;
-import javax.imageio.ImageIO;
-import core.zombies.Zombie;
 import core.bullets.Bullet;
 import core.game.Group;
-
-import java.util.List;
-
 import core.Constants;
-import core.*;
 
 public class ThreePeaShooter extends Plant{
     private long shoot_timer = 0; 
-    private int map_y; 
+    private int map_y; //要知道地图一格的y轴距离
     private ArrayList<Group> bullet_group; 
     public ThreePeaShooter(int x, int y, ArrayList<Group> g, int map_y){
         super(Constants.PLANT_HEALTH, x, y, Constants.THREEPEASHOOTER, 1); 
@@ -30,7 +20,7 @@ public class ThreePeaShooter extends Plant{
         this.current_time = (int)System.currentTimeMillis();
         if (this.current_time - this.shoot_timer > 2000){
             int offset_y = 9; 
-            for(int i = 0; i < 3; i++){
+            for(int i = 0; i < 3; i++){ //在相邻可以放的y轴格上还会放子弹
                 int tmp_y = this.map_y + (i-1); 
                 if (tmp_y < 0 || tmp_y >= Constants.GRID_Y_LEN){continue; }
                 int dest_y = this.rect.bottom() -Constants.MAP_OFFSET_Y+20 + (i-1) * Constants.GRID_Y_SIZE + offset_y; 
@@ -41,7 +31,7 @@ public class ThreePeaShooter extends Plant{
         }
     }
 
-    public void loadImages(String name, double scale){
+    public void loadImages(String name, double scale){ //读取图片
         loadFrames(this.frames, name, Constants.BLACK, scale);
     }
 }

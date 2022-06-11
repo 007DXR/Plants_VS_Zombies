@@ -1,13 +1,8 @@
 package core.bullets;
 
-import java.io.File;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TreeSet;
-import javax.imageio.ImageIO;
-import core.zombies.Zombie;
-import core.plants.Plant;
 import core.game.Rect;
 import core.game.Sprite; 
 
@@ -16,17 +11,15 @@ import core.*;
 
 
 public class Bullet extends Sprite{
-    public int damage; 
-    public boolean ice; 
-    //public int x;
-    //public int y;
-    public int dest_y; 
-    public int y_vel; 
-    public int x_vel; 
-    public String state;
-    public String name;
-    public int explode_timer; 
-    int current_time = 0;
+    public int damage;  //伤害
+    public boolean ice;  //是否冰冻
+    public int dest_y;  //y轴目标
+    public int y_vel;  //y轴速度
+    public int x_vel;  //x轴速度
+    public String state; //状态
+    public String name; //子弹名称
+    public int explode_timer;  //爆炸事件
+    public int current_time = 0; //目前的时间
     public int frame_index=0;
     public int frame_num;
 
@@ -49,7 +42,7 @@ public class Bullet extends Sprite{
         this.rect = new Rect(this.frames.get(this.frame_index),x,y);
     }
 
-    public void loadImages(String name, double scale){
+    public void loadImages(String name, double scale){ //读取图片
         //loadFrames(frames, name, int image_x,Color colorkey, scale);
         loadFrames(this.frames, name);
         this.fly_frames.clear();
@@ -63,7 +56,7 @@ public class Bullet extends Sprite{
         else{
             explodename = "PeaNormalExplode";
         }
-        this.loadFrames(this.fly_frames, flyname);
+        this.loadFrames(this.fly_frames, flyname); //读取不同状态的图片
         this.loadFrames(this.explode_frames, explodename);
     }
 
@@ -79,7 +72,7 @@ public class Bullet extends Sprite{
     //     }
     // }
 
-    public void loadFrames(ArrayList<BufferedImage> frames, String name) {
+    public void loadFrames(ArrayList<BufferedImage> frames, String name) { //读取不同帧的图片
         int image_x;
         try{
             image_x = Tool.PLANT_RECT.getJSONObject(name).getInt("x");
@@ -101,22 +94,22 @@ public class Bullet extends Sprite{
     }
 
 
-    public void update(){
-        this.current_time = (int)System.currentTimeMillis();; 
+    public void update(){ //更新子弹状态
+        this.current_time = (int)System.currentTimeMillis(); //时间同步
         if (this.state.equals(Constants.FLY )){ // 在飞
             if (this.rect.top != this.dest_y){
-                this.rect.top += this.y_vel; 
+                this.rect.top += this.y_vel;  //y轴坐标改变
                 if (this.y_vel * (this.dest_y - this.rect.top) < 0){
                     this.rect.top = this.dest_y; 
                 }
             }
-            this.rect.left += this.x_vel;
+            this.rect.left += this.x_vel; //前进
             if (this.rect.left > Constants.SCREEN_WIDTH){
-                this.state = Constants.DIE; //死亡
+                this.state = Constants.DIE; //子弹射出边界
                 this.kill(); 
             }
         }
-        else if(this.state.equals(Constants.EXPLODE)){
+        else if(this.state.equals(Constants.EXPLODE)){  //子弹爆炸
             if (this.current_time - this.explode_timer > 500){
                 this.state = Constants.DIE; 
                 this.kill(); 
@@ -124,7 +117,7 @@ public class Bullet extends Sprite{
         }
     }
 
-    public void setExplode(){
+    public void setExplode(){ //爆炸状态设置
         this.state = Constants.EXPLODE; 
         this.explode_timer = this.current_time; 
         this.frames = this.explode_frames; 

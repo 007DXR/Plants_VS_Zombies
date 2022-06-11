@@ -1,6 +1,6 @@
 package core;
+
 import java.util.ArrayList;
-import java.util.Map;
 import java.awt.Graphics;
 
 import core.json.JSONObject;

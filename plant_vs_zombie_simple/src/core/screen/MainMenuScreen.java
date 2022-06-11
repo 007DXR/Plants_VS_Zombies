@@ -1,8 +1,5 @@
 package core.screen;
 
-import core.*;
-import core.json.JSONObject;
-
 public class MainMenuScreen extends Screen {
     public MainMenuScreen() {
         super();

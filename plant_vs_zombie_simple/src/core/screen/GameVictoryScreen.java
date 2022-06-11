@@ -1,7 +1,5 @@
 package core.screen;
 
-import core.*;
-import core.json.JSONObject;
 
 public class GameVictoryScreen extends Screen {
     public GameVictoryScreen() {

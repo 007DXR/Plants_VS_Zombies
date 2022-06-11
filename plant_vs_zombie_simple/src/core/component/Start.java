@@ -1,12 +1,8 @@
 package core.component;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-
-import javax.imageio.ImageIO;
-
 import core.Constants;
-
 import core.Tool;
 
 public class Start {
@@ -23,26 +19,26 @@ public class Start {
     public Start(int x_, int y_,  double scale) {
         x = x_;
         y = y_;
-        name = c.OPTION_ADVENTURE;
+        name = Constants.OPTION_ADVENTURE;
         // image = loadImage("../resources/graphics/Cards/" + name + ".png");
-        orig_image = Tool.loadImage("resources/graphics/Screen/" + name + "_0.png",scale, c.BLACK);
+        orig_image = Tool.loadImage("resources/graphics/Screen/" + name + "_0.png",scale, Constants.BLACK);
         image = orig_image;
         width = image.getWidth();
         height = image.getHeight();
     }
 
-    public boolean checkMouseClick(int x_, int y_) {
+    public boolean checkMouseClick(int x_, int y_) { //确认点击
         if (x_ >= x && x_ <= (x + width) && y_ >= y && y_ <= (y + height))
             return true;
         else
             return false;
     }
 
-    public boolean canSelect() {
+    public boolean canSelect() { //返回是否可以选中
         return select;
     }
 
-    public void setSelect(boolean can_select) {
+    public void setSelect(boolean can_select) { //设置选中后图标的透明度
         select = can_select;
         if (can_select)
             image = Tool.adjustBrightness(orig_image, 255);
@@ -50,7 +46,7 @@ public class Start {
             image = Tool.adjustBrightness(orig_image, 128);
     }
 
-    public void paintObject(Graphics g) {
+    public void paintObject(Graphics g) { //绘图
         g.drawImage(image, x, y, null);
     }
 

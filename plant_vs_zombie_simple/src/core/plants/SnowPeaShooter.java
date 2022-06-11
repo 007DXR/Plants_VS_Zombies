@@ -1,19 +1,8 @@
 package core.plants;
 
-import java.io.File;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.TreeSet;
-import javax.imageio.ImageIO;
-import core.zombies.Zombie;
 import core.bullets.Bullet;
 import core.game.Group;
-
-import java.util.List;
-
 import core.Constants;
-import core.*;
 
 public class SnowPeaShooter extends Plant{
     private long shoot_timer = 0; 
@@ -24,7 +13,7 @@ public class SnowPeaShooter extends Plant{
         this.bullet_group = g; 
     }
 
-    public void attacking(){
+    public void attacking(){ //与豌豆射手类似，除了子弹类型不同
         this.current_time = (int)System.currentTimeMillis();
         if (this.current_time - this.shoot_timer > 2000){
             Bullet bullet = new Bullet(this.rect.left + this.rect.width(), this.rect.bottom() -Constants.MAP_OFFSET_Y+20, this.rect.bottom() -Constants.MAP_OFFSET_Y+20, Constants.BULLET_PEA_ICE, Constants.BULLET_DAMAGE_NORMAL, true); 
@@ -33,7 +22,7 @@ public class SnowPeaShooter extends Plant{
         }
     }
 
-    public void loadImages(String name, double scale){
+    public void loadImages(String name, double scale){//读取图片
         loadFrames(this.frames, name, Constants.BLACK, scale);
     }
 }
