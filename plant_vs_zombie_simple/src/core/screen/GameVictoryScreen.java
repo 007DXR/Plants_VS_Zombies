@@ -19,4 +19,3 @@ public class GameVictoryScreen extends Screen {
 
 }
 
-class c extends Constants {};

@@ -19,4 +19,3 @@ public class MainMenuScreen extends Screen {
 
 }
 
-class c extends Constants {};
