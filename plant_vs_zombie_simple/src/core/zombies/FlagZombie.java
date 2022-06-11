@@ -3,7 +3,9 @@ import core.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
 import core.game.*;
-
+/*
+ * 红旗僵尸
+ */
 public class FlagZombie extends Zombie{
     public FlagZombie(int x,int y, Group head_group){
         super(x,y,c.FLAG_ZOMBIE, c.FLAG_HEALTH, head_group,1);

@@ -3,7 +3,9 @@ import core.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
 import core.game.*;
-
+/*
+ * 普通僵尸
+ */
 public class NormalZombie extends Zombie{
     public NormalZombie(int x,int y, Group head_group){
         super(x,y,Constants.NORMAL_ZOMBIE, Constants.NORMAL_HEALTH, head_group,1);
@@ -24,12 +26,6 @@ public class NormalZombie extends Zombie{
         loadFrames(die_frames,name+ "Die",Tool.ZOMBIE_RECT.getJSONObject(name+ "Die").getInt("x"),Constants.BLACK);
         loadFrames(boomdie_frames,Constants.BOOMDIE,Tool.ZOMBIE_RECT.getJSONObject(Constants.BOOMDIE).getInt("x"),Constants.BLACK);
         
-        // walk_name = name;
-        // attack_name = name + "Attack";
-        // losthead_walk_name = name + "LostHead";
-        // losthead_attack_name = name + "LostHeadAttack";
-        // die_name =  name + "Die";
-        // boomdie_name = c.BOOMDIE;
         frames = walk_frames;
     }
 }
