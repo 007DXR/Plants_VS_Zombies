@@ -3,6 +3,9 @@ import core.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
 import core.game.*;
+/*
+ * 铁桶僵尸
+ */
 public class BucketHeadZombie extends Zombie{
     boolean helmet= true;
 

@@ -3,6 +3,9 @@ import core.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
 import core.game.*;
+/*
+ * 路障僵尸
+ */
 public class ConeHeadZombie extends Zombie{
     public ConeHeadZombie(int x, int y, Group head_group) {
         super(x, y, c.CONEHEAD_ZOMBIE, c.CONEHEAD_HEALTH, head_group, 1);

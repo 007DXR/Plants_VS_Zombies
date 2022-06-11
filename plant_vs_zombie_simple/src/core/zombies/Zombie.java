@@ -1,41 +1,24 @@
 package core.zombies;
 
-import java.io.File;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.TreeSet;
-
-import javax.imageio.ImageIO;
 import core.*;
 import core.plants.Plant;
-import core.Constants;
 import core.game.*;
 
 import java.awt.Graphics;
+/*
+ * 僵尸超类，继承精灵类Sprite
+ */
 public abstract class Zombie extends Sprite{
 
-    // 大小
-    // public int width;
-    // public int height;
-    // public int x;
-    // public int y;
     public String old_state;
     public String name;
-    
     public int frame_index = 0;
     public int frame_num;
-
-    // public BufferedImage image;
     public BufferedImage ice_trap_image;
-    // 位置----------------------------------------
-    
-    // public int centerx;
-    // public int bottom;
-    // public int ice_centerx;
-    // public int ice_bottom;
-    // ----------------------------------------
     public int health;
     int damage;
     boolean dead = false;
@@ -60,32 +43,25 @@ public abstract class Zombie extends Sprite{
     boolean prey_is_plant = true;
     Plant prey;
 
-    // -----------------------------------
-    public ArrayList<BufferedImage> frames;
-    ArrayList<BufferedImage> helmet_attack_frames;
-    ArrayList<BufferedImage> die_frames;
-    ArrayList<BufferedImage> walk_frames;
-    ArrayList<BufferedImage> attack_frames;
-    ArrayList<BufferedImage> losthead_walk_frames;
-    ArrayList<BufferedImage> losthead_attack_frames;
-    ArrayList<BufferedImage> boomdie_frames;
-    ArrayList<BufferedImage> helmet_walk_frames;
+    // 僵尸状态
+    ArrayList<BufferedImage> frames;    
+    ArrayList<BufferedImage> helmet_attack_frames;  //带帽攻击
+    ArrayList<BufferedImage> die_frames;            //死亡
+    ArrayList<BufferedImage> walk_frames;           //正常行走
+    ArrayList<BufferedImage> attack_frames;         //正常攻击
+    ArrayList<BufferedImage> losthead_walk_frames;  //掉脑袋行走
+    ArrayList<BufferedImage> losthead_attack_frames; //掉脑袋攻击
+    ArrayList<BufferedImage> boomdie_frames;        //被炸掉
+    ArrayList<BufferedImage> helmet_walk_frames;     //带帽行走
     Group head_group;
-    // String walk_name;
-    // String attack_name;
-    // String losthead_walk_name;
-    // String losthead_attack_name;
-    // String die_name;
-    // String boomdie_name;
 
     public Zombie(int x, int y, String name, int health, Group head_group,int damage) {
-        // super(this.frames.get(this.frame_index));
+
         super();
         this.name = name;
         this.loadImages();
         this.frame_num = this.frames.size();
         this.rect = new Rect(this.frames.get(this.frame_index),x,y);
-
         this.head_group=head_group;
         this.health = health;
         this.damage = damage;
@@ -94,29 +70,28 @@ public abstract class Zombie extends Sprite{
 
     public abstract void loadImages();
 
-    // the zombie is hypo&&attack other zombies when it ate a HypnoShroom
 
+// 载入图片
     public void loadFrames(ArrayList<BufferedImage> frames, String name, int image_x, Color colorkey) {
+        
         TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get(name);
         for (Tool.Img frame : frame_list) {
             BufferedImage rect = frame.image;
             int width = rect.getWidth();
             int height = rect.getHeight();
             width -= image_x;
-            // frames.add(Tool.adjustAlpha( frame.image,Constants.BLACK));
+
             frames.add(Tool.adjustAlpha( frame.image.getSubimage(image_x, 0, width, height),colorkey));
-            // tool.get_image(frame, image_x, 0, width, height, colorkey));
         }
     }
-
+// 更新僵尸状态
     public void update() {
-        // this.current_time = game_info[Constants.CURRENT_TIME];
         this.current_time = System.currentTimeMillis();
         this.handleState();
         this.updateIceSlow();
         this.animation();
     }
-
+// 画面渲染
     public void handleState() {
         if (this.state.equals(Constants.WALK))
             this.walking();
@@ -127,7 +102,7 @@ public abstract class Zombie extends Sprite{
         if (this.state.equals( Constants.FREEZE))
             this.freezing();
     }
-
+// 行走状态
     public void walking() {
         if (this.health <= 0) {
             this.setDie();
@@ -151,7 +126,7 @@ public abstract class Zombie extends Sprite{
             }
         }
     }
-
+// 攻击状态
     public void attacking() {
         if (this.health <= 0) {
             this.setDie();
@@ -178,11 +153,10 @@ public abstract class Zombie extends Sprite{
             this.setWalk();
         }
     }
-
+// 死亡状态
     public void dying() {
-
     }
-
+// 结冰状态
     public void freezing() {
         if (this.health <= 0) {
             this.setDie();
@@ -198,14 +172,14 @@ public abstract class Zombie extends Sprite{
             this.setWalk();
         }
     }
-
+// 掉头状态
     public void setLostHead() {
         this.losHead = true;
         // if (this.head_group.size()!=0) {
         // this.head_group.add(new ZombieHead(this.centerx, this.bottom));
         // }
     }
-
+// 改变状态控制器
     public void changeFrames(ArrayList<BufferedImage> frames) {
         // '''change image frames&&modify rect position'''
         this.frames = frames;
@@ -214,7 +188,7 @@ public abstract class Zombie extends Sprite{
         this.rect.image = this.frames.get(this.frame_index);
 
     }
-
+// 渲染动画
     public void animation() {
         if (this.state.equals( Constants.FREEZE)) {
 
@@ -245,17 +219,17 @@ public abstract class Zombie extends Sprite{
             this.rect.image=Tool.adjustBrightness(this.rect.image, 192);
         }
     }
-
+// 获得僵尸行进速度
     public int getTimeRatio() {
         return this.ice_slow_ratio;
     }
-
+// 冰冻，减速
     public void setIceSlow() {
         // '''when get a ice bullet damage, slow the attack||walk speed of the zombie'''
         this.ice_slow_timer = this.current_time;
         this.ice_slow_ratio = 2;
     }
-
+// 解冻，恢复原速
     public void updateIceSlow() {
         if (this.ice_slow_ratio > 1) {
             if (this.current_time - this.ice_slow_timer > Constants.ICE_SLOW_TIME) {
@@ -263,7 +237,7 @@ public abstract class Zombie extends Sprite{
             }
         }
     }
-
+// 受到伤害
     public void setDamage(int damage, Boolean ice) {
         this.health -= damage;
         this.hit_timer = this.current_time;
@@ -271,7 +245,7 @@ public abstract class Zombie extends Sprite{
             this.setIceSlow();
         }
     }
-
+// 改变行走状态
     public void setWalk() {
         this.state = Constants.WALK;
         this.animate_interval = 150;
@@ -286,6 +260,7 @@ public abstract class Zombie extends Sprite{
             this.changeFrames(this.walk_frames);
         }
     }
+// 改变攻击状态
     public void setAttack(Plant prey,Boolean is_plant) {
         this.prey = prey;
         // # prey can be plant||other zombies
@@ -302,18 +277,19 @@ public abstract class Zombie extends Sprite{
             this.changeFrames(this.attack_frames);
         }
     }
+// 改变死亡状态 
     public void setDie() {
         this.state = Constants.DIE;
         this.animate_interval = 200;
         this.changeFrames(this.die_frames);
     }
-
+//爆炸死亡
     public void setBoomDie() {
         this.state = Constants.DIE;
         this.animate_interval = 200;
         this.changeFrames(this.boomdie_frames);
     }
-
+//被冰冻
     public void setFreeze(BufferedImage ice_trap_image) {
         this.old_state = this.state;
         this.state = Constants.FREEZE;
@@ -324,7 +300,7 @@ public abstract class Zombie extends Sprite{
         // this.ice_bottom = this.bottom;
 
     }
-
+// 渲染冰冻效果
     public void drawFreezeTrap(Graphics g) {
         if (this.state.equals( Constants.FREEZE)) {
             Sprite sprite = new Sprite(this.ice_trap_image);

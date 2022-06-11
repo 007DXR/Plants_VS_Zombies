@@ -9,22 +9,16 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
-
 import javax.imageio.ImageIO;
-
 import core.json.FileUtils;
-
 import core.json.JSONObject;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 class FindJavaVisitor extends SimpleFileVisitor<Path> {
-    // private List<Path> result;
+
     HashMap<String, TreeSet<Tool.Img>> result;
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
 
@@ -41,21 +35,16 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
         // 注意有两种后缀
         String fileName = file.getFileName().toString();
         int fileIndex = 0;
-        // System.out.println(file.toString() + "------" + fileName);
-
-        // if (file.toString().endsWith(".png") || file.toString().endsWith(".jpg")) {
 
         fileName = fileName.split("\\.")[0];
         String s[] = fileName.split("_");
         int len = s.length;
         if (len > 1 && isNumeric(s[len - 1])) {
-
             fileName = s[0];
             for (int i = 1; i < len - 1; ++i)
                 fileName += "_"+s[i];
 
             fileIndex = Integer.valueOf(s[len - 1]);
-
         }
         System.out.println(fileName+fileIndex);
         TreeSet<Tool.Img> frameList;
@@ -68,7 +57,6 @@ class FindJavaVisitor extends SimpleFileVisitor<Path> {
         }
         frameList.add(
                 new Tool.Img(fileIndex, Tool.loadImage(file.toAbsolutePath().toString(), 1, Constants.BLACK)));
-        // }
 
         return FileVisitResult.CONTINUE;
     }
@@ -193,7 +181,6 @@ public class Tool {
     public static HashMap<String, TreeSet<Img>> load_all_gfx() {
         Path dir = Paths.get("resources/graphics");
 
-        // List<Path> result = new LinkedList<Path>();
         HashMap<String, TreeSet<Img>> result = new HashMap<String, TreeSet<Img>>();
         try {
             Files.walkFileTree(dir, new FindJavaVisitor(result));
@@ -203,7 +190,6 @@ public class Tool {
             e.printStackTrace();
         }
         return null;
-        // System.out.println("result.size()=" + result.size());
 
     }
 
@@ -222,20 +208,6 @@ public class Tool {
         }
         return null;
 
-    }
-
-    public static void main(String[] args) {
-        TreeSet<Tool.Img> frame_list = (TreeSet<Tool.Img>) Tool.GFX.get("shovel.png");
-        for (Tool.Img frame : frame_list) {
-            BufferedImage rect = frame.image;
-            int width = rect.getWidth();
-            int height = rect.getHeight();
-            System.out.print(width);
-            System.out.println(height);
-            // width -= image_x;
-            // frames.add(frame.image.getSubimage(image_x, 0, width, height));
-            // tool.get_image(frame, image_x, 0, width, height, colorkey));
-        }
     }
 
 }

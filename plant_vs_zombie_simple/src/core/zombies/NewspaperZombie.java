@@ -3,6 +3,9 @@ import core.*;
 import java.util.*;
 import java.awt.image.BufferedImage;
 import core.game.*;
+/*
+ * 报纸僵尸
+ */
 public class NewspaperZombie extends Zombie{
     boolean helmet;
 
