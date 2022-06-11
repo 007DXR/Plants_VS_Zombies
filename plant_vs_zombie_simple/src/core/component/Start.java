@@ -57,4 +57,3 @@ public class Start {
     
 }
 
-class c extends Constants{}

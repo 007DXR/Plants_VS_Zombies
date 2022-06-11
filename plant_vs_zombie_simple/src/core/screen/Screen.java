@@ -55,3 +55,4 @@ public abstract class Screen extends State {
         }
     }
 }
+class c extends Constants {};
