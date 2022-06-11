@@ -893,6 +893,13 @@ public class Level extends State {
     public void checkGameState() {
         if (this.checkVictory()) {
             int level = this.game_info.getInt(c.LEVEL_NUM);
+            if (level >= 3){
+                this.next = c.GAME_VICTORY;
+                this.game_info.put(c.LEVEL_NUM, 0);
+                this.next = c.GAME_VICTORY;
+                this.done = true;
+                return; 
+            }
             this.game_info.put(c.LEVEL_NUM, level + 1);
             this.next = c.GAME_VICTORY;
             this.done = true;
