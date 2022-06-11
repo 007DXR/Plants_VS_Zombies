@@ -1,12 +1,9 @@
 package core.plants;
 
-import core.*;
 import core.Constants;
-import core.game.Group;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.TreeSet;
+
 
 public class SunShroom extends Plant{
     boolean can_sleep = true;

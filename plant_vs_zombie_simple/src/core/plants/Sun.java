@@ -24,7 +24,6 @@ public class Sun extends Plant{
         this.dst_y = dst_y;
 
         die_timer = 0;
-
     }
 
     public void loadImages(String name, double scale){
@@ -34,7 +33,7 @@ public class Sun extends Plant{
         loadFrames(small_frames, name, Constants.BLACK, Constants.SMALL_SUN_SCALE);
         
         
-        // 判断阳关是大小阳光
+        // 判断阳光大小
         if(scale == Constants.BIG_SUN_SCALE){
             is_big = true;
             sun_value = Constants.SUN_VALUE;
@@ -56,16 +55,16 @@ public class Sun extends Plant{
 
     @Override
     public void handleState(){
-        
+        /*根据目的位置调整运动轨迹 */
         if(this.rect.left < dst_x)
             this.rect.left += move_speed;
         else if(this.rect.left > dst_x)
-        this.rect.left -= move_speed;
+            this.rect.left -= move_speed;
         
         if(this.rect.top < dst_y)
             this.rect.top += move_speed;
         else if(this.rect.top > dst_y)
-        this.rect.top -= move_speed;
+            this.rect.top -= move_speed;
 
         if(this.rect.left == dst_x && this.rect.top == dst_y){
             if(die_timer == 0)
@@ -84,7 +83,6 @@ public class Sun extends Plant{
         if (x_ >= this.rect.left && x_ <= (this.rect.left + this.rect.width()) &&
          y_ <= this.rect.bottom() && y_ >= (this.rect.top)){
             setState(Constants.DIE);
-            //阳光面板值++
             this.kill();
             return true;
         } 

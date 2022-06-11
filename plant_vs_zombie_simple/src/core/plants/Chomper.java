@@ -1,13 +1,12 @@
 package core.plants;
 
-import core.*;
 import core.zombies.*;
 import core.Constants;
 import core.game.Group;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.TreeSet;
+
 
 public class Chomper extends Plant {
     long animate_interval = 250;
@@ -39,6 +38,7 @@ public class Chomper extends Plant {
 
     @Override
     public boolean canAttack(Zombie zombie){
+        /* 检查植物状态和攻击范围 */
         if(getState().equals(Constants.IDLE) && !zombie.state.equals(Constants.DIGEST) &&
         this.rect.left <= zombie.rect.left+zombie.rect.height()&&
         this.rect.left + this.rect.width() + Constants.GRID_X_SIZE/3 >= zombie.rect.left)

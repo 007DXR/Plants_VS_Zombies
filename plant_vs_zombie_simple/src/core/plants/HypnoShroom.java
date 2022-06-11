@@ -1,7 +1,7 @@
 package core.plants;
 
 import core.Constants;
-import core.*;
+
 
 public class HypnoShroom extends Plant{
     boolean can_sleep = true;

@@ -4,7 +4,6 @@ import core.*;
 
 
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 public class Jalapeno extends Plant{
