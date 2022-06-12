@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import java.awt.Graphics;
 
+/// 废弃类，后用Jpanel替代
 /// 画图容器，绘图的组件添加至这个容器以绘图
 public class Surface extends JPanel {
     LinkedList<PaintItf> list;

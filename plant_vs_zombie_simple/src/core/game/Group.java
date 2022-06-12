@@ -13,6 +13,7 @@ public class Group {
         list = new LinkedList<>();
         del = new LinkedList<>();
     }
+    // 统一update group中的所有元素
     public void update() {
         for (Sprite g: list) {
             g.update();
@@ -21,6 +22,7 @@ public class Group {
         list.removeAll(del);
         del.clear();
     }
+    // 统一对group中所有元素画图
     public void paintObject(Graphics g) {
         for (Sprite i: list) {
             i.paintObject(g);
@@ -29,10 +31,12 @@ public class Group {
     public int size() {
         return list.size();
     }
+    // 增加某个元素
     public void add(Sprite item) {
         list.add(item);
         item.added(this);
     }
+    // 删除某个元素
     public void remove(Sprite item) {
         del.add(item);
     }

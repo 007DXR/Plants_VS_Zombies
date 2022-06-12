@@ -84,6 +84,7 @@ class RectCollidedFunc extends CollidedFunc
     }
 }
 
+// 逻辑类，负责判断游戏状态并调用相应函数
 public class Level extends State {
     ///temporary;
     int mouseX,mouseY;
@@ -127,7 +128,7 @@ public class Level extends State {
         // initStart(); 
         initState();
     }
-
+    /// 初始化菜单
     public void menustartUp(long current_time, JSONObject persist) {
         //activate window
         this.current_time = current_time;
@@ -153,7 +154,7 @@ public class Level extends State {
     int viewportLeft;
     int viewportWidth, viewportHeight;
     Sprite level;
-
+    /// 创建背景
     public void setupBackgroud() {
     	int imgIndex = (int)mapData.get(c.BACKGROUND_TYPE);
     	backgroundType = imgIndex;
@@ -174,6 +175,7 @@ public class Level extends State {
         viewportWidth = c.SCREEN_WIDTH;
         viewportHeight = c.SCREEN_HEIGHT;
     }
+    /// 创建背景和图片偏移量
     public void setupMain() {
     	int imgIndex = 6;
     	backgroundType = imgIndex;
@@ -194,6 +196,7 @@ public class Level extends State {
         viewportWidth = c.SCREEN_WIDTH;
         viewportHeight = c.SCREEN_HEIGHT;
     }
+    // 声明各个group
     ArrayList<Sun> sunGroup;
     Group headGroup;
     ArrayList<Group> plantGroups;
@@ -215,6 +218,7 @@ public class Level extends State {
             bulletGroups.add(new Group());
         }
     }
+    // 创建僵尸
     public void setupZombies() {
         JSONArray dataArray = mapData.getJSONArray(c.ZOMBIE_LIST);
         this.zombieList = new ArrayList<ZombieListItem>();
@@ -229,6 +233,7 @@ public class Level extends State {
         }
         zombieStartTime = 0.0;
     }
+    /// 创建小车
     ArrayList<Car> cars;
     public void setupCars() {
         cars = new ArrayList<>();
@@ -238,6 +243,7 @@ public class Level extends State {
             cars.add(new Car(-25, y+20, i));
         }
     }
+    /// 判断游戏阶段，更新游戏状态
     @Override
     public void update(Graphics g, int time,ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         current_time = time;
@@ -252,10 +258,12 @@ public class Level extends State {
             play(g, mousePos, mouseClick);
         }
     }
+    /// 初始化开始画面
     public void initStart(){
         state = c.MAIN_MENU; 
         start = new Start(330, 140, 2.5);
     }
+    /// 初始化游戏阶段
     public void initState() {
         // 尝试获取choosebarType, 为-1则没找到，用默认值
         if (mapData.optInt(c.CHOOSEBAR_TYPE, -1) != -1) {
@@ -277,10 +285,12 @@ public class Level extends State {
             //initPlay(cardPool.toArray(new int[cardPool.size()]));
         }
     }
+    /// 初始化选择状态
     public void initChoose() {
         state = c.CHOOSE;
         panel = new Panel(c.all_card_list, mapData.optInt(c.INIT_SUN_NAME, 50));
     }
+    /// 选择阶段逻辑
     public void choose(ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         if (!mousePos.isEmpty() && mouseClick.get(0)==true) {
             panel.checkCardClick(mousePos.get(0), mousePos.get(1));
@@ -289,7 +299,7 @@ public class Level extends State {
             }
         }
     }
-
+    /// 开始游戏逻辑
     public void start(ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         if (!mousePos.isEmpty() && mouseClick.get(0)==true) {
             if (start.checkMouseClick(mousePos.get(0), mousePos.get(1))) {
@@ -303,7 +313,7 @@ public class Level extends State {
     public boolean hintPlant;
     public boolean produceSun;
     public double sunTimer;
-
+    /// 初始化游戏逻辑
     public void initPlay(int[] cardList) {
         state = c.PLAY;
         if (barType == c.CHOOSEBAR_STATIC) {
@@ -327,7 +337,7 @@ public class Level extends State {
         setupZombies();
         setupCars();
     }
-    
+    /// 更新游戏阶段
     public void play(Graphics g, ArrayList<Integer> mousePos, ArrayList<Boolean> mouseClick) {
         if (zombieStartTime == 0.0) {
             zombieStartTime = current_time;
@@ -341,6 +351,7 @@ public class Level extends State {
         }
         ArrayList<Object> list = new ArrayList<>();
         list.add(game_info);
+        /// 更新各个对象
         for (int i = 0; i < map_y_len; ++i) {
             bulletGroups.get(i).update();
             plantGroups.get(i).update();
@@ -356,6 +367,7 @@ public class Level extends State {
         headGroup.update();
         // sunGroup.update();
         menubar.update((int)current_time);
+        // 判断鼠标拖拽情况
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.get(0)==true) {
             Card result = menubar.checkCardClick(mousePos.get(0),mousePos.get(1));
             if (result != null) {
@@ -378,6 +390,7 @@ public class Level extends State {
                 setupHintImage(g);
             }
         }
+        // 检测阳光生成
         if (produceSun) {
             if ((current_time - sunTimer) > c.PRODUCE_SUN_INTERVAL) {
                 sunTimer = current_time;
@@ -391,10 +404,9 @@ public class Level extends State {
                mapPos.get(0).intValue(), mapPos.get(1).intValue(), 0.9));
             }
         }
+        // 检查阳光碰撞
         if (!dragPlant && !mousePos.isEmpty() && mouseClick.size() > 0 
             && mouseClick.get(0) == true) {
-            // System.out.println("in_sun");
-            //检查碰撞
             for (Sun sun : sunGroup) {
                 if (sun.checkMouseClick(mouseX, mouseY)) {
                     System.out.println("get_sun");
@@ -408,20 +420,19 @@ public class Level extends State {
         for (Car car:cars) {
             car.update();
         }
-
-        //危险
-//        menubar.update((int)current_time);
-
+        // 检查对象之间的碰撞情况
         checkBulletCollisions();
         checkZombieCollisions();
         checkPlants();
         checkCarCollisions();
         checkGameState();
     }
+    /// 生成僵尸
     public void createZombie(String name, int map_y) {
         ArrayList<Integer> Pos = map.getMapGridPos(0, map_y);
         int x = Pos.get(0);
         int y = Pos.get(1);
+        // 实例化僵尸
         if (name.equals(c.NORMAL_ZOMBIE)) {
             zombieGroups.get(map_y).add(new NormalZombie(c.ZOMBIE_START_X, y-c.MAP_OFFSET_Y+20, headGroup));
         }
@@ -441,9 +452,11 @@ public class Level extends State {
     Sprite hintImage;
     Rect hintRect;
     Plant newPlant;
+    // 检测是否能种植
     public ArrayList<Integer> canSeedPlant() {
         return map.showPlant(mouseX, mouseY);
     }
+    // 种植植物
     public void addPlant(Graphics g) {
         ArrayList<Integer> pos = canSeedPlant();
         if (pos.isEmpty()) {
@@ -454,6 +467,7 @@ public class Level extends State {
         }
         // int x = hintRect.centerx();
         // int y = hintRect.centery();
+        // 校正植物坐标
         ArrayList<Integer> mapIndex = map.getMapIndex(mouseX, mouseY);
         int map_x = mapIndex.get(0);
         int map_y = mapIndex.get(1);
@@ -464,6 +478,7 @@ public class Level extends State {
         ArrayList<Integer> actualIndex = map.getMapGridPos(map_x, map_y);
         int x = actualIndex.get(0);
         int y = actualIndex.get(1);
+        // 实例化植物
         if (plantName.equals(c.WALLNUT)) {
             newPlant = new WallNut(x, y);
         }
@@ -519,6 +534,7 @@ public class Level extends State {
         if (newPlant.can_sleep && backgroundType == c.BACKGROUND_DAY) {
             newPlant.setSleep();
         }
+        // 增加植物实例
         plantGroups.get(map_y).add(newPlant);
         if (barType == c.CHOOSEBAR_STATIC) {
             menubar.decreaseSunValue(selectPlant.sun_cost);
@@ -530,7 +546,7 @@ public class Level extends State {
         removeMouseImage();
 
     }
-    
+    // 创建提示对象
     public void setupHintImage(Graphics g) {
         ArrayList<Integer> pos = canSeedPlant();
         if (!pos.isEmpty() && mouseImage != null) {
@@ -554,7 +570,7 @@ public class Level extends State {
     Rect mouseRect;
     String plantName;
     Card selectPlant;
-
+    // 创建鼠标拖拽对象
     public void setupMouseImage(String plantName, Card selectPlant) {
         int x,y,width,height;
         Color color;
@@ -573,7 +589,7 @@ public class Level extends State {
             width = rect.getWidth();
             height = rect.getHeight();
         }
-
+        // 去掉图片白边
         if (plantName.equals(c.POTATOMINE) || plantName.equals(c.SQUASH) ||
             plantName.equals(c.SPIKEWEED) || plantName.equals(c.JALAPENO) ||
             plantName.equals(c.SCAREDYSHROOM) || plantName.equals(c.SUNSHROOM) ||
@@ -583,31 +599,28 @@ public class Level extends State {
         else {
             color = c.BLACK;
         }
-        //要把图片贴上去，这里主要是实现绘图
-//        mouseImage = tool.get_image(frame_list[0], x, y, width, height, color, 1)
-        //暂时使用一个替代的功能;     
-        //frame.image.getSubimage(image_x, image_y, width, height)
+        // 创建拖拽对象
         width -= x;
         mouseImage = new Sprite(new Rect(Tool.adjustAlpha(frameList.first().image.getSubimage(x, y, width, height), color), x, y));
         mouseRect = mouseImage.rect;
-//        pg.mouse.set_visible(false)
         dragPlant = true;
         this.plantName = plantName;
         this.selectPlant = selectPlant;
     }
     public void removeMouseImage() {
-//        pg.mouse.set_visible(true)
         dragPlant = false;
         mouseImage = null;
         hintImage = null;
         hintPlant = false;
     }
+    // 检查子弹僵尸碰撞情况
     public void checkBulletCollisions() {
         // 0.7倍
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.7);
         for (int i = 0; i < map_y_len; ++i) {
             for (Sprite sprite : bulletGroups.get(i).list) {
                 Bullet bullet = (Bullet)sprite;
+                // 检查子弹状态
                 if ( bullet.state.equals(c.FLY) ) {
                     // 检测碰撞到的僵尸
                     Zombie zombie = (Zombie)bullet.spritecollideany(zombieGroups.get(i), collidedFunc);
@@ -619,6 +632,7 @@ public class Level extends State {
             }
         }
     }
+    // 检查僵尸碰撞情况，主要用于袭击植物，迷惑菇功能暂时缺失
     public void checkZombieCollisions() {
         double ratio = 0.7;
         CollidedFunc collidedFunc = new CircleCollidedFunc(ratio);
@@ -659,6 +673,7 @@ public class Level extends State {
             } */
         }
     }
+    /// 小车和僵尸碰撞情况
     public void checkCarCollisions() {
         CollidedFunc collidedFunc = new CircleCollidedFunc(0.8);
         LinkedList<Sprite> del = new LinkedList<>();
@@ -677,6 +692,7 @@ public class Level extends State {
         }
         cars.removeAll(del);
     }
+    /// 炸弹
     public void boomZombies(int x, int map_y, int y_range, int x_range) {
         for (int i = 0; i < this.map_y_len; ++i) {
             if (Math.abs(i - map_y) > y_range) {
@@ -690,6 +706,7 @@ public class Level extends State {
             }
         }
     }
+    /// 冻结僵尸
     public void freezeZombies(Plant plant) {
         for (int i = 0; i < this.map_y_len; ++i) {
             for (Sprite sprite: this.zombieGroups.get(i).list) {
@@ -700,6 +717,7 @@ public class Level extends State {
             }
         }
     }
+    /// 移除死亡植物(包括爆炸死亡)
     public void killPlant(Plant plant) {
         int x,y;
         if(plant instanceof Squash) {
@@ -716,14 +734,17 @@ public class Level extends State {
         if (this.barType != c.CHOSSEBAR_BOWLING) {
             this.map.setMapGridType(map_x, map_y, c.MAP_EMPTY);
         }
+        // 检测是否是爆炸死亡
         if (plant.name.equals(c.CHERRYBOMB) || plant.name.equals(c.JALAPENO) ||
             (plant.name.equals(c.POTATOMINE) && ! plant.is_init) ) {
             this.boomZombies(plant.rect.centerx(), map_y, plant.explode_y_range,
                             plant.explode_x_range);
         }
+        // 检查是否冰冻
         else if (plant.name.equals(c.ICESHROOM) && plant.state.equals(c.SLEEP)) {
             this.freezeZombies(plant);
         }
+        // 暂时移除催眠
         /*
         else if (plant.name.equals(c.HYPNOSHROOM) && !plant.state.equals(c.SLEEP)) {
             zombie = plant.kill_zombie
@@ -735,6 +756,7 @@ public class Level extends State {
         plant.kill();
     }
     /// index i;
+    /// 检测某个植物的状态，设置攻击
     public void checkPlant(Plant plant, int i) {
         boolean canAttack;
         boolean needCry;
@@ -855,6 +877,7 @@ public class Level extends State {
             }
         }
     }
+    /// 检测所有植物
     public void checkPlants() {
         for (int i = 0; i < this.map_y_len; ++i) {
             for (Sprite sprite :this.plantGroups.get(i).list) {
@@ -868,6 +891,7 @@ public class Level extends State {
             }
         }
     }
+    /// 检查胜利条件
     public boolean checkVictory() {
         if (this.zombieList.size() > 0) {
             return false;
@@ -879,6 +903,7 @@ public class Level extends State {
         }
         return true;
     }
+    /// 检查失败条件
     public boolean checkLose() {
         for (int i = 0; i < this.map_y_len; ++i) {
             for (Sprite sprite :this.zombieGroups.get(i).list) {
@@ -890,6 +915,7 @@ public class Level extends State {
         }
         return false;
     }
+    /// 检查游戏阶段
     public void checkGameState() {
         if (this.checkVictory()) {
             int level = this.game_info.getInt(c.LEVEL_NUM);
@@ -909,6 +935,7 @@ public class Level extends State {
             this.done = true;
         }
     }
+    /// 创建鼠标拖拽对象
     public void drawMouseShow(Graphics g) {
         if (this.hintPlant) {
             hintImage.paintObject(g);;
@@ -919,13 +946,14 @@ public class Level extends State {
         this.mouseImage.rect.adjustcy(y);
         mouseImage.paintObject(g);;
     }
+    /// 创建僵尸冻结动画
     public void drawZombieFreezeTrap(Graphics g, int i) {
         for (Sprite sprite :this.zombieGroups.get(i).list) {
             Zombie zombie = (Zombie)sprite;
             zombie.drawFreezeTrap(g);
         }
     }
-
+    /// 绘图过程
     public void draw(Graphics g) {
         // 绘制背景
         Rect level_rect = new Rect(background.rect.image, -viewportLeft, 0);
