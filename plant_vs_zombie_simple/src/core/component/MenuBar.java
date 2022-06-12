@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.awt.*;
 import java.util.TreeSet;
 import core.Tool;
-import core.Constants;
-import java.util.TreeSet;
 
 
 public class MenuBar {

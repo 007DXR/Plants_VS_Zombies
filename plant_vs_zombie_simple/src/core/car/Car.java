@@ -1,15 +1,11 @@
 package core.car;
 
-import java.io.File;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.TreeSet;
-import javax.imageio.ImageIO;
 
 import core.Constants;
 import core.*;
-import core.zombies.*;
 import core.game.*; 
 
 public class Car extends Sprite {

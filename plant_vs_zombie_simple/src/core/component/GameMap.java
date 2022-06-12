@@ -35,28 +35,28 @@ public class GameMap {
     }
 
     public boolean isMovable(int map_x, int map_y) {
-        return map[map_y][map_x] == c.MAP_EMPTY;
+        return map[map_y][map_x] == Constants.MAP_EMPTY;
     }
 
     public void doPlant(int map_x, int map_y) {
-        map[map_y][map_x] = c.MAP_EXIST;
+        map[map_y][map_x] = Constants.MAP_EXIST;
     }
     /// 传入图像单位，传出相应格子位置，返回ArrayList, [0]保存x坐标格子，[1]保存y坐标格子
     public static ArrayList<Integer> getMapIndex(int x, int y) {
-        x -= c.MAP_OFFSET_X;
-        y -= c.MAP_OFFSET_Y;
+        x -= Constants.MAP_OFFSET_X;
+        y -= Constants.MAP_OFFSET_Y;
         ArrayList<Integer> list = new ArrayList<>();
-        list.add((int)Math.floor(x*1.0 / c.GRID_X_SIZE));
-        list.add((int)Math.floor(y*1.0 / c.GRID_Y_SIZE));
+        list.add((int)Math.floor(x*1.0 / Constants.GRID_X_SIZE));
+        list.add((int)Math.floor(y*1.0 / Constants.GRID_Y_SIZE));
         return list;
     }
     /// 传入格子坐标，传出图像单位
     public static ArrayList<Integer> getMapGridPos(int map_x, int map_y) {
         ArrayList<Integer> list = new ArrayList<>();
-        // list.add(map_x * c.GRID_X_SIZE + c.GRID_X_SIZE / 2 + c.MAP_OFFSET_X);
-        // list.add(map_y * c.GRID_Y_SIZE + c.GRID_Y_SIZE / 5 * 3 + c.MAP_OFFSET_Y);
-        list.add(map_x * c.GRID_X_SIZE+ c.MAP_OFFSET_X);
-        list.add(map_y * c.GRID_Y_SIZE+ c.MAP_OFFSET_Y);
+        // list.add(map_x * Constants.GRID_X_SIZE + Constants.GRID_X_SIZE / 2 + Constants.MAP_OFFSET_X);
+        // list.add(map_y * Constants.GRID_Y_SIZE + Constants.GRID_Y_SIZE / 5 * 3 + Constants.MAP_OFFSET_Y);
+        list.add(map_x * Constants.GRID_X_SIZE+ Constants.MAP_OFFSET_X);
+        list.add(map_y * Constants.GRID_Y_SIZE+ Constants.MAP_OFFSET_Y);
         return list;
     }
     /// 传入格子，并指示是否存在植物 0/1
